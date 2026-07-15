@@ -28,6 +28,8 @@ import {
 import confetti from "canvas-confetti";
 import Papa from "papaparse";
 
+const API_BASE = import.meta.env.VITE_API_URL || "";
+
 export default function App() {
   const [viewMode, setViewMode] = useState("single"); // single | batch
   const [url, setUrl] = useState("");
@@ -154,7 +156,7 @@ export default function App() {
 
     const triggerScan = async () => {
       try {
-        const response = await fetch("/api/scan", {
+        const response = await fetch(`${API_BASE}/api/scan`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json"
@@ -232,7 +234,7 @@ export default function App() {
     setBatchProgress(null);
 
     try {
-      const response = await fetch("/api/batch-scan", {
+      const response = await fetch(`${API_BASE}/api/batch-scan`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
@@ -274,7 +276,7 @@ export default function App() {
 
     const pollStatus = async () => {
       try {
-        const response = await fetch(`/api/batch-scan/${batchId}/status`);
+        const response = await fetch(`${API_BASE}/api/batch-scan/${batchId}/status`);
         if (!response.ok) return;
 
         const data = await response.json();
@@ -285,7 +287,7 @@ export default function App() {
         if (data.status === "completed") {
           clearInterval(pollInterval);
           // Load full consolidated results
-          const resultsRes = await fetch(`/api/batch-scan/${batchId}`);
+          const resultsRes = await fetch(`${API_BASE}/api/batch-scan/${batchId}`);
           if (resultsRes.ok) {
             const resultsData = await resultsRes.json();
             if (active) {
