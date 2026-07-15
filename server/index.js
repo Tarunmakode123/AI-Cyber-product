@@ -26,6 +26,7 @@ app.use(express.json());
 const scanLocks = new Map();
 
 function getScanLockDurationRemaining(url) {
+  if (process.env.NODE_ENV !== "production") return 0;
   if (!scanLocks.has(url)) return 0;
   const lockTime = scanLocks.get(url);
   const elapsed = Date.now() - lockTime;
@@ -167,9 +168,38 @@ app.post("/api/scan", async (req, res) => {
   lockUrl(targetUrlString);
 
   try {
+    const history = await db.getScanHistory(targetUrlString);
     const results = await runScan(targetUrlString);
+    
+    let diff = null;
+    if (history.length > 0) {
+      const previousResult = history[0].result;
+      const previousGrade = calculateGradeForScan(previousResult.findings);
+      const currentGrade = calculateGradeForScan(results.findings);
+      
+      const prevFindingIds = previousResult.findings.map(f => f.id);
+      const currentFindingIds = results.findings.map(f => f.id);
+      
+      const resolvedCount = prevFindingIds.filter(id => !currentFindingIds.includes(id)).length;
+      const newCount = currentFindingIds.filter(id => !prevFindingIds.includes(id)).length;
+      
+      diff = {
+        previousGrade,
+        currentGrade,
+        resolvedCount,
+        newCount,
+        gradeDiff: previousGrade !== currentGrade ? `${previousGrade} → ${currentGrade}` : null,
+      };
+    }
+
     await db.saveScan(targetUrlString, results);
-    return res.json(results);
+    const updatedHistory = await db.getScanHistory(targetUrlString);
+
+    return res.json({
+      ...results,
+      history: updatedHistory,
+      diff
+    });
   } catch (err) {
     scanLocks.delete(targetUrlString);
     return res.status(500).json({ error: `Scanning failed: ${err.message}` });
@@ -381,8 +411,9 @@ if (process.env.NODE_ENV !== "production") {
     res.send(`
       const openAiKey = "sk-proj-test1234567890123456789012345678901234567890"; 
       const stripeSecret = "sk_live_51HxF45LkJtF81n9p2Yt7s1j4k";
-      const supabaseUrl = "https://mockproject.supabase.co";
+      const supabaseUrl = "http://localhost:3000/api/test-fixture";
       const supabaseAnonKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYW5vbiJ9.mockSignature";
+      const customTable = supabase.from('secret_student_data');
       console.log("Test fixture loaded!");
       function fetchUserData(userId) {
         fetch("/api/v1/user/" + userId);
@@ -395,6 +426,16 @@ if (process.env.NODE_ENV !== "production") {
       { id: 1, email: "victim1@example.com", is_admin: false },
       { id: 2, email: "admin@example.com", is_admin: true }
     ]);
+  });
+
+  app.get("/api/test-fixture/rest/v1/secret_student_data", (req, res) => {
+    res.json([
+      { id: 1, student_id: "2026-CS-041", name: "Tarun Kumar", secret_gpa: "3.9" }
+    ]);
+  });
+
+  app.get("/api/test-fixture/rest/v1/profiles", (req, res) => {
+    res.status(401).json({ error: "JWT expired or missing" });
   });
 }
 

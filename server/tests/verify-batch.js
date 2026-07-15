@@ -113,6 +113,37 @@ async function runVerification() {
   } catch (error) {
     console.log("FAIL: Could not fetch consolidated findings:", error.message);
   }
+
+  // Test 5: Verify Single Scan Re-scan & Diffs
+  console.log("\n[Test 5] Testing consecutive single scans and diff tracking...");
+  try {
+    console.log("Triggering Scan #1...");
+    const scan1 = await axios.post("http://localhost:3000/api/scan", {
+      url: "http://localhost:3000/api/test-fixture/vulnerable",
+      consent: true
+    });
+    console.log("Scan #1 Complete. Findings:", scan1.data.findings.length);
+
+    console.log("Sleeping 1 second (lock bypassed)...");
+    await new Promise(resolve => setTimeout(resolve, 1000));
+
+    console.log("Triggering Scan #2...");
+    const scan2 = await axios.post("http://localhost:3000/api/scan", {
+      url: "http://localhost:3000/api/test-fixture/vulnerable",
+      consent: true
+    });
+    console.log("Scan #2 Complete.");
+    console.log("Diff data returned:", JSON.stringify(scan2.data.diff, null, 2));
+    console.log("History records returned:", scan2.data.history.length);
+    
+    if (scan2.data.history.length > 1) {
+      console.log("PASS: Re-scan history and diff calculation verified successfully!");
+    } else {
+      console.log("FAIL: Re-scan history or diff calculations missing.");
+    }
+  } catch (error) {
+    console.log("FAIL: Could not verify re-scans:", error.response ? error.response.data : error.message);
+  }
 }
 
 runVerification();

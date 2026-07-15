@@ -45,17 +45,33 @@ async function runTransaction(updateFn) {
 // Public API methods
 async function saveScan(url, result) {
   await runTransaction(async (db) => {
-    db.scans[url] = {
+    if (!db.scans[url] || !Array.isArray(db.scans[url])) {
+      db.scans[url] = [];
+    }
+    db.scans[url].unshift({
       result,
       timestamp: new Date().toISOString(),
-    };
+    });
+    if (db.scans[url].length > 10) {
+      db.scans[url] = db.scans[url].slice(0, 10);
+    }
     return db;
   });
 }
 
 async function getScan(url) {
   const db = await readDb();
-  return db.scans[url] || null;
+  const history = db.scans[url];
+  if (history && Array.isArray(history) && history.length > 0) {
+    return history[0].result;
+  }
+  return null;
+}
+
+async function getScanHistory(url) {
+  const db = await readDb();
+  const history = db.scans[url];
+  return Array.isArray(history) ? history : [];
 }
 
 async function saveBatch(batchId, batchData) {
@@ -84,8 +100,15 @@ async function cleanupOldRecords() {
   await runTransaction(async (db) => {
     // Clean up single scans
     if (db.scans) {
-      for (const [url, scan] of Object.entries(db.scans)) {
-        if (scan.timestamp && new Date(scan.timestamp).getTime() < thirtyDaysAgo) {
+      for (const [url, history] of Object.entries(db.scans)) {
+        if (Array.isArray(history)) {
+          db.scans[url] = history.filter((scan) => {
+            return scan.timestamp && new Date(scan.timestamp).getTime() >= thirtyDaysAgo;
+          });
+          if (db.scans[url].length === 0) {
+            delete db.scans[url];
+          }
+        } else {
           delete db.scans[url];
         }
       }
@@ -106,6 +129,7 @@ module.exports = {
   initDb,
   saveScan,
   getScan,
+  getScanHistory,
   saveBatch,
   getBatch,
   updateBatch,

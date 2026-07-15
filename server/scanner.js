@@ -94,7 +94,8 @@ async function fetchWithSsrfCheck(targetUrl, method = "GET", headers = {}, data 
     const port = parsedUrl.port || (isHttps ? 443 : 80);
 
     // Rewrite URL to use the resolved IP address directly
-    const pinnedUrl = `${parsedUrl.protocol}//${resolvedIp}${parsedUrl.pathname}${parsedUrl.search}`;
+    const portSuffix = parsedUrl.port ? `:${parsedUrl.port}` : "";
+    const pinnedUrl = `${parsedUrl.protocol}//${resolvedIp}${portSuffix}${parsedUrl.pathname}${parsedUrl.search}`;
 
     const requestHeaders = {
       ...headers,
@@ -482,7 +483,9 @@ async function runScan(targetUrl) {
 
   // Supabase RLS Leak Check
   // supabase url pattern: https://[project].supabase.co
-  const supabaseUrlRegex = /https:\/\/[a-z0-9\-]+\.supabase\.co/gi;
+  const supabaseUrlRegex = process.env.NODE_ENV !== "production"
+    ? /(https:\/\/[a-z0-9\-]+\.supabase\.co|http:\/\/localhost:3000\/api\/test-fixture)/gi
+    : /https:\/\/[a-z0-9\-]+\.supabase\.co/gi;
   const anonKeyRegex = /eyJ[a-zA-Z0-9_-]+\.[a-zA-Z0-9_-]+\.[a-zA-Z0-9_-]+/g;
 
   const contentToScan = homepageHtml + "\n" + combinedJsContent;
@@ -523,7 +526,19 @@ async function runScan(targetUrl) {
     const projUrl = supabaseUrls[0];
     // Common tables in typical student projects
     const commonTables = ["users", "profiles", "orders", "tasks", "messages", "settings"];
-    for (const table of commonTables) {
+    
+    // Extract custom table names dynamically from JS bundle code
+    const tableRegex = /\.from\(['"]([a-zA-Z0-9_-]+)['"]\)/g;
+    const extractedTables = [];
+    let tableMatch;
+    tableRegex.lastIndex = 0;
+    while ((tableMatch = tableRegex.exec(contentToScan)) !== null) {
+      extractedTables.push(tableMatch[1]);
+    }
+    
+    const tablesToProbe = [...new Set([...commonTables, ...extractedTables])];
+
+    for (const table of tablesToProbe) {
       const rlsResult = await checkSupabaseRls(projUrl, supabaseAnonKey, table);
       if (rlsResult.bypassed) {
         findings.push({

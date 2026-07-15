@@ -23,12 +23,28 @@ import {
   ChevronDown,
   ChevronUp,
   ArrowUpDown,
-  BookOpen
+  BookOpen,
+  Server,
+  Key
 } from "lucide-react";
 import confetti from "canvas-confetti";
 import Papa from "papaparse";
 
 const API_BASE = import.meta.env.VITE_API_URL || "";
+
+// Compute grade letter from findings list
+const getGradeForFindings = (findings) => {
+  const criticalCount = findings.filter(f => f.severity === "critical").length;
+  const highCount = findings.filter(f => f.severity === "high").length;
+  const mediumCount = findings.filter(f => f.severity === "medium").length;
+  const lowCount = findings.filter(f => f.severity === "low").length;
+
+  if (criticalCount > 0) return "F";
+  if (highCount > 0) return "D";
+  if (mediumCount > 0) return "C";
+  if (lowCount > 0) return "B";
+  return "A";
+};
 
 export default function App() {
   const [viewMode, setViewMode] = useState("single"); // single | batch
@@ -37,6 +53,23 @@ export default function App() {
   const [scanState, setScanState] = useState("landing"); // landing | scanning | results | error | batch-scanning | batch-results
   const [errorMessage, setErrorMessage] = useState("");
   const [scanResults, setScanResults] = useState(null);
+  const [activeHistoryIndex, setActiveHistoryIndex] = useState(null);
+
+  // Reset history index when scanning starts
+  useEffect(() => {
+    if (scanState === "scanning") {
+      setActiveHistoryIndex(null);
+    }
+  }, [scanState]);
+
+  const displayedResults = useMemo(() => {
+    if (!scanResults) return null;
+    if (activeHistoryIndex === null) return scanResults;
+    if (scanResults.history && scanResults.history[activeHistoryIndex]) {
+      return scanResults.history[activeHistoryIndex].result;
+    }
+    return scanResults;
+  }, [scanResults, activeHistoryIndex]);
   
   // Progress tracking states
   const [currentStepIndex, setCurrentStepIndex] = useState(0);
@@ -359,8 +392,8 @@ export default function App() {
 
   // Grade computation (Single Scan)
   const gradeInfo = useMemo(() => {
-    if (!scanResults) return { grade: "F", color: "text-cyber-red", border: "border-cyber-red", bg: "bg-cyber-red/10", label: "Critical Risk" };
-    const findings = scanResults.findings;
+    if (!displayedResults) return { grade: "F", color: "text-cyber-red", border: "border-cyber-red", bg: "bg-cyber-red/10", label: "Critical Risk" };
+    const findings = displayedResults.findings;
     const criticalCount = findings.filter(f => f.severity === "critical").length;
     const highCount = findings.filter(f => f.severity === "high").length;
     const mediumCount = findings.filter(f => f.severity === "medium").length;
@@ -379,12 +412,12 @@ export default function App() {
       return { grade: "B", color: "text-[#66fcf1]", border: "border-[#66fcf1]/40", bg: "bg-[#66fcf1]/5", label: "Minor Issues" };
     }
     return { grade: "A", color: "text-[#10b981]", border: "border-[#10b981]/40", bg: "bg-[#10b981]/10", label: "Excellent Posture" };
-  }, [scanResults]);
+  }, [displayedResults]);
 
   // Scores by category out of 100 (Single Scan)
   const categoryScores = useMemo(() => {
-    if (!scanResults) return [];
-    const findings = scanResults.findings;
+    if (!displayedResults) return [];
+    const findings = displayedResults.findings;
 
     const categories = [
       { name: "Secrets", key: "Secrets" },
@@ -409,7 +442,7 @@ export default function App() {
         score: Math.max(0, 100 - deductions)
       };
     });
-  }, [scanResults]);
+  }, [displayedResults]);
 
   // Sortable batch projects list
   const sortedBatchProjects = useMemo(() => {
@@ -515,30 +548,48 @@ export default function App() {
           </div>
           
           <div className="flex items-center gap-4">
-            {scanState === "landing" && (
+            {scanState !== "scanning" && scanState !== "batch-scanning" && (
               <div className="bg-[#1f2833]/30 border border-[#1f2833] rounded-lg p-1 flex">
                 <button
-                  onClick={() => setViewMode("single")}
+                  onClick={() => {
+                    setViewMode("single");
+                    setScanState("landing");
+                  }}
                   className={`text-xs font-mono px-3 py-1.5 rounded transition-all cursor-pointer ${
-                    viewMode === "single" ? "bg-cyber-light text-cyber-dark font-bold" : "text-cyber-gray hover:text-white"
+                    scanState === "landing" && viewMode === "single" ? "bg-cyber-light text-cyber-dark font-bold" : "text-cyber-gray hover:text-white"
                   }`}
                 >
                   Single Scan
                 </button>
                 <button
-                  onClick={() => setViewMode("batch")}
+                  onClick={() => {
+                    setViewMode("batch");
+                    setScanState("landing");
+                  }}
                   className={`text-xs font-mono px-3 py-1.5 rounded transition-all cursor-pointer ${
-                    viewMode === "batch" ? "bg-cyber-light text-cyber-dark font-bold" : "text-cyber-gray hover:text-white"
+                    scanState === "landing" && viewMode === "batch" ? "bg-cyber-light text-cyber-dark font-bold" : "text-cyber-gray hover:text-white"
                   }`}
                 >
                   Batch Audit
+                </button>
+                <button
+                  onClick={() => {
+                    setViewMode("methodology");
+                    setScanState("landing");
+                  }}
+                  className={`text-xs font-mono px-3 py-1.5 rounded transition-all cursor-pointer ${
+                    scanState === "landing" && viewMode === "methodology" ? "bg-cyber-light text-cyber-dark font-bold" : "text-cyber-gray hover:text-white"
+                  }`}
+                >
+                  How We Scan
                 </button>
               </div>
             )}
 
             <button 
               onClick={() => {
-                if (viewMode === "single") {
+                if (viewMode === "single" || viewMode === "methodology") {
+                  setViewMode("single");
                   setUrl("http://localhost:3000/api/test-fixture/vulnerable");
                   setConsent(true);
                   setScanState("scanning");
@@ -739,6 +790,84 @@ export default function App() {
                     </button>
                   </div>
 
+                </div>
+              </div>
+            )}
+
+            {viewMode === "methodology" && (
+              <div className="w-full max-w-3xl bg-[#1f2833]/30 border border-[#1f2833] rounded-xl p-8 glow-teal relative">
+                <div className="absolute inset-0 scanline opacity-5 rounded-xl pointer-events-none" />
+                
+                <h2 className="text-xl font-mono text-cyber-light font-bold mb-4">// Scan Methodology & Rulesets</h2>
+                <p className="text-sm text-cyber-gray mb-8">
+                  CampusShield runs passive, non-intrusive audits by examining HTTP response headers, probing configuration endpoints, and analyzing client script bundles. Below is the detailed breakdown of the vulnerabilities we check for.
+                </p>
+
+                <div className="space-y-6">
+                  {/* Category: Secrets */}
+                  <div className="bg-[#0b0c10]/50 border border-[#1f2833]/50 p-5 rounded-lg">
+                    <div className="flex items-center gap-2 mb-3">
+                      <Key className="h-5 w-5 text-red-500" />
+                      <h3 className="font-mono text-sm font-semibold text-white">1. Secrets & Key Exposure</h3>
+                    </div>
+                    <ul className="space-y-2 text-xs text-cyber-gray/80 ml-7 list-disc">
+                      <li><strong>Exposed API Keys:</strong> Scans compiled JavaScript bundles for leaked third-party keys (OpenAI, Anthropic, Gemini, AWS, Mapbox, SendGrid).</li>
+                      <li><strong>Supabase service_role Key:</strong> Verifies if the master service key is exposed publicly, which completely bypasses all RLS checks.</li>
+                      <li><strong>Stripe Secret Keys:</strong> Flags secret keys (`sk_live_...`) while allowing Stripe publishable keys (`pk_live_...`) as safe.</li>
+                    </ul>
+                  </div>
+
+                  {/* Category: Database RLS */}
+                  <div className="bg-[#0b0c10]/50 border border-[#1f2833]/50 p-5 rounded-lg">
+                    <div className="flex items-center gap-2 mb-3">
+                      <Database className="h-5 w-5 text-amber-500" />
+                      <h3 className="font-mono text-sm font-semibold text-white">2. Database Access Rules</h3>
+                    </div>
+                    <ul className="space-y-2 text-xs text-cyber-gray/80 ml-7 list-disc">
+                      <li><strong>Supabase RLS Probe:</strong> Dynamically extracts table names from JS bundles (looking for `.from('tableName')`) and queries REST endpoints to test if Row Level Security is disabled.</li>
+                      <li><strong>Firebase Firestore Public Read:</strong> Queries Firestore endpoints to verify if user documents are publicly accessible.</li>
+                    </ul>
+                  </div>
+
+                  {/* Category: Network & Headers */}
+                  <div className="bg-[#0b0c10]/50 border border-[#1f2833]/50 p-5 rounded-lg">
+                    <div className="flex items-center gap-2 mb-3">
+                      <Globe className="h-5 w-5 text-blue-500" />
+                      <h3 className="font-mono text-sm font-semibold text-white">3. Network, Transport & Security Headers</h3>
+                    </div>
+                    <ul className="space-y-2 text-xs text-cyber-gray/80 ml-7 list-disc">
+                      <li><strong>SSL Validity:</strong> Ensures domain SSL certificates are valid, properly configured, and have more than 15 days until expiration.</li>
+                      <li><strong>HTTPS Redirection:</strong> Checks if plain HTTP (`http://`) calls are automatically redirected to secure HTTPS.</li>
+                      <li><strong>HTTP Security Headers:</strong> Scans for missing `Content-Security-Policy`, `X-Frame-Options` (Clickjacking), `X-Content-Type-Options`, and `Strict-Transport-Security`.</li>
+                      <li><strong>Dangerous CORS Settings:</strong> Flags CORS configuration allowing malicious origins to read credentialed responses.</li>
+                    </ul>
+                  </div>
+
+                  {/* Category: Server files */}
+                  <div className="bg-[#0b0c10]/50 border border-[#1f2833]/50 p-5 rounded-lg">
+                    <div className="flex items-center gap-2 mb-3">
+                      <Server className="h-5 w-5 text-purple-500" />
+                      <h3 className="font-mono text-sm font-semibold text-white">4. Exposed Server Configurations</h3>
+                    </div>
+                    <ul className="space-y-2 text-xs text-cyber-gray/80 ml-7 list-disc">
+                      <li><strong>Static Env Leaks:</strong> Probes common configuration paths like `/.env`, `/.env.local`, and `/config.json`.</li>
+                      <li><strong>Git Folder Leaks:</strong> Verifies if the control folder `/.git/config` is accessible, which would allow pulling the whole project source repository.</li>
+                      <li><strong>Source Map Exposure:</strong> Flags if `.map` files are published, making full reverse-engineering of the React codebase trivial.</li>
+                    </ul>
+                  </div>
+
+                  {/* Category: Cookies & Sessions */}
+                  <div className="bg-[#0b0c10]/50 border border-[#1f2833]/50 p-5 rounded-lg">
+                    <div className="flex items-center gap-2 mb-3">
+                      <Shield className="h-5 w-5 text-green-500" />
+                      <h3 className="font-mono text-sm font-semibold text-white">5. Session & Cache Safety</h3>
+                    </div>
+                    <ul className="space-y-2 text-xs text-cyber-gray/80 ml-7 list-disc">
+                      <li><strong>Cookie Security Flags:</strong> Validates `Secure`, `HttpOnly`, and `SameSite` flags on all set-cookies.</li>
+                      <li><strong>Authentication Caching:</strong> Verifies that `/login` or `/signup` pages send `Cache-Control: no-store` to prevent credentials from being stored in shared browser caches.</li>
+                      <li><strong>Legacy Libraries & IDOR:</strong> Detects outdated libraries (e.g. jQuery < 3.5.0) and checks routes for predictable numeric ids (potential IDOR leaks).</li>
+                    </ul>
+                  </div>
                 </div>
               </div>
             )}
@@ -1055,21 +1184,138 @@ export default function App() {
                 )}
               </div>
 
+              {/* Scan History Timeline */}
+              {scanResults.history && scanResults.history.length > 0 && (
+                <div className="bg-[#1f2833]/15 border border-[#1f2833] p-5 rounded-xl">
+                  <h4 className="text-xs font-mono uppercase text-cyber-light mb-4 tracking-wider flex items-center gap-1.5">
+                    <BookOpen className="h-4 w-4" /> Scan History
+                  </h4>
+                  
+                  <div className="space-y-4 relative before:absolute before:left-2 before:top-2 before:bottom-2 before:w-[1px] before:bg-[#1f2833] pl-1">
+                    {/* Latest Run Node */}
+                    <div className="flex items-start gap-3 relative">
+                      <div 
+                        onClick={() => setActiveHistoryIndex(null)}
+                        className={`h-3 w-3 rounded-full border-2 shrink-0 z-10 cursor-pointer transition-all ${
+                          activeHistoryIndex === null 
+                            ? "bg-cyber-light border-cyber-light scale-110 shadow-lg shadow-cyber-light/30" 
+                            : "bg-[#0b0c10] border-[#1f2833] hover:border-cyber-light"
+                        }`}
+                      />
+                      <div className="flex-grow min-w-0">
+                        <button
+                          onClick={() => setActiveHistoryIndex(null)}
+                          className={`text-xs font-mono block text-left cursor-pointer transition-colors ${
+                            activeHistoryIndex === null ? "text-cyber-light font-bold" : "text-cyber-gray hover:text-white"
+                          }`}
+                        >
+                          Latest Run
+                        </button>
+                        <span className="text-[10px] text-cyber-gray/50 block mt-0.5">
+                          {new Date(scanResults.scannedAt).toLocaleDateString()}
+                        </span>
+                      </div>
+                    </div>
+
+                    {/* Past Runs Nodes */}
+                    {scanResults.history.map((run, idx) => {
+                      const runGrade = getGradeForFindings(run.result.findings);
+                      
+                      return (
+                        <div key={idx} className="flex items-start gap-3 relative">
+                          <div 
+                            onClick={() => setActiveHistoryIndex(idx)}
+                            className={`h-3 w-3 rounded-full border-2 shrink-0 z-10 cursor-pointer transition-all ${
+                              activeHistoryIndex === idx 
+                                ? "bg-cyber-light border-cyber-light scale-110 shadow-lg shadow-cyber-light/30" 
+                                : "bg-[#0b0c10] border-[#1f2833] hover:border-cyber-light"
+                            }`}
+                          />
+                          <div className="flex-grow min-w-0">
+                            <button
+                              onClick={() => setActiveHistoryIndex(idx)}
+                              className={`text-xs font-mono block text-left cursor-pointer transition-colors ${
+                                activeHistoryIndex === idx ? "text-cyber-light font-bold" : "text-cyber-gray hover:text-white"
+                              }`}
+                            >
+                              Run #{scanResults.history.length - idx} (Grade {runGrade})
+                            </button>
+                            <span className="text-[10px] text-cyber-gray/50 block mt-0.5">
+                              {new Date(run.timestamp).toLocaleDateString()}
+                            </span>
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+              )}
+
             </div>
 
             {/* Findings List */}
             <div className="flex-grow space-y-4">
+              {/* Diff / Improvement Tracker Banner */}
+              {activeHistoryIndex === null && scanResults.diff && (
+                <div className="p-4 rounded-xl border border-cyber-green/30 bg-cyber-green/5 flex items-start gap-3 relative overflow-hidden">
+                  <div className="absolute inset-y-0 left-0 w-1 bg-cyber-green" />
+                  <div className="mt-0.5">
+                    <Shield className="h-5 w-5 text-cyber-green animate-pulse" />
+                  </div>
+                  <div className="flex-grow min-w-0">
+                    <h4 className="text-sm font-bold text-white tracking-tight">
+                      🛡️ Security Posture Update
+                    </h4>
+                    <p className="text-xs text-cyber-gray/95 mt-1 leading-relaxed">
+                      {scanResults.diff.gradeDiff ? (
+                        <>
+                          Your grade improved from <strong className="text-cyber-red">{scanResults.diff.previousGrade}</strong> to <strong className="text-cyber-green">{scanResults.diff.currentGrade}</strong>!{" "}
+                        </>
+                      ) : (
+                        <>
+                          Your grade remained at <strong className="text-cyber-light">{scanResults.diff.currentGrade}</strong>.{" "}
+                        </>
+                      )}
+                      We detected <strong className="text-cyber-green">{scanResults.diff.resolvedCount} issues resolved</strong>
+                      {scanResults.diff.newCount > 0 && (
+                        <> and <strong className="text-cyber-orange">{scanResults.diff.newCount} new issues</strong></>
+                      )}
+                      . Keep up the good work!
+                    </p>
+                  </div>
+                </div>
+              )}
+
+              {/* Viewing History Mode Banner */}
+              {activeHistoryIndex !== null && (
+                <div className="p-4 rounded-xl border border-cyber-light/30 bg-cyber-light/5 flex items-center justify-between gap-3 relative overflow-hidden">
+                  <div className="absolute inset-y-0 left-0 w-1 bg-cyber-light" />
+                  <div className="flex items-center gap-2">
+                    <RefreshCw className="h-4 w-4 text-cyber-light animate-spin" style={{ animationDuration: '6s' }} />
+                    <span className="text-xs font-mono text-white">
+                      Viewing past audit run from {new Date(scanResults.history[activeHistoryIndex].timestamp).toLocaleString()}
+                    </span>
+                  </div>
+                  <button
+                    onClick={() => setActiveHistoryIndex(null)}
+                    className="text-xs font-mono font-bold text-cyber-light hover:underline cursor-pointer"
+                  >
+                    Back to Latest Run ➔
+                  </button>
+                </div>
+              )}
+
               <div className="flex items-center justify-between border-b border-[#1f2833] pb-3">
                 <div>
                   <h2 className="text-lg font-bold text-white tracking-tight">Audit Findings</h2>
-                  <p className="text-xs text-cyber-gray/60 mt-0.5">TARGET URL: {scanResults.url}</p>
+                  <p className="text-xs text-cyber-gray/60 mt-0.5">TARGET URL: {displayedResults.url}</p>
                 </div>
                 <span className="font-mono text-xs bg-[#1f2833]/40 border border-[#1f2833] px-2.5 py-1 rounded text-cyber-light">
-                  {scanResults.findings.length} issues flagged
+                  {displayedResults.findings.length} issues flagged
                 </span>
               </div>
 
-              {scanResults.findings.length === 0 ? (
+              {displayedResults.findings.length === 0 ? (
                 <div className="bg-[#10b981]/5 border border-[#10b981]/20 rounded-xl p-8 text-center flex flex-col items-center">
                   <CheckCircle className="h-12 w-12 text-[#10b981] mb-3" />
                   <h3 className="text-base font-bold text-white">No Vulnerabilities Detected</h3>
@@ -1079,7 +1325,7 @@ export default function App() {
                 </div>
               ) : (
                 <div className="space-y-3">
-                  {scanResults.findings.sort((a,b) => {
+                  {displayedResults.findings.sort((a,b) => {
                     const severities = { critical: 4, high: 3, medium: 2, low: 1, info: 0 };
                     return severities[b.severity] - severities[a.severity];
                   }).map(finding => (
