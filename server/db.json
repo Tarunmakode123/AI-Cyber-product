@@ -1,0 +1,466 @@
+{
+  "scans": {
+    "https://example.com/": {
+      "result": {
+        "url": "https://example.com/",
+        "scannedAt": "2026-07-15T18:39:06.304Z",
+        "findings": [
+          {
+            "id": "header-missing-content-security-policy",
+            "category": "Network",
+            "title": "Missing Content-Security-Policy header",
+            "severity": "high",
+            "evidence": "Header 'content-security-policy' is missing in HTTP response headers.",
+            "rawTechnicalDetail": "{\"date\":\"Wed, 15 Jul 2026 18:39:04 GMT\",\"content-type\":\"text/html\",\"transfer-encoding\":\"chunked\",\"connection\":\"close\",\"server\":\"cloudflare\",\"last-modified\":\"Wed, 01 Jul 2026 17:50:18 GMT\",\"allow\":\"GET, HEAD\",\"age\":\"7383\",\"cf-cache-status\":\"HIT\",\"cf-ray\":\"a1bae3480c41c766-BOM\"}"
+          },
+          {
+            "id": "header-missing-x-frame-options",
+            "category": "Network",
+            "title": "Missing X-Frame-Options (Clickjacking vulnerability)",
+            "severity": "medium",
+            "evidence": "Header 'x-frame-options' is missing in HTTP response headers.",
+            "rawTechnicalDetail": "{\"date\":\"Wed, 15 Jul 2026 18:39:04 GMT\",\"content-type\":\"text/html\",\"transfer-encoding\":\"chunked\",\"connection\":\"close\",\"server\":\"cloudflare\",\"last-modified\":\"Wed, 01 Jul 2026 17:50:18 GMT\",\"allow\":\"GET, HEAD\",\"age\":\"7383\",\"cf-cache-status\":\"HIT\",\"cf-ray\":\"a1bae3480c41c766-BOM\"}"
+          },
+          {
+            "id": "header-missing-x-content-type-options",
+            "category": "Network",
+            "title": "Missing X-Content-Type-Options header",
+            "severity": "low",
+            "evidence": "Header 'x-content-type-options' is missing in HTTP response headers.",
+            "rawTechnicalDetail": "{\"date\":\"Wed, 15 Jul 2026 18:39:04 GMT\",\"content-type\":\"text/html\",\"transfer-encoding\":\"chunked\",\"connection\":\"close\",\"server\":\"cloudflare\",\"last-modified\":\"Wed, 01 Jul 2026 17:50:18 GMT\",\"allow\":\"GET, HEAD\",\"age\":\"7383\",\"cf-cache-status\":\"HIT\",\"cf-ray\":\"a1bae3480c41c766-BOM\"}"
+          },
+          {
+            "id": "header-missing-strict-transport-security",
+            "category": "Network",
+            "title": "Missing Strict-Transport-Security (HSTS) header",
+            "severity": "high",
+            "evidence": "Header 'strict-transport-security' is missing in HTTP response headers.",
+            "rawTechnicalDetail": "{\"date\":\"Wed, 15 Jul 2026 18:39:04 GMT\",\"content-type\":\"text/html\",\"transfer-encoding\":\"chunked\",\"connection\":\"close\",\"server\":\"cloudflare\",\"last-modified\":\"Wed, 01 Jul 2026 17:50:18 GMT\",\"allow\":\"GET, HEAD\",\"age\":\"7383\",\"cf-cache-status\":\"HIT\",\"cf-ray\":\"a1bae3480c41c766-BOM\"}"
+          },
+          {
+            "id": "header-missing-referrer-policy",
+            "category": "Network",
+            "title": "Missing Referrer-Policy header",
+            "severity": "low",
+            "evidence": "Header 'referrer-policy' is missing in HTTP response headers.",
+            "rawTechnicalDetail": "{\"date\":\"Wed, 15 Jul 2026 18:39:04 GMT\",\"content-type\":\"text/html\",\"transfer-encoding\":\"chunked\",\"connection\":\"close\",\"server\":\"cloudflare\",\"last-modified\":\"Wed, 01 Jul 2026 17:50:18 GMT\",\"allow\":\"GET, HEAD\",\"age\":\"7383\",\"cf-cache-status\":\"HIT\",\"cf-ray\":\"a1bae3480c41c766-BOM\"}"
+          }
+        ],
+        "platformDetected": "Cloudflare Pages/Workers",
+        "scanDurationMs": 3354
+      },
+      "timestamp": "2026-07-15T18:39:06.306Z"
+    },
+    "https://google.com/": {
+      "result": {
+        "url": "https://google.com/",
+        "scannedAt": "2026-07-15T18:39:05.166Z",
+        "findings": [
+          {
+            "id": "header-missing-content-security-policy",
+            "category": "Network",
+            "title": "Missing Content-Security-Policy header",
+            "severity": "high",
+            "evidence": "Header 'content-security-policy' is missing in HTTP response headers.",
+            "rawTechnicalDetail": "{\"content-type\":\"text/html; charset=ISO-8859-1\",\"date\":\"Wed, 15 Jul 2026 18:39:05 GMT\",\"expires\":\"-1\",\"cache-control\":\"private, max-age=0\",\"content-security-policy-report-only\":\"object-src 'none';base-uri 'self';script-src 'nonce-ml9YoaY__5V4F41xPhaMYw' 'strict-dynamic' 'report-sample' 'unsafe-eval' 'unsafe-inline' https: http:;report-uri https://csp.withgoogle.com/csp/gws/other-hp\",\"accept-ch\":\"Sec-CH-Prefers-Color-Scheme\",\"p3p\":\"CP=\\\"This is not a P3P policy! See g.co/p3phelp for more info.\\\"\",\"server\":\"gws\",\"x-xss-protection\":\"0\",\"x-frame-options\":\"SAMEORIGIN\",\"set-cookie\":[\"__Secure-STRP=ANmZwa1RTR4wU1nmzFNpPB5_yZAZyML5p4L6Az1TspSbZBy2Wr4U62Iy3wNuCnF4hd8PERcMCjpaK56T5FOqgmQU3hZ5W8kKFA; expires=Wed, 15-Jul-2026 18:44:05 GMT; path=/; domain=.google.com; Secure; SameSite=strict\",\"AEC=AdJVEasvlZnqSEykujIlyDZPYywNMjBoxF1xotHNhMOYEdkgex9_E5ph37M; expires=Mon, 11-Jan-2027 18:39:05 GMT; path=/; domain=.google.com; Secure; HttpOnly; SameSite=lax\",\"NID=533=D47jYQidp3wWNL5o-fWpyUYfwAeP22TwpdhA3EIASpQEIYD8l2cKf8ZyBh5yIGxjpwzqKJP-GGdLec1hGrJjtPp-47lCBAVF-Dwl5YXvOksCfmjkeczgdIImpbMVpn_b-c9gMzqHB4GJvidh7p7lsh5nsC-oeHh9WOOr0ZUmv1PEP64eROnzVFMN3ORRZJwNRsiy2vZ3CGlDPgNi_3kM5uc; expires=Thu, 14-Jan-2027 18:39:05 GMT; path=/; domain=.google.com; HttpOnly\"],\"alt-svc\":\"h3=\\\":443\\\"; ma=2592000,h3-29=\\\":443\\\"; ma=2592000\",\"connection\":\"close\",\"transfer-encoding\":\"chunked\"}"
+          },
+          {
+            "id": "header-missing-x-content-type-options",
+            "category": "Network",
+            "title": "Missing X-Content-Type-Options header",
+            "severity": "low",
+            "evidence": "Header 'x-content-type-options' is missing in HTTP response headers.",
+            "rawTechnicalDetail": "{\"content-type\":\"text/html; charset=ISO-8859-1\",\"date\":\"Wed, 15 Jul 2026 18:39:05 GMT\",\"expires\":\"-1\",\"cache-control\":\"private, max-age=0\",\"content-security-policy-report-only\":\"object-src 'none';base-uri 'self';script-src 'nonce-ml9YoaY__5V4F41xPhaMYw' 'strict-dynamic' 'report-sample' 'unsafe-eval' 'unsafe-inline' https: http:;report-uri https://csp.withgoogle.com/csp/gws/other-hp\",\"accept-ch\":\"Sec-CH-Prefers-Color-Scheme\",\"p3p\":\"CP=\\\"This is not a P3P policy! See g.co/p3phelp for more info.\\\"\",\"server\":\"gws\",\"x-xss-protection\":\"0\",\"x-frame-options\":\"SAMEORIGIN\",\"set-cookie\":[\"__Secure-STRP=ANmZwa1RTR4wU1nmzFNpPB5_yZAZyML5p4L6Az1TspSbZBy2Wr4U62Iy3wNuCnF4hd8PERcMCjpaK56T5FOqgmQU3hZ5W8kKFA; expires=Wed, 15-Jul-2026 18:44:05 GMT; path=/; domain=.google.com; Secure; SameSite=strict\",\"AEC=AdJVEasvlZnqSEykujIlyDZPYywNMjBoxF1xotHNhMOYEdkgex9_E5ph37M; expires=Mon, 11-Jan-2027 18:39:05 GMT; path=/; domain=.google.com; Secure; HttpOnly; SameSite=lax\",\"NID=533=D47jYQidp3wWNL5o-fWpyUYfwAeP22TwpdhA3EIASpQEIYD8l2cKf8ZyBh5yIGxjpwzqKJP-GGdLec1hGrJjtPp-47lCBAVF-Dwl5YXvOksCfmjkeczgdIImpbMVpn_b-c9gMzqHB4GJvidh7p7lsh5nsC-oeHh9WOOr0ZUmv1PEP64eROnzVFMN3ORRZJwNRsiy2vZ3CGlDPgNi_3kM5uc; expires=Thu, 14-Jan-2027 18:39:05 GMT; path=/; domain=.google.com; HttpOnly\"],\"alt-svc\":\"h3=\\\":443\\\"; ma=2592000,h3-29=\\\":443\\\"; ma=2592000\",\"connection\":\"close\",\"transfer-encoding\":\"chunked\"}"
+          },
+          {
+            "id": "header-missing-strict-transport-security",
+            "category": "Network",
+            "title": "Missing Strict-Transport-Security (HSTS) header",
+            "severity": "high",
+            "evidence": "Header 'strict-transport-security' is missing in HTTP response headers.",
+            "rawTechnicalDetail": "{\"content-type\":\"text/html; charset=ISO-8859-1\",\"date\":\"Wed, 15 Jul 2026 18:39:05 GMT\",\"expires\":\"-1\",\"cache-control\":\"private, max-age=0\",\"content-security-policy-report-only\":\"object-src 'none';base-uri 'self';script-src 'nonce-ml9YoaY__5V4F41xPhaMYw' 'strict-dynamic' 'report-sample' 'unsafe-eval' 'unsafe-inline' https: http:;report-uri https://csp.withgoogle.com/csp/gws/other-hp\",\"accept-ch\":\"Sec-CH-Prefers-Color-Scheme\",\"p3p\":\"CP=\\\"This is not a P3P policy! See g.co/p3phelp for more info.\\\"\",\"server\":\"gws\",\"x-xss-protection\":\"0\",\"x-frame-options\":\"SAMEORIGIN\",\"set-cookie\":[\"__Secure-STRP=ANmZwa1RTR4wU1nmzFNpPB5_yZAZyML5p4L6Az1TspSbZBy2Wr4U62Iy3wNuCnF4hd8PERcMCjpaK56T5FOqgmQU3hZ5W8kKFA; expires=Wed, 15-Jul-2026 18:44:05 GMT; path=/; domain=.google.com; Secure; SameSite=strict\",\"AEC=AdJVEasvlZnqSEykujIlyDZPYywNMjBoxF1xotHNhMOYEdkgex9_E5ph37M; expires=Mon, 11-Jan-2027 18:39:05 GMT; path=/; domain=.google.com; Secure; HttpOnly; SameSite=lax\",\"NID=533=D47jYQidp3wWNL5o-fWpyUYfwAeP22TwpdhA3EIASpQEIYD8l2cKf8ZyBh5yIGxjpwzqKJP-GGdLec1hGrJjtPp-47lCBAVF-Dwl5YXvOksCfmjkeczgdIImpbMVpn_b-c9gMzqHB4GJvidh7p7lsh5nsC-oeHh9WOOr0ZUmv1PEP64eROnzVFMN3ORRZJwNRsiy2vZ3CGlDPgNi_3kM5uc; expires=Thu, 14-Jan-2027 18:39:05 GMT; path=/; domain=.google.com; HttpOnly\"],\"alt-svc\":\"h3=\\\":443\\\"; ma=2592000,h3-29=\\\":443\\\"; ma=2592000\",\"connection\":\"close\",\"transfer-encoding\":\"chunked\"}"
+          },
+          {
+            "id": "header-missing-referrer-policy",
+            "category": "Network",
+            "title": "Missing Referrer-Policy header",
+            "severity": "low",
+            "evidence": "Header 'referrer-policy' is missing in HTTP response headers.",
+            "rawTechnicalDetail": "{\"content-type\":\"text/html; charset=ISO-8859-1\",\"date\":\"Wed, 15 Jul 2026 18:39:05 GMT\",\"expires\":\"-1\",\"cache-control\":\"private, max-age=0\",\"content-security-policy-report-only\":\"object-src 'none';base-uri 'self';script-src 'nonce-ml9YoaY__5V4F41xPhaMYw' 'strict-dynamic' 'report-sample' 'unsafe-eval' 'unsafe-inline' https: http:;report-uri https://csp.withgoogle.com/csp/gws/other-hp\",\"accept-ch\":\"Sec-CH-Prefers-Color-Scheme\",\"p3p\":\"CP=\\\"This is not a P3P policy! See g.co/p3phelp for more info.\\\"\",\"server\":\"gws\",\"x-xss-protection\":\"0\",\"x-frame-options\":\"SAMEORIGIN\",\"set-cookie\":[\"__Secure-STRP=ANmZwa1RTR4wU1nmzFNpPB5_yZAZyML5p4L6Az1TspSbZBy2Wr4U62Iy3wNuCnF4hd8PERcMCjpaK56T5FOqgmQU3hZ5W8kKFA; expires=Wed, 15-Jul-2026 18:44:05 GMT; path=/; domain=.google.com; Secure; SameSite=strict\",\"AEC=AdJVEasvlZnqSEykujIlyDZPYywNMjBoxF1xotHNhMOYEdkgex9_E5ph37M; expires=Mon, 11-Jan-2027 18:39:05 GMT; path=/; domain=.google.com; Secure; HttpOnly; SameSite=lax\",\"NID=533=D47jYQidp3wWNL5o-fWpyUYfwAeP22TwpdhA3EIASpQEIYD8l2cKf8ZyBh5yIGxjpwzqKJP-GGdLec1hGrJjtPp-47lCBAVF-Dwl5YXvOksCfmjkeczgdIImpbMVpn_b-c9gMzqHB4GJvidh7p7lsh5nsC-oeHh9WOOr0ZUmv1PEP64eROnzVFMN3ORRZJwNRsiy2vZ3CGlDPgNi_3kM5uc; expires=Thu, 14-Jan-2027 18:39:05 GMT; path=/; domain=.google.com; HttpOnly\"],\"alt-svc\":\"h3=\\\":443\\\"; ma=2592000,h3-29=\\\":443\\\"; ma=2592000\",\"connection\":\"close\",\"transfer-encoding\":\"chunked\"}"
+          },
+          {
+            "id": "cookie-no-httponly-__Secure-STRP",
+            "category": "Application",
+            "title": "Cookie '__Secure-STRP' missing HttpOnly attribute",
+            "severity": "high",
+            "evidence": "__Secure-STRP=ANmZwa1RTR4wU1nmzFNpPB5_yZAZyML5p4L6Az1TspSbZBy2Wr4U62Iy3wNuCnF4hd8PERcMCjpaK56T5FOqgmQU3hZ5W8kKFA; expires=Wed, 15-Jul-2026 18:44:05 GMT; path=/; domain=.google.com; Secure; SameSite=strict",
+            "rawTechnicalDetail": "__Secure-STRP=ANmZwa1RTR4wU1nmzFNpPB5_yZAZyML5p4L6Az1TspSbZBy2Wr4U62Iy3wNuCnF4hd8PERcMCjpaK56T5FOqgmQU3hZ5W8kKFA; expires=Wed, 15-Jul-2026 18:44:05 GMT; path=/; domain=.google.com; Secure; SameSite=strict"
+          },
+          {
+            "id": "cookie-no-secure-NID",
+            "category": "Application",
+            "title": "Cookie 'NID' missing Secure attribute",
+            "severity": "medium",
+            "evidence": "NID=533=D47jYQidp3wWNL5o-fWpyUYfwAeP22TwpdhA3EIASpQEIYD8l2cKf8ZyBh5yIGxjpwzqKJP-GGdLec1hGrJjtPp-47lCBAVF-Dwl5YXvOksCfmjkeczgdIImpbMVpn_b-c9gMzqHB4GJvidh7p7lsh5nsC-oeHh9WOOr0ZUmv1PEP64eROnzVFMN3ORRZJwNRsiy2vZ3CGlDPgNi_3kM5uc; expires=Thu, 14-Jan-2027 18:39:05 GMT; path=/; domain=.google.com; HttpOnly",
+            "rawTechnicalDetail": "NID=533=D47jYQidp3wWNL5o-fWpyUYfwAeP22TwpdhA3EIASpQEIYD8l2cKf8ZyBh5yIGxjpwzqKJP-GGdLec1hGrJjtPp-47lCBAVF-Dwl5YXvOksCfmjkeczgdIImpbMVpn_b-c9gMzqHB4GJvidh7p7lsh5nsC-oeHh9WOOr0ZUmv1PEP64eROnzVFMN3ORRZJwNRsiy2vZ3CGlDPgNi_3kM5uc; expires=Thu, 14-Jan-2027 18:39:05 GMT; path=/; domain=.google.com; HttpOnly"
+          },
+          {
+            "id": "cookie-no-samesite-NID",
+            "category": "Application",
+            "title": "Cookie 'NID' missing SameSite attribute",
+            "severity": "low",
+            "evidence": "NID=533=D47jYQidp3wWNL5o-fWpyUYfwAeP22TwpdhA3EIASpQEIYD8l2cKf8ZyBh5yIGxjpwzqKJP-GGdLec1hGrJjtPp-47lCBAVF-Dwl5YXvOksCfmjkeczgdIImpbMVpn_b-c9gMzqHB4GJvidh7p7lsh5nsC-oeHh9WOOr0ZUmv1PEP64eROnzVFMN3ORRZJwNRsiy2vZ3CGlDPgNi_3kM5uc; expires=Thu, 14-Jan-2027 18:39:05 GMT; path=/; domain=.google.com; HttpOnly",
+            "rawTechnicalDetail": "NID=533=D47jYQidp3wWNL5o-fWpyUYfwAeP22TwpdhA3EIASpQEIYD8l2cKf8ZyBh5yIGxjpwzqKJP-GGdLec1hGrJjtPp-47lCBAVF-Dwl5YXvOksCfmjkeczgdIImpbMVpn_b-c9gMzqHB4GJvidh7p7lsh5nsC-oeHh9WOOr0ZUmv1PEP64eROnzVFMN3ORRZJwNRsiy2vZ3CGlDPgNi_3kM5uc; expires=Thu, 14-Jan-2027 18:39:05 GMT; path=/; domain=.google.com; HttpOnly"
+          }
+        ],
+        "platformDetected": "Generic/Other",
+        "scanDurationMs": 2207
+      },
+      "timestamp": "2026-07-15T18:39:05.168Z"
+    }
+  },
+  "batches": {
+    "batch_3k6yqek42960ojadph5lh1": {
+      "batchId": "batch_3k6yqek42960ojadph5lh1",
+      "label": "Test SSRF Batch",
+      "total": 3,
+      "completed": 1,
+      "failed": 2,
+      "status": "completed",
+      "results": [
+        {
+          "url": "https://example.com/",
+          "status": "done",
+          "grade": "D",
+          "findingsCount": 5,
+          "findings": [
+            {
+              "id": "header-missing-content-security-policy",
+              "category": "Network",
+              "title": "Missing Content-Security-Policy header",
+              "severity": "high",
+              "evidence": "Header 'content-security-policy' is missing in HTTP response headers.",
+              "rawTechnicalDetail": "{\"date\":\"Wed, 15 Jul 2026 18:37:48 GMT\",\"content-type\":\"text/html\",\"transfer-encoding\":\"chunked\",\"connection\":\"close\",\"server\":\"cloudflare\",\"last-modified\":\"Wed, 01 Jul 2026 17:50:18 GMT\",\"allow\":\"GET, HEAD\",\"age\":\"7306\",\"cf-cache-status\":\"HIT\",\"cf-ray\":\"a1bae1675d7f8a1a-BOM\"}"
+            },
+            {
+              "id": "header-missing-x-frame-options",
+              "category": "Network",
+              "title": "Missing X-Frame-Options (Clickjacking vulnerability)",
+              "severity": "medium",
+              "evidence": "Header 'x-frame-options' is missing in HTTP response headers.",
+              "rawTechnicalDetail": "{\"date\":\"Wed, 15 Jul 2026 18:37:48 GMT\",\"content-type\":\"text/html\",\"transfer-encoding\":\"chunked\",\"connection\":\"close\",\"server\":\"cloudflare\",\"last-modified\":\"Wed, 01 Jul 2026 17:50:18 GMT\",\"allow\":\"GET, HEAD\",\"age\":\"7306\",\"cf-cache-status\":\"HIT\",\"cf-ray\":\"a1bae1675d7f8a1a-BOM\"}"
+            },
+            {
+              "id": "header-missing-x-content-type-options",
+              "category": "Network",
+              "title": "Missing X-Content-Type-Options header",
+              "severity": "low",
+              "evidence": "Header 'x-content-type-options' is missing in HTTP response headers.",
+              "rawTechnicalDetail": "{\"date\":\"Wed, 15 Jul 2026 18:37:48 GMT\",\"content-type\":\"text/html\",\"transfer-encoding\":\"chunked\",\"connection\":\"close\",\"server\":\"cloudflare\",\"last-modified\":\"Wed, 01 Jul 2026 17:50:18 GMT\",\"allow\":\"GET, HEAD\",\"age\":\"7306\",\"cf-cache-status\":\"HIT\",\"cf-ray\":\"a1bae1675d7f8a1a-BOM\"}"
+            },
+            {
+              "id": "header-missing-strict-transport-security",
+              "category": "Network",
+              "title": "Missing Strict-Transport-Security (HSTS) header",
+              "severity": "high",
+              "evidence": "Header 'strict-transport-security' is missing in HTTP response headers.",
+              "rawTechnicalDetail": "{\"date\":\"Wed, 15 Jul 2026 18:37:48 GMT\",\"content-type\":\"text/html\",\"transfer-encoding\":\"chunked\",\"connection\":\"close\",\"server\":\"cloudflare\",\"last-modified\":\"Wed, 01 Jul 2026 17:50:18 GMT\",\"allow\":\"GET, HEAD\",\"age\":\"7306\",\"cf-cache-status\":\"HIT\",\"cf-ray\":\"a1bae1675d7f8a1a-BOM\"}"
+            },
+            {
+              "id": "header-missing-referrer-policy",
+              "category": "Network",
+              "title": "Missing Referrer-Policy header",
+              "severity": "low",
+              "evidence": "Header 'referrer-policy' is missing in HTTP response headers.",
+              "rawTechnicalDetail": "{\"date\":\"Wed, 15 Jul 2026 18:37:48 GMT\",\"content-type\":\"text/html\",\"transfer-encoding\":\"chunked\",\"connection\":\"close\",\"server\":\"cloudflare\",\"last-modified\":\"Wed, 01 Jul 2026 17:50:18 GMT\",\"allow\":\"GET, HEAD\",\"age\":\"7306\",\"cf-cache-status\":\"HIT\",\"cf-ray\":\"a1bae1675d7f8a1a-BOM\"}"
+            }
+          ],
+          "platformDetected": "Cloudflare Pages/Workers"
+        },
+        {
+          "url": "http://127.0.0.1/sensitive",
+          "status": "failed",
+          "grade": "F",
+          "findingsCount": 0,
+          "findings": [],
+          "error": "Failed to fetch main page: Outbound connection error: connect ECONNREFUSED 127.0.0.1:80"
+        },
+        {
+          "url": "http://localhost:3000/",
+          "status": "failed",
+          "grade": "F",
+          "findingsCount": 0,
+          "findings": [],
+          "error": "Failed to fetch main page: Outbound connection error: connect ECONNREFUSED 127.0.0.1:80"
+        }
+      ],
+      "createdAt": "2026-07-15T18:37:45.993Z"
+    },
+    "batch_anae4q6zdgddqqznb2z1m": {
+      "batchId": "batch_anae4q6zdgddqqznb2z1m",
+      "label": "Verification Demo Batch",
+      "total": 3,
+      "completed": 2,
+      "failed": 1,
+      "status": "completed",
+      "results": [
+        {
+          "url": "https://example.com/",
+          "status": "done",
+          "grade": "D",
+          "findingsCount": 5,
+          "findings": [
+            {
+              "id": "header-missing-content-security-policy",
+              "category": "Network",
+              "title": "Missing Content-Security-Policy header",
+              "severity": "high",
+              "evidence": "Header 'content-security-policy' is missing in HTTP response headers.",
+              "rawTechnicalDetail": "{\"date\":\"Wed, 15 Jul 2026 18:37:48 GMT\",\"content-type\":\"text/html\",\"transfer-encoding\":\"chunked\",\"connection\":\"close\",\"server\":\"cloudflare\",\"last-modified\":\"Wed, 01 Jul 2026 17:50:18 GMT\",\"allow\":\"GET, HEAD\",\"age\":\"7306\",\"cf-cache-status\":\"HIT\",\"cf-ray\":\"a1bae1680f8bfa1c-BOM\"}"
+            },
+            {
+              "id": "header-missing-x-frame-options",
+              "category": "Network",
+              "title": "Missing X-Frame-Options (Clickjacking vulnerability)",
+              "severity": "medium",
+              "evidence": "Header 'x-frame-options' is missing in HTTP response headers.",
+              "rawTechnicalDetail": "{\"date\":\"Wed, 15 Jul 2026 18:37:48 GMT\",\"content-type\":\"text/html\",\"transfer-encoding\":\"chunked\",\"connection\":\"close\",\"server\":\"cloudflare\",\"last-modified\":\"Wed, 01 Jul 2026 17:50:18 GMT\",\"allow\":\"GET, HEAD\",\"age\":\"7306\",\"cf-cache-status\":\"HIT\",\"cf-ray\":\"a1bae1680f8bfa1c-BOM\"}"
+            },
+            {
+              "id": "header-missing-x-content-type-options",
+              "category": "Network",
+              "title": "Missing X-Content-Type-Options header",
+              "severity": "low",
+              "evidence": "Header 'x-content-type-options' is missing in HTTP response headers.",
+              "rawTechnicalDetail": "{\"date\":\"Wed, 15 Jul 2026 18:37:48 GMT\",\"content-type\":\"text/html\",\"transfer-encoding\":\"chunked\",\"connection\":\"close\",\"server\":\"cloudflare\",\"last-modified\":\"Wed, 01 Jul 2026 17:50:18 GMT\",\"allow\":\"GET, HEAD\",\"age\":\"7306\",\"cf-cache-status\":\"HIT\",\"cf-ray\":\"a1bae1680f8bfa1c-BOM\"}"
+            },
+            {
+              "id": "header-missing-strict-transport-security",
+              "category": "Network",
+              "title": "Missing Strict-Transport-Security (HSTS) header",
+              "severity": "high",
+              "evidence": "Header 'strict-transport-security' is missing in HTTP response headers.",
+              "rawTechnicalDetail": "{\"date\":\"Wed, 15 Jul 2026 18:37:48 GMT\",\"content-type\":\"text/html\",\"transfer-encoding\":\"chunked\",\"connection\":\"close\",\"server\":\"cloudflare\",\"last-modified\":\"Wed, 01 Jul 2026 17:50:18 GMT\",\"allow\":\"GET, HEAD\",\"age\":\"7306\",\"cf-cache-status\":\"HIT\",\"cf-ray\":\"a1bae1680f8bfa1c-BOM\"}"
+            },
+            {
+              "id": "header-missing-referrer-policy",
+              "category": "Network",
+              "title": "Missing Referrer-Policy header",
+              "severity": "low",
+              "evidence": "Header 'referrer-policy' is missing in HTTP response headers.",
+              "rawTechnicalDetail": "{\"date\":\"Wed, 15 Jul 2026 18:37:48 GMT\",\"content-type\":\"text/html\",\"transfer-encoding\":\"chunked\",\"connection\":\"close\",\"server\":\"cloudflare\",\"last-modified\":\"Wed, 01 Jul 2026 17:50:18 GMT\",\"allow\":\"GET, HEAD\",\"age\":\"7306\",\"cf-cache-status\":\"HIT\",\"cf-ray\":\"a1bae1680f8bfa1c-BOM\"}"
+            }
+          ],
+          "platformDetected": "Cloudflare Pages/Workers"
+        },
+        {
+          "url": "http://localhost:3000/api/test-fixture/vulnerable",
+          "status": "failed",
+          "grade": "F",
+          "findingsCount": 0,
+          "findings": [],
+          "error": "Failed to fetch main page: Outbound connection error: connect ECONNREFUSED 127.0.0.1:80"
+        },
+        {
+          "url": "https://google.com/",
+          "status": "done",
+          "grade": "D",
+          "findingsCount": 7,
+          "findings": [
+            {
+              "id": "header-missing-content-security-policy",
+              "category": "Network",
+              "title": "Missing Content-Security-Policy header",
+              "severity": "high",
+              "evidence": "Header 'content-security-policy' is missing in HTTP response headers.",
+              "rawTechnicalDetail": "{\"content-type\":\"text/html; charset=ISO-8859-1\",\"date\":\"Wed, 15 Jul 2026 18:37:48 GMT\",\"expires\":\"-1\",\"cache-control\":\"private, max-age=0\",\"content-security-policy-report-only\":\"object-src 'none';base-uri 'self';script-src 'nonce-OMIX9inz91U9RGbeonH_Yg' 'strict-dynamic' 'report-sample' 'unsafe-eval' 'unsafe-inline' https: http:;report-uri https://csp.withgoogle.com/csp/gws/other-hp\",\"accept-ch\":\"Sec-CH-Prefers-Color-Scheme\",\"p3p\":\"CP=\\\"This is not a P3P policy! See g.co/p3phelp for more info.\\\"\",\"server\":\"gws\",\"x-xss-protection\":\"0\",\"x-frame-options\":\"SAMEORIGIN\",\"set-cookie\":[\"__Secure-STRP=ANmZwa35mi318RoUdI86wRpbufDy0E9POEVtyEUdoDRz7d_P26e-RJfc1Aw8m8eUDVKuov0sAXp8PGPb0elxCfCvEZ1EeX-VRvnl; expires=Wed, 15-Jul-2026 18:42:48 GMT; path=/; domain=.google.com; Secure; SameSite=strict\",\"AEC=AdJVEauiErGI9r1NziNpTrHOGMj7QMiRaMmHGrPwkS2aR79NvIzR_kosFQ; expires=Mon, 11-Jan-2027 18:37:48 GMT; path=/; domain=.google.com; Secure; HttpOnly; SameSite=lax\",\"NID=533=fUDEx22J22hDWmIIir6stMcyeBdJdzGBGOhOv2EdK_kaIl2TU1F-Ptp4Q10YZQ4mR5EBKDowBsB-dWyEUn8HD5Sa7JkLh9y7GnqkePHvypknrLvQyIlG1f8LefADmfOuj4KBqHklobPQUn3Fks2Z7lr7mYN5Q8dCiYgN-bGYCq7tUCG78MU52TE1dwLs3c7YagCbzSxS6Jzmoa9b_cA0Zec; expires=Thu, 14-Jan-2027 18:37:48 GMT; path=/; domain=.google.com; HttpOnly\"],\"alt-svc\":\"h3=\\\":443\\\"; ma=2592000,h3-29=\\\":443\\\"; ma=2592000\",\"connection\":\"close\",\"transfer-encoding\":\"chunked\"}"
+            },
+            {
+              "id": "header-missing-x-content-type-options",
+              "category": "Network",
+              "title": "Missing X-Content-Type-Options header",
+              "severity": "low",
+              "evidence": "Header 'x-content-type-options' is missing in HTTP response headers.",
+              "rawTechnicalDetail": "{\"content-type\":\"text/html; charset=ISO-8859-1\",\"date\":\"Wed, 15 Jul 2026 18:37:48 GMT\",\"expires\":\"-1\",\"cache-control\":\"private, max-age=0\",\"content-security-policy-report-only\":\"object-src 'none';base-uri 'self';script-src 'nonce-OMIX9inz91U9RGbeonH_Yg' 'strict-dynamic' 'report-sample' 'unsafe-eval' 'unsafe-inline' https: http:;report-uri https://csp.withgoogle.com/csp/gws/other-hp\",\"accept-ch\":\"Sec-CH-Prefers-Color-Scheme\",\"p3p\":\"CP=\\\"This is not a P3P policy! See g.co/p3phelp for more info.\\\"\",\"server\":\"gws\",\"x-xss-protection\":\"0\",\"x-frame-options\":\"SAMEORIGIN\",\"set-cookie\":[\"__Secure-STRP=ANmZwa35mi318RoUdI86wRpbufDy0E9POEVtyEUdoDRz7d_P26e-RJfc1Aw8m8eUDVKuov0sAXp8PGPb0elxCfCvEZ1EeX-VRvnl; expires=Wed, 15-Jul-2026 18:42:48 GMT; path=/; domain=.google.com; Secure; SameSite=strict\",\"AEC=AdJVEauiErGI9r1NziNpTrHOGMj7QMiRaMmHGrPwkS2aR79NvIzR_kosFQ; expires=Mon, 11-Jan-2027 18:37:48 GMT; path=/; domain=.google.com; Secure; HttpOnly; SameSite=lax\",\"NID=533=fUDEx22J22hDWmIIir6stMcyeBdJdzGBGOhOv2EdK_kaIl2TU1F-Ptp4Q10YZQ4mR5EBKDowBsB-dWyEUn8HD5Sa7JkLh9y7GnqkePHvypknrLvQyIlG1f8LefADmfOuj4KBqHklobPQUn3Fks2Z7lr7mYN5Q8dCiYgN-bGYCq7tUCG78MU52TE1dwLs3c7YagCbzSxS6Jzmoa9b_cA0Zec; expires=Thu, 14-Jan-2027 18:37:48 GMT; path=/; domain=.google.com; HttpOnly\"],\"alt-svc\":\"h3=\\\":443\\\"; ma=2592000,h3-29=\\\":443\\\"; ma=2592000\",\"connection\":\"close\",\"transfer-encoding\":\"chunked\"}"
+            },
+            {
+              "id": "header-missing-strict-transport-security",
+              "category": "Network",
+              "title": "Missing Strict-Transport-Security (HSTS) header",
+              "severity": "high",
+              "evidence": "Header 'strict-transport-security' is missing in HTTP response headers.",
+              "rawTechnicalDetail": "{\"content-type\":\"text/html; charset=ISO-8859-1\",\"date\":\"Wed, 15 Jul 2026 18:37:48 GMT\",\"expires\":\"-1\",\"cache-control\":\"private, max-age=0\",\"content-security-policy-report-only\":\"object-src 'none';base-uri 'self';script-src 'nonce-OMIX9inz91U9RGbeonH_Yg' 'strict-dynamic' 'report-sample' 'unsafe-eval' 'unsafe-inline' https: http:;report-uri https://csp.withgoogle.com/csp/gws/other-hp\",\"accept-ch\":\"Sec-CH-Prefers-Color-Scheme\",\"p3p\":\"CP=\\\"This is not a P3P policy! See g.co/p3phelp for more info.\\\"\",\"server\":\"gws\",\"x-xss-protection\":\"0\",\"x-frame-options\":\"SAMEORIGIN\",\"set-cookie\":[\"__Secure-STRP=ANmZwa35mi318RoUdI86wRpbufDy0E9POEVtyEUdoDRz7d_P26e-RJfc1Aw8m8eUDVKuov0sAXp8PGPb0elxCfCvEZ1EeX-VRvnl; expires=Wed, 15-Jul-2026 18:42:48 GMT; path=/; domain=.google.com; Secure; SameSite=strict\",\"AEC=AdJVEauiErGI9r1NziNpTrHOGMj7QMiRaMmHGrPwkS2aR79NvIzR_kosFQ; expires=Mon, 11-Jan-2027 18:37:48 GMT; path=/; domain=.google.com; Secure; HttpOnly; SameSite=lax\",\"NID=533=fUDEx22J22hDWmIIir6stMcyeBdJdzGBGOhOv2EdK_kaIl2TU1F-Ptp4Q10YZQ4mR5EBKDowBsB-dWyEUn8HD5Sa7JkLh9y7GnqkePHvypknrLvQyIlG1f8LefADmfOuj4KBqHklobPQUn3Fks2Z7lr7mYN5Q8dCiYgN-bGYCq7tUCG78MU52TE1dwLs3c7YagCbzSxS6Jzmoa9b_cA0Zec; expires=Thu, 14-Jan-2027 18:37:48 GMT; path=/; domain=.google.com; HttpOnly\"],\"alt-svc\":\"h3=\\\":443\\\"; ma=2592000,h3-29=\\\":443\\\"; ma=2592000\",\"connection\":\"close\",\"transfer-encoding\":\"chunked\"}"
+            },
+            {
+              "id": "header-missing-referrer-policy",
+              "category": "Network",
+              "title": "Missing Referrer-Policy header",
+              "severity": "low",
+              "evidence": "Header 'referrer-policy' is missing in HTTP response headers.",
+              "rawTechnicalDetail": "{\"content-type\":\"text/html; charset=ISO-8859-1\",\"date\":\"Wed, 15 Jul 2026 18:37:48 GMT\",\"expires\":\"-1\",\"cache-control\":\"private, max-age=0\",\"content-security-policy-report-only\":\"object-src 'none';base-uri 'self';script-src 'nonce-OMIX9inz91U9RGbeonH_Yg' 'strict-dynamic' 'report-sample' 'unsafe-eval' 'unsafe-inline' https: http:;report-uri https://csp.withgoogle.com/csp/gws/other-hp\",\"accept-ch\":\"Sec-CH-Prefers-Color-Scheme\",\"p3p\":\"CP=\\\"This is not a P3P policy! See g.co/p3phelp for more info.\\\"\",\"server\":\"gws\",\"x-xss-protection\":\"0\",\"x-frame-options\":\"SAMEORIGIN\",\"set-cookie\":[\"__Secure-STRP=ANmZwa35mi318RoUdI86wRpbufDy0E9POEVtyEUdoDRz7d_P26e-RJfc1Aw8m8eUDVKuov0sAXp8PGPb0elxCfCvEZ1EeX-VRvnl; expires=Wed, 15-Jul-2026 18:42:48 GMT; path=/; domain=.google.com; Secure; SameSite=strict\",\"AEC=AdJVEauiErGI9r1NziNpTrHOGMj7QMiRaMmHGrPwkS2aR79NvIzR_kosFQ; expires=Mon, 11-Jan-2027 18:37:48 GMT; path=/; domain=.google.com; Secure; HttpOnly; SameSite=lax\",\"NID=533=fUDEx22J22hDWmIIir6stMcyeBdJdzGBGOhOv2EdK_kaIl2TU1F-Ptp4Q10YZQ4mR5EBKDowBsB-dWyEUn8HD5Sa7JkLh9y7GnqkePHvypknrLvQyIlG1f8LefADmfOuj4KBqHklobPQUn3Fks2Z7lr7mYN5Q8dCiYgN-bGYCq7tUCG78MU52TE1dwLs3c7YagCbzSxS6Jzmoa9b_cA0Zec; expires=Thu, 14-Jan-2027 18:37:48 GMT; path=/; domain=.google.com; HttpOnly\"],\"alt-svc\":\"h3=\\\":443\\\"; ma=2592000,h3-29=\\\":443\\\"; ma=2592000\",\"connection\":\"close\",\"transfer-encoding\":\"chunked\"}"
+            },
+            {
+              "id": "cookie-no-httponly-__Secure-STRP",
+              "category": "Application",
+              "title": "Cookie '__Secure-STRP' missing HttpOnly attribute",
+              "severity": "high",
+              "evidence": "__Secure-STRP=ANmZwa35mi318RoUdI86wRpbufDy0E9POEVtyEUdoDRz7d_P26e-RJfc1Aw8m8eUDVKuov0sAXp8PGPb0elxCfCvEZ1EeX-VRvnl; expires=Wed, 15-Jul-2026 18:42:48 GMT; path=/; domain=.google.com; Secure; SameSite=strict",
+              "rawTechnicalDetail": "__Secure-STRP=ANmZwa35mi318RoUdI86wRpbufDy0E9POEVtyEUdoDRz7d_P26e-RJfc1Aw8m8eUDVKuov0sAXp8PGPb0elxCfCvEZ1EeX-VRvnl; expires=Wed, 15-Jul-2026 18:42:48 GMT; path=/; domain=.google.com; Secure; SameSite=strict"
+            },
+            {
+              "id": "cookie-no-secure-NID",
+              "category": "Application",
+              "title": "Cookie 'NID' missing Secure attribute",
+              "severity": "medium",
+              "evidence": "NID=533=fUDEx22J22hDWmIIir6stMcyeBdJdzGBGOhOv2EdK_kaIl2TU1F-Ptp4Q10YZQ4mR5EBKDowBsB-dWyEUn8HD5Sa7JkLh9y7GnqkePHvypknrLvQyIlG1f8LefADmfOuj4KBqHklobPQUn3Fks2Z7lr7mYN5Q8dCiYgN-bGYCq7tUCG78MU52TE1dwLs3c7YagCbzSxS6Jzmoa9b_cA0Zec; expires=Thu, 14-Jan-2027 18:37:48 GMT; path=/; domain=.google.com; HttpOnly",
+              "rawTechnicalDetail": "NID=533=fUDEx22J22hDWmIIir6stMcyeBdJdzGBGOhOv2EdK_kaIl2TU1F-Ptp4Q10YZQ4mR5EBKDowBsB-dWyEUn8HD5Sa7JkLh9y7GnqkePHvypknrLvQyIlG1f8LefADmfOuj4KBqHklobPQUn3Fks2Z7lr7mYN5Q8dCiYgN-bGYCq7tUCG78MU52TE1dwLs3c7YagCbzSxS6Jzmoa9b_cA0Zec; expires=Thu, 14-Jan-2027 18:37:48 GMT; path=/; domain=.google.com; HttpOnly"
+            },
+            {
+              "id": "cookie-no-samesite-NID",
+              "category": "Application",
+              "title": "Cookie 'NID' missing SameSite attribute",
+              "severity": "low",
+              "evidence": "NID=533=fUDEx22J22hDWmIIir6stMcyeBdJdzGBGOhOv2EdK_kaIl2TU1F-Ptp4Q10YZQ4mR5EBKDowBsB-dWyEUn8HD5Sa7JkLh9y7GnqkePHvypknrLvQyIlG1f8LefADmfOuj4KBqHklobPQUn3Fks2Z7lr7mYN5Q8dCiYgN-bGYCq7tUCG78MU52TE1dwLs3c7YagCbzSxS6Jzmoa9b_cA0Zec; expires=Thu, 14-Jan-2027 18:37:48 GMT; path=/; domain=.google.com; HttpOnly",
+              "rawTechnicalDetail": "NID=533=fUDEx22J22hDWmIIir6stMcyeBdJdzGBGOhOv2EdK_kaIl2TU1F-Ptp4Q10YZQ4mR5EBKDowBsB-dWyEUn8HD5Sa7JkLh9y7GnqkePHvypknrLvQyIlG1f8LefADmfOuj4KBqHklobPQUn3Fks2Z7lr7mYN5Q8dCiYgN-bGYCq7tUCG78MU52TE1dwLs3c7YagCbzSxS6Jzmoa9b_cA0Zec; expires=Thu, 14-Jan-2027 18:37:48 GMT; path=/; domain=.google.com; HttpOnly"
+            }
+          ],
+          "platformDetected": "Generic/Other"
+        }
+      ],
+      "createdAt": "2026-07-15T18:37:46.035Z"
+    },
+    "batch_6j0ayq4eqackc9cc9yupz": {
+      "batchId": "batch_6j0ayq4eqackc9cc9yupz",
+      "label": "Verification Demo Batch",
+      "total": 3,
+      "completed": 2,
+      "failed": 1,
+      "status": "completed",
+      "results": [
+        {
+          "url": "https://example.com/",
+          "status": "done",
+          "grade": "D",
+          "findingsCount": 5,
+          "findings": [
+            {
+              "id": "header-missing-content-security-policy",
+              "category": "Network",
+              "title": "Missing Content-Security-Policy header",
+              "severity": "high",
+              "evidence": "Header 'content-security-policy' is missing in HTTP response headers.",
+              "rawTechnicalDetail": "{\"date\":\"Wed, 15 Jul 2026 18:39:04 GMT\",\"content-type\":\"text/html\",\"transfer-encoding\":\"chunked\",\"connection\":\"close\",\"server\":\"cloudflare\",\"last-modified\":\"Wed, 01 Jul 2026 17:50:18 GMT\",\"allow\":\"GET, HEAD\",\"age\":\"7383\",\"cf-cache-status\":\"HIT\",\"cf-ray\":\"a1bae3480c41c766-BOM\"}"
+            },
+            {
+              "id": "header-missing-x-frame-options",
+              "category": "Network",
+              "title": "Missing X-Frame-Options (Clickjacking vulnerability)",
+              "severity": "medium",
+              "evidence": "Header 'x-frame-options' is missing in HTTP response headers.",
+              "rawTechnicalDetail": "{\"date\":\"Wed, 15 Jul 2026 18:39:04 GMT\",\"content-type\":\"text/html\",\"transfer-encoding\":\"chunked\",\"connection\":\"close\",\"server\":\"cloudflare\",\"last-modified\":\"Wed, 01 Jul 2026 17:50:18 GMT\",\"allow\":\"GET, HEAD\",\"age\":\"7383\",\"cf-cache-status\":\"HIT\",\"cf-ray\":\"a1bae3480c41c766-BOM\"}"
+            },
+            {
+              "id": "header-missing-x-content-type-options",
+              "category": "Network",
+              "title": "Missing X-Content-Type-Options header",
+              "severity": "low",
+              "evidence": "Header 'x-content-type-options' is missing in HTTP response headers.",
+              "rawTechnicalDetail": "{\"date\":\"Wed, 15 Jul 2026 18:39:04 GMT\",\"content-type\":\"text/html\",\"transfer-encoding\":\"chunked\",\"connection\":\"close\",\"server\":\"cloudflare\",\"last-modified\":\"Wed, 01 Jul 2026 17:50:18 GMT\",\"allow\":\"GET, HEAD\",\"age\":\"7383\",\"cf-cache-status\":\"HIT\",\"cf-ray\":\"a1bae3480c41c766-BOM\"}"
+            },
+            {
+              "id": "header-missing-strict-transport-security",
+              "category": "Network",
+              "title": "Missing Strict-Transport-Security (HSTS) header",
+              "severity": "high",
+              "evidence": "Header 'strict-transport-security' is missing in HTTP response headers.",
+              "rawTechnicalDetail": "{\"date\":\"Wed, 15 Jul 2026 18:39:04 GMT\",\"content-type\":\"text/html\",\"transfer-encoding\":\"chunked\",\"connection\":\"close\",\"server\":\"cloudflare\",\"last-modified\":\"Wed, 01 Jul 2026 17:50:18 GMT\",\"allow\":\"GET, HEAD\",\"age\":\"7383\",\"cf-cache-status\":\"HIT\",\"cf-ray\":\"a1bae3480c41c766-BOM\"}"
+            },
+            {
+              "id": "header-missing-referrer-policy",
+              "category": "Network",
+              "title": "Missing Referrer-Policy header",
+              "severity": "low",
+              "evidence": "Header 'referrer-policy' is missing in HTTP response headers.",
+              "rawTechnicalDetail": "{\"date\":\"Wed, 15 Jul 2026 18:39:04 GMT\",\"content-type\":\"text/html\",\"transfer-encoding\":\"chunked\",\"connection\":\"close\",\"server\":\"cloudflare\",\"last-modified\":\"Wed, 01 Jul 2026 17:50:18 GMT\",\"allow\":\"GET, HEAD\",\"age\":\"7383\",\"cf-cache-status\":\"HIT\",\"cf-ray\":\"a1bae3480c41c766-BOM\"}"
+            }
+          ],
+          "platformDetected": "Cloudflare Pages/Workers"
+        },
+        {
+          "url": "http://localhost:3000/api/test-fixture/vulnerable",
+          "status": "failed",
+          "grade": "F",
+          "findingsCount": 0,
+          "findings": [],
+          "error": "Failed to fetch main page: Outbound connection error: connect ECONNREFUSED 127.0.0.1:80"
+        },
+        {
+          "url": "https://google.com/",
+          "status": "done",
+          "grade": "D",
+          "findingsCount": 7,
+          "findings": [
+            {
+              "id": "header-missing-content-security-policy",
+              "category": "Network",
+              "title": "Missing Content-Security-Policy header",
+              "severity": "high",
+              "evidence": "Header 'content-security-policy' is missing in HTTP response headers.",
+              "rawTechnicalDetail": "{\"content-type\":\"text/html; charset=ISO-8859-1\",\"date\":\"Wed, 15 Jul 2026 18:39:05 GMT\",\"expires\":\"-1\",\"cache-control\":\"private, max-age=0\",\"content-security-policy-report-only\":\"object-src 'none';base-uri 'self';script-src 'nonce-ml9YoaY__5V4F41xPhaMYw' 'strict-dynamic' 'report-sample' 'unsafe-eval' 'unsafe-inline' https: http:;report-uri https://csp.withgoogle.com/csp/gws/other-hp\",\"accept-ch\":\"Sec-CH-Prefers-Color-Scheme\",\"p3p\":\"CP=\\\"This is not a P3P policy! See g.co/p3phelp for more info.\\\"\",\"server\":\"gws\",\"x-xss-protection\":\"0\",\"x-frame-options\":\"SAMEORIGIN\",\"set-cookie\":[\"__Secure-STRP=ANmZwa1RTR4wU1nmzFNpPB5_yZAZyML5p4L6Az1TspSbZBy2Wr4U62Iy3wNuCnF4hd8PERcMCjpaK56T5FOqgmQU3hZ5W8kKFA; expires=Wed, 15-Jul-2026 18:44:05 GMT; path=/; domain=.google.com; Secure; SameSite=strict\",\"AEC=AdJVEasvlZnqSEykujIlyDZPYywNMjBoxF1xotHNhMOYEdkgex9_E5ph37M; expires=Mon, 11-Jan-2027 18:39:05 GMT; path=/; domain=.google.com; Secure; HttpOnly; SameSite=lax\",\"NID=533=D47jYQidp3wWNL5o-fWpyUYfwAeP22TwpdhA3EIASpQEIYD8l2cKf8ZyBh5yIGxjpwzqKJP-GGdLec1hGrJjtPp-47lCBAVF-Dwl5YXvOksCfmjkeczgdIImpbMVpn_b-c9gMzqHB4GJvidh7p7lsh5nsC-oeHh9WOOr0ZUmv1PEP64eROnzVFMN3ORRZJwNRsiy2vZ3CGlDPgNi_3kM5uc; expires=Thu, 14-Jan-2027 18:39:05 GMT; path=/; domain=.google.com; HttpOnly\"],\"alt-svc\":\"h3=\\\":443\\\"; ma=2592000,h3-29=\\\":443\\\"; ma=2592000\",\"connection\":\"close\",\"transfer-encoding\":\"chunked\"}"
+            },
+            {
+              "id": "header-missing-x-content-type-options",
+              "category": "Network",
+              "title": "Missing X-Content-Type-Options header",
+              "severity": "low",
+              "evidence": "Header 'x-content-type-options' is missing in HTTP response headers.",
+              "rawTechnicalDetail": "{\"content-type\":\"text/html; charset=ISO-8859-1\",\"date\":\"Wed, 15 Jul 2026 18:39:05 GMT\",\"expires\":\"-1\",\"cache-control\":\"private, max-age=0\",\"content-security-policy-report-only\":\"object-src 'none';base-uri 'self';script-src 'nonce-ml9YoaY__5V4F41xPhaMYw' 'strict-dynamic' 'report-sample' 'unsafe-eval' 'unsafe-inline' https: http:;report-uri https://csp.withgoogle.com/csp/gws/other-hp\",\"accept-ch\":\"Sec-CH-Prefers-Color-Scheme\",\"p3p\":\"CP=\\\"This is not a P3P policy! See g.co/p3phelp for more info.\\\"\",\"server\":\"gws\",\"x-xss-protection\":\"0\",\"x-frame-options\":\"SAMEORIGIN\",\"set-cookie\":[\"__Secure-STRP=ANmZwa1RTR4wU1nmzFNpPB5_yZAZyML5p4L6Az1TspSbZBy2Wr4U62Iy3wNuCnF4hd8PERcMCjpaK56T5FOqgmQU3hZ5W8kKFA; expires=Wed, 15-Jul-2026 18:44:05 GMT; path=/; domain=.google.com; Secure; SameSite=strict\",\"AEC=AdJVEasvlZnqSEykujIlyDZPYywNMjBoxF1xotHNhMOYEdkgex9_E5ph37M; expires=Mon, 11-Jan-2027 18:39:05 GMT; path=/; domain=.google.com; Secure; HttpOnly; SameSite=lax\",\"NID=533=D47jYQidp3wWNL5o-fWpyUYfwAeP22TwpdhA3EIASpQEIYD8l2cKf8ZyBh5yIGxjpwzqKJP-GGdLec1hGrJjtPp-47lCBAVF-Dwl5YXvOksCfmjkeczgdIImpbMVpn_b-c9gMzqHB4GJvidh7p7lsh5nsC-oeHh9WOOr0ZUmv1PEP64eROnzVFMN3ORRZJwNRsiy2vZ3CGlDPgNi_3kM5uc; expires=Thu, 14-Jan-2027 18:39:05 GMT; path=/; domain=.google.com; HttpOnly\"],\"alt-svc\":\"h3=\\\":443\\\"; ma=2592000,h3-29=\\\":443\\\"; ma=2592000\",\"connection\":\"close\",\"transfer-encoding\":\"chunked\"}"
+            },
+            {
+              "id": "header-missing-strict-transport-security",
+              "category": "Network",
+              "title": "Missing Strict-Transport-Security (HSTS) header",
+              "severity": "high",
+              "evidence": "Header 'strict-transport-security' is missing in HTTP response headers.",
+              "rawTechnicalDetail": "{\"content-type\":\"text/html; charset=ISO-8859-1\",\"date\":\"Wed, 15 Jul 2026 18:39:05 GMT\",\"expires\":\"-1\",\"cache-control\":\"private, max-age=0\",\"content-security-policy-report-only\":\"object-src 'none';base-uri 'self';script-src 'nonce-ml9YoaY__5V4F41xPhaMYw' 'strict-dynamic' 'report-sample' 'unsafe-eval' 'unsafe-inline' https: http:;report-uri https://csp.withgoogle.com/csp/gws/other-hp\",\"accept-ch\":\"Sec-CH-Prefers-Color-Scheme\",\"p3p\":\"CP=\\\"This is not a P3P policy! See g.co/p3phelp for more info.\\\"\",\"server\":\"gws\",\"x-xss-protection\":\"0\",\"x-frame-options\":\"SAMEORIGIN\",\"set-cookie\":[\"__Secure-STRP=ANmZwa1RTR4wU1nmzFNpPB5_yZAZyML5p4L6Az1TspSbZBy2Wr4U62Iy3wNuCnF4hd8PERcMCjpaK56T5FOqgmQU3hZ5W8kKFA; expires=Wed, 15-Jul-2026 18:44:05 GMT; path=/; domain=.google.com; Secure; SameSite=strict\",\"AEC=AdJVEasvlZnqSEykujIlyDZPYywNMjBoxF1xotHNhMOYEdkgex9_E5ph37M; expires=Mon, 11-Jan-2027 18:39:05 GMT; path=/; domain=.google.com; Secure; HttpOnly; SameSite=lax\",\"NID=533=D47jYQidp3wWNL5o-fWpyUYfwAeP22TwpdhA3EIASpQEIYD8l2cKf8ZyBh5yIGxjpwzqKJP-GGdLec1hGrJjtPp-47lCBAVF-Dwl5YXvOksCfmjkeczgdIImpbMVpn_b-c9gMzqHB4GJvidh7p7lsh5nsC-oeHh9WOOr0ZUmv1PEP64eROnzVFMN3ORRZJwNRsiy2vZ3CGlDPgNi_3kM5uc; expires=Thu, 14-Jan-2027 18:39:05 GMT; path=/; domain=.google.com; HttpOnly\"],\"alt-svc\":\"h3=\\\":443\\\"; ma=2592000,h3-29=\\\":443\\\"; ma=2592000\",\"connection\":\"close\",\"transfer-encoding\":\"chunked\"}"
+            },
+            {
+              "id": "header-missing-referrer-policy",
+              "category": "Network",
+              "title": "Missing Referrer-Policy header",
+              "severity": "low",
+              "evidence": "Header 'referrer-policy' is missing in HTTP response headers.",
+              "rawTechnicalDetail": "{\"content-type\":\"text/html; charset=ISO-8859-1\",\"date\":\"Wed, 15 Jul 2026 18:39:05 GMT\",\"expires\":\"-1\",\"cache-control\":\"private, max-age=0\",\"content-security-policy-report-only\":\"object-src 'none';base-uri 'self';script-src 'nonce-ml9YoaY__5V4F41xPhaMYw' 'strict-dynamic' 'report-sample' 'unsafe-eval' 'unsafe-inline' https: http:;report-uri https://csp.withgoogle.com/csp/gws/other-hp\",\"accept-ch\":\"Sec-CH-Prefers-Color-Scheme\",\"p3p\":\"CP=\\\"This is not a P3P policy! See g.co/p3phelp for more info.\\\"\",\"server\":\"gws\",\"x-xss-protection\":\"0\",\"x-frame-options\":\"SAMEORIGIN\",\"set-cookie\":[\"__Secure-STRP=ANmZwa1RTR4wU1nmzFNpPB5_yZAZyML5p4L6Az1TspSbZBy2Wr4U62Iy3wNuCnF4hd8PERcMCjpaK56T5FOqgmQU3hZ5W8kKFA; expires=Wed, 15-Jul-2026 18:44:05 GMT; path=/; domain=.google.com; Secure; SameSite=strict\",\"AEC=AdJVEasvlZnqSEykujIlyDZPYywNMjBoxF1xotHNhMOYEdkgex9_E5ph37M; expires=Mon, 11-Jan-2027 18:39:05 GMT; path=/; domain=.google.com; Secure; HttpOnly; SameSite=lax\",\"NID=533=D47jYQidp3wWNL5o-fWpyUYfwAeP22TwpdhA3EIASpQEIYD8l2cKf8ZyBh5yIGxjpwzqKJP-GGdLec1hGrJjtPp-47lCBAVF-Dwl5YXvOksCfmjkeczgdIImpbMVpn_b-c9gMzqHB4GJvidh7p7lsh5nsC-oeHh9WOOr0ZUmv1PEP64eROnzVFMN3ORRZJwNRsiy2vZ3CGlDPgNi_3kM5uc; expires=Thu, 14-Jan-2027 18:39:05 GMT; path=/; domain=.google.com; HttpOnly\"],\"alt-svc\":\"h3=\\\":443\\\"; ma=2592000,h3-29=\\\":443\\\"; ma=2592000\",\"connection\":\"close\",\"transfer-encoding\":\"chunked\"}"
+            },
+            {
+              "id": "cookie-no-httponly-__Secure-STRP",
+              "category": "Application",
+              "title": "Cookie '__Secure-STRP' missing HttpOnly attribute",
+              "severity": "high",
+              "evidence": "__Secure-STRP=ANmZwa1RTR4wU1nmzFNpPB5_yZAZyML5p4L6Az1TspSbZBy2Wr4U62Iy3wNuCnF4hd8PERcMCjpaK56T5FOqgmQU3hZ5W8kKFA; expires=Wed, 15-Jul-2026 18:44:05 GMT; path=/; domain=.google.com; Secure; SameSite=strict",
+              "rawTechnicalDetail": "__Secure-STRP=ANmZwa1RTR4wU1nmzFNpPB5_yZAZyML5p4L6Az1TspSbZBy2Wr4U62Iy3wNuCnF4hd8PERcMCjpaK56T5FOqgmQU3hZ5W8kKFA; expires=Wed, 15-Jul-2026 18:44:05 GMT; path=/; domain=.google.com; Secure; SameSite=strict"
+            },
+            {
+              "id": "cookie-no-secure-NID",
+              "category": "Application",
+              "title": "Cookie 'NID' missing Secure attribute",
+              "severity": "medium",
+              "evidence": "NID=533=D47jYQidp3wWNL5o-fWpyUYfwAeP22TwpdhA3EIASpQEIYD8l2cKf8ZyBh5yIGxjpwzqKJP-GGdLec1hGrJjtPp-47lCBAVF-Dwl5YXvOksCfmjkeczgdIImpbMVpn_b-c9gMzqHB4GJvidh7p7lsh5nsC-oeHh9WOOr0ZUmv1PEP64eROnzVFMN3ORRZJwNRsiy2vZ3CGlDPgNi_3kM5uc; expires=Thu, 14-Jan-2027 18:39:05 GMT; path=/; domain=.google.com; HttpOnly",
+              "rawTechnicalDetail": "NID=533=D47jYQidp3wWNL5o-fWpyUYfwAeP22TwpdhA3EIASpQEIYD8l2cKf8ZyBh5yIGxjpwzqKJP-GGdLec1hGrJjtPp-47lCBAVF-Dwl5YXvOksCfmjkeczgdIImpbMVpn_b-c9gMzqHB4GJvidh7p7lsh5nsC-oeHh9WOOr0ZUmv1PEP64eROnzVFMN3ORRZJwNRsiy2vZ3CGlDPgNi_3kM5uc; expires=Thu, 14-Jan-2027 18:39:05 GMT; path=/; domain=.google.com; HttpOnly"
+            },
+            {
+              "id": "cookie-no-samesite-NID",
+              "category": "Application",
+              "title": "Cookie 'NID' missing SameSite attribute",
+              "severity": "low",
+              "evidence": "NID=533=D47jYQidp3wWNL5o-fWpyUYfwAeP22TwpdhA3EIASpQEIYD8l2cKf8ZyBh5yIGxjpwzqKJP-GGdLec1hGrJjtPp-47lCBAVF-Dwl5YXvOksCfmjkeczgdIImpbMVpn_b-c9gMzqHB4GJvidh7p7lsh5nsC-oeHh9WOOr0ZUmv1PEP64eROnzVFMN3ORRZJwNRsiy2vZ3CGlDPgNi_3kM5uc; expires=Thu, 14-Jan-2027 18:39:05 GMT; path=/; domain=.google.com; HttpOnly",
+              "rawTechnicalDetail": "NID=533=D47jYQidp3wWNL5o-fWpyUYfwAeP22TwpdhA3EIASpQEIYD8l2cKf8ZyBh5yIGxjpwzqKJP-GGdLec1hGrJjtPp-47lCBAVF-Dwl5YXvOksCfmjkeczgdIImpbMVpn_b-c9gMzqHB4GJvidh7p7lsh5nsC-oeHh9WOOr0ZUmv1PEP64eROnzVFMN3ORRZJwNRsiy2vZ3CGlDPgNi_3kM5uc; expires=Thu, 14-Jan-2027 18:39:05 GMT; path=/; domain=.google.com; HttpOnly"
+            }
+          ],
+          "platformDetected": "Generic/Other"
+        }
+      ],
+      "createdAt": "2026-07-15T18:39:02.945Z"
+    }
+  }
+}
