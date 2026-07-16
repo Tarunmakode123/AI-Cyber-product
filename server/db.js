@@ -125,6 +125,21 @@ async function cleanupOldRecords() {
   });
 }
 
+async function getAiExplanation(key) {
+  const db = await readDb();
+  return db.aiCache ? db.aiCache[key] : null;
+}
+
+async function saveAiExplanation(key, value) {
+  await runTransaction(async (db) => {
+    if (!db.aiCache) {
+      db.aiCache = {};
+    }
+    db.aiCache[key] = value;
+    return db;
+  });
+}
+
 module.exports = {
   initDb,
   saveScan,
@@ -134,4 +149,6 @@ module.exports = {
   getBatch,
   updateBatch,
   cleanupOldRecords,
+  getAiExplanation,
+  saveAiExplanation,
 };

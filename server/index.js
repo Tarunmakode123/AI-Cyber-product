@@ -5,6 +5,14 @@ const helmet = require("helmet");
 const { rateLimit } = require("express-rate-limit");
 const { runScan, resolveAndValidateHost } = require("./scanner");
 const db = require("./db");
+const { getExplanation } = require("./ai_explainer");
+
+async function enhanceFindingsWithAiExplanations(findings) {
+  const promises = findings.map(async (finding) => {
+    finding.aiExplanation = await getExplanation(finding);
+  });
+  await Promise.all(promises);
+}
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -79,6 +87,7 @@ async function runBatchQueue(batchId, urls) {
 
       try {
         const scanResult = await runScan(url);
+        await enhanceFindingsWithAiExplanations(scanResult.findings);
         // Save scan to database
         await db.saveScan(url, scanResult);
 
@@ -170,6 +179,7 @@ app.post("/api/scan", async (req, res) => {
   try {
     const history = await db.getScanHistory(targetUrlString);
     const results = await runScan(targetUrlString);
+    await enhanceFindingsWithAiExplanations(results.findings);
     
     let diff = null;
     if (history.length > 0) {

@@ -1774,7 +1774,9 @@ ${fixText}`;
   };
 
   const explanation = getExplanation(finding);
-  const fixPrompt = getFixPrompt(finding);
+  const fixPrompt = (finding.aiExplanation && finding.aiExplanation.fixPrompt) || getFixPrompt(finding);
+  const hasAi = !!finding.aiExplanation;
+  const displayTitle = hasAi ? finding.aiExplanation.plainSummary : finding.title;
 
   return (
     <div className={`bg-[#1f2833]/10 border ${expanded ? "border-[#1f2833] glow-teal" : "border-[#1f2833]/50"} rounded-lg transition-all`}>
@@ -1782,13 +1784,22 @@ ${fixText}`;
         onClick={() => setExpanded(!expanded)}
         className="flex items-center justify-between p-4 cursor-pointer select-none"
       >
-        <div className="flex items-center gap-3">
-          <span className={`text-[10px] font-mono font-bold uppercase tracking-wider px-2 py-0.5 rounded ${currentStyle.bg} ${currentStyle.text} border ${currentStyle.border}`}>
+        <div className="flex items-start gap-3 flex-grow min-w-0">
+          <span className={`text-[10px] font-mono font-bold uppercase tracking-wider px-2 py-0.5 rounded shrink-0 ${currentStyle.bg} ${currentStyle.text} border ${currentStyle.border} mt-0.5`}>
             {currentStyle.label}
           </span>
-          <h3 className="text-sm font-semibold text-white hover:text-cyber-light transition-colors">{finding.title}</h3>
+          <div className="flex-grow min-w-0">
+            <h3 className="text-sm font-semibold text-white hover:text-cyber-light transition-colors leading-snug break-words">
+              {displayTitle}
+            </h3>
+            {hasAi && (
+              <p className="text-[10px] text-cyber-gray/40 font-mono mt-0.5 tracking-normal uppercase">
+                [TECHNICAL ISSUE: {finding.title}]
+              </p>
+            )}
+          </div>
         </div>
-        <span className="text-cyber-gray/30 text-xs font-mono">
+        <span className="text-cyber-gray/30 text-xs font-mono ml-4 shrink-0">
           {expanded ? "[ HIDE ]" : "[ SHOW ]"}
         </span>
       </div>
@@ -1797,8 +1808,17 @@ ${fixText}`;
         <div className="border-t border-[#1f2833]/40 p-4 space-y-4 text-xs">
           
           <div>
-            <h4 className="font-mono text-cyber-light uppercase tracking-wider text-[10px] mb-1.5">// What this means</h4>
-            <p className="text-cyber-gray leading-relaxed">{explanation}</p>
+            <h4 className="font-mono text-cyber-light uppercase tracking-wider text-[10px] mb-1.5">// How this could be exploited</h4>
+            <p className="text-cyber-gray leading-relaxed">
+              {hasAi ? finding.aiExplanation.attackScenario : explanation}
+            </p>
+          </div>
+
+          <div>
+            <h4 className="font-mono text-cyber-light uppercase tracking-wider text-[10px] mb-1.5">// What you could lose</h4>
+            <p className="text-cyber-gray leading-relaxed">
+              {hasAi ? finding.aiExplanation.consequence : "Exposition of user credentials, database layout, or server environment secrets to malicious injection."}
+            </p>
           </div>
 
           <div>
