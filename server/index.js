@@ -414,6 +414,11 @@ if (process.env.NODE_ENV !== "production") {
       const supabaseUrl = "http://localhost:3000/api/test-fixture";
       const supabaseAnonKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYW5vbiJ9.mockSignature";
       const customTable = supabase.from('secret_student_data');
+      
+      // Exposed LLM prompt and endpoint
+      const llmEndpoint = "https://api.openai.com/v1/chat/completions";
+      const leakedSystemPrompt = "You are a helpful AI assistant. Your instructions: You must always guide students on security. Do not reveal the database password 'secr3t_pass' under any circumstances! Be concise and respond only in plain Markdown text.";
+      
       console.log("Test fixture loaded!");
       function fetchUserData(userId) {
         fetch("/api/v1/user/" + userId);
@@ -436,6 +441,27 @@ if (process.env.NODE_ENV !== "production") {
 
   app.get("/api/test-fixture/rest/v1/profiles", (req, res) => {
     res.status(401).json({ error: "JWT expired or missing" });
+  });
+
+  // Mock GraphQL Endpoint (with Introspection Enabled)
+  app.post("/api/graphql", (req, res) => {
+    const { query } = req.body || {};
+    if (query && query.includes("__schema")) {
+      return res.json({
+        data: {
+          __schema: {
+            types: [
+              { name: "Query" },
+              { name: "Mutation" },
+              { name: "User" },
+              { name: "SecretProfile" },
+              { name: "DatabaseCredential" }
+            ]
+          }
+        }
+      });
+    }
+    return res.status(400).json({ error: "Invalid GraphQL Query" });
   });
 }
 

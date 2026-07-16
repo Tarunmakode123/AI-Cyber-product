@@ -676,6 +676,103 @@ async function runScan(targetUrl) {
     });
   }
 
+  // 11. AI/LLM Exposure Check: LLM System Prompt Leakage
+  const llmHosts = ["api.openai.com", "generativelanguage.googleapis.com", "api.anthropic.com"];
+  const scaffolding = [
+    "you are a", "you are an ai", "your role is", "system:", 
+    "you must always", "respond only in", "do not reveal", "instructions:"
+  ];
+
+  // Regex to match string literals (single quotes, double quotes, backticks)
+  const stringRegex = /(?:"([^"\\]*(?:\\.[^"\\]*)*)"|'([^'\\]*(?:\\.[^'\\]*)*)'|`([^`\\]*(?:\\.[^`\\]*)*)`)/g;
+  let strMatch;
+  stringRegex.lastIndex = 0;
+
+  while ((strMatch = stringRegex.exec(contentToScan)) !== null) {
+    const matchedString = strMatch[1] || strMatch[2] || strMatch[3] || "";
+    const matchLength = matchedString.length;
+
+    if (matchLength > 150) {
+      const lowerStr = matchedString.toLowerCase();
+      const hasScaffold = scaffolding.some(phrase => lowerStr.includes(phrase));
+
+      if (hasScaffold) {
+        const matchStart = strMatch.index;
+        const matchEnd = matchStart + strMatch[0].length;
+
+        // Search window: check 1000 characters before and after the matched string
+        const windowStart = Math.max(0, matchStart - 1000);
+        const windowEnd = Math.min(contentToScan.length, matchEnd + 1000);
+        const searchWindow = contentToScan.substring(windowStart, windowEnd);
+
+        const hasLlmHostNearby = llmHosts.some(host => searchWindow.includes(host));
+
+        if (hasLlmHostNearby) {
+          findings.push({
+            id: "exposed-llm-system-prompt",
+            category: "AI_LLM",
+            title: "LLM System Prompt Exposed in Client Bundle",
+            severity: "high",
+            evidence: `Exposed prompt: "${matchedString.substring(0, 100)}..."`,
+            rawTechnicalDetail: `Exposed system prompt literal found within 1000 characters of an LLM API hostname (${llmHosts.find(host => searchWindow.includes(host))}).`,
+          });
+          break; // Flag once
+        }
+      }
+    }
+  }
+
+  // 12. AI/LLM Exposure Check: GraphQL Introspection
+  const graphqlCandidates = new Set();
+  const targetParsed = new URL(targetUrl);
+  const targetOrigin = targetParsed.origin;
+  
+  graphqlCandidates.add(`${targetOrigin}/graphql`);
+  graphqlCandidates.add(`${targetOrigin}/api/graphql`);
+  graphqlCandidates.add(`${targetOrigin}/v1/graphql`);
+
+  // Parse bundle for same-origin GraphQL endpoints
+  const graphqlUrlRegex = /https?:\/\/[^\s"'`]+?(?:graphql|api\/graphql|v1\/graphql)/gi;
+  let gqlUrlMatch;
+  graphqlUrlRegex.lastIndex = 0;
+  while ((gqlUrlMatch = graphqlUrlRegex.exec(contentToScan)) !== null) {
+    const urlStr = gqlUrlMatch[0];
+    try {
+      const parsedGqlUrl = new URL(urlStr);
+      if (parsedGqlUrl.origin === targetOrigin) {
+        graphqlCandidates.add(parsedGqlUrl.origin + parsedGqlUrl.pathname + parsedGqlUrl.search);
+      }
+    } catch (e) {}
+  }
+
+  // Cap candidates to max 3
+  const finalGqlCandidates = [...graphqlCandidates].slice(0, 3);
+
+  for (const gqlUrl of finalGqlCandidates) {
+    try {
+      const response = await fetchWithSsrfCheck(
+        gqlUrl,
+        "POST",
+        { "Content-Type": "application/json" },
+        { query: "{ __schema { types { name } } }" }
+      );
+
+      if (response.status === 200 && response.data && response.data.data && response.data.data.__schema && Array.isArray(response.data.data.__schema.types)) {
+        findings.push({
+          id: "graphql-introspection-enabled",
+          category: "AI_LLM",
+          title: "GraphQL Introspection Enabled",
+          severity: "high",
+          evidence: `Introspection query succeeded at: ${gqlUrl}`,
+          rawTechnicalDetail: `GraphQL endpoint allows schema introspection. Exposed ${response.data.data.__schema.types.length} schema types.`,
+        });
+        break; // Flag once
+      }
+    } catch (err) {
+      // Ignore errors
+    }
+  }
+
   const scanDurationMs = Date.now() - startTime;
 
   return {

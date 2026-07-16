@@ -25,7 +25,8 @@ import {
   ArrowUpDown,
   BookOpen,
   Server,
-  Key
+  Key,
+  Brain
 } from "lucide-react";
 import confetti from "canvas-confetti";
 import Papa from "papaparse";
@@ -423,6 +424,7 @@ export default function App() {
       { name: "Secrets", key: "Secrets" },
       { name: "Database", key: "Database" },
       { name: "Network", key: "Network" },
+      { name: "AI/LLM Exposure", key: "AI_LLM" },
       { name: "App Layer", key: "Application" },
       { name: "Dependencies", key: "Dependencies" }
     ];
@@ -865,7 +867,7 @@ export default function App() {
                     <ul className="space-y-2 text-xs text-cyber-gray/80 ml-7 list-disc">
                       <li><strong>Cookie Security Flags:</strong> Validates `Secure`, `HttpOnly`, and `SameSite` flags on all set-cookies.</li>
                       <li><strong>Authentication Caching:</strong> Verifies that `/login` or `/signup` pages send `Cache-Control: no-store` to prevent credentials from being stored in shared browser caches.</li>
-                      <li><strong>Legacy Libraries & IDOR:</strong> Detects outdated libraries (e.g. jQuery < 3.5.0) and checks routes for predictable numeric ids (potential IDOR leaks).</li>
+                      <li><strong>Legacy Libraries & IDOR:</strong> Detects outdated libraries (e.g. jQuery &lt; 3.5.0) and checks routes for predictable numeric ids (potential IDOR leaks).</li>
                     </ul>
                   </div>
                 </div>
@@ -1712,7 +1714,9 @@ function FindingCard({ finding, onCopyPrompt, copiedId }) {
     "cors-wildcard-creds": "Your server API permits any origin (*) to read responses and accepts credentials. Malicious sites can make queries and read users' private session profiles.",
     "vulnerable-jquery": "Your app is loading an older version of jQuery that has well-documented security flaws. Hackers can exploit these flaws to run bad code in your users' browsers.",
     "idor-url-smell": "Your API uses guessable IDs (like /user/1). A user could change the number to 2 and read another user's profile if your backend lacks authorization controls.",
-    "exposed-source-map": "Your application maps are exposed. Anyone can look at your original client-side source code, files layout, comments, and routes exactly as you wrote them on your computer."
+    "exposed-source-map": "Your application maps are exposed. Anyone can look at your original client-side source code, files layout, comments, and routes exactly as you wrote them on your computer.",
+    "exposed-llm-system-prompt": "Your proprietary LLM system prompt is exposed in your compiled client code. Competitors can copy your prompt engineering, and attackers can read it to find prompt-injection vulnerabilities to manipulate your AI's behavior.",
+    "graphql-introspection-enabled": "Your GraphQL endpoint has schema introspection enabled. Anyone can query your schema structure and retrieve the name of every database table, field, type, and relation, making it trivial to map your backend and craft malicious queries."
   };
 
   const getExplanation = (finding) => {
@@ -1745,6 +1749,10 @@ function FindingCard({ finding, onCopyPrompt, copiedId }) {
       fixText = `Fix this Supabase RLS issue in my project. The '${tableName}' table has RLS disabled or missing policies. Please write the SQL query or show me how to turn on Row-Level Security on the '${tableName}' table in the Supabase Dashboard, and configure standard SELECT policies so users can only read their own rows.`;
     } else if (finding.id === "exposed-supabase-service-role") {
       fixText = `I accidentally leaked my Supabase 'service_role' key in the client-side code of my React frontend. Please check my Supabase client initialization. I need to replace it with the public 'anon' key instead, and make sure the service_role key is deleted from my repository and client files immediately.`;
+    } else if (finding.id === "exposed-llm-system-prompt") {
+      fixText = `My LLM system prompt is hardcoded in my compiled frontend JavaScript bundle. Anyone can read it from the sources tab. Please help me refactor my app to store the system prompt securely on a backend server, and call the LLM completions endpoint via my own backend API rather than calling the LLM provider directly from the client.`;
+    } else if (finding.id === "graphql-introspection-enabled") {
+      fixText = `GraphQL Introspection is enabled on my backend endpoint. Anyone can query my GraphQL schema and extract all tables, fields, and queries. Please show me how to disable introspection in production in my GraphQL server settings.`;
     } else if (finding.id.startsWith("exposed-file-")) {
       const fileName = finding.id.replace("exposed-file-", "");
       fixText = `My configuration file '.${fileName}' is exposed to the public. Please configure my hosting server or root build to exclude '.${fileName}' files from the published folder, and check my .gitignore to ensure '.${fileName}' is not committed to git.`;

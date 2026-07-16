@@ -4,6 +4,57 @@
       {
         "result": {
           "url": "https://example.com/",
+          "scannedAt": "2026-07-16T06:55:25.672Z",
+          "findings": [
+            {
+              "id": "header-missing-content-security-policy",
+              "category": "Network",
+              "title": "Missing Content-Security-Policy header",
+              "severity": "high",
+              "evidence": "Header 'content-security-policy' is missing in HTTP response headers.",
+              "rawTechnicalDetail": "{\"date\":\"Thu, 16 Jul 2026 06:55:21 GMT\",\"content-type\":\"text/html\",\"transfer-encoding\":\"chunked\",\"connection\":\"close\",\"server\":\"cloudflare\",\"last-modified\":\"Wed, 15 Jul 2026 18:48:48 GMT\",\"allow\":\"GET, HEAD\",\"age\":\"8356\",\"cf-cache-status\":\"HIT\",\"cf-ray\":\"a1bf19d0a9c88a14-BOM\"}"
+            },
+            {
+              "id": "header-missing-x-frame-options",
+              "category": "Network",
+              "title": "Missing X-Frame-Options (Clickjacking vulnerability)",
+              "severity": "medium",
+              "evidence": "Header 'x-frame-options' is missing in HTTP response headers.",
+              "rawTechnicalDetail": "{\"date\":\"Thu, 16 Jul 2026 06:55:21 GMT\",\"content-type\":\"text/html\",\"transfer-encoding\":\"chunked\",\"connection\":\"close\",\"server\":\"cloudflare\",\"last-modified\":\"Wed, 15 Jul 2026 18:48:48 GMT\",\"allow\":\"GET, HEAD\",\"age\":\"8356\",\"cf-cache-status\":\"HIT\",\"cf-ray\":\"a1bf19d0a9c88a14-BOM\"}"
+            },
+            {
+              "id": "header-missing-x-content-type-options",
+              "category": "Network",
+              "title": "Missing X-Content-Type-Options header",
+              "severity": "low",
+              "evidence": "Header 'x-content-type-options' is missing in HTTP response headers.",
+              "rawTechnicalDetail": "{\"date\":\"Thu, 16 Jul 2026 06:55:21 GMT\",\"content-type\":\"text/html\",\"transfer-encoding\":\"chunked\",\"connection\":\"close\",\"server\":\"cloudflare\",\"last-modified\":\"Wed, 15 Jul 2026 18:48:48 GMT\",\"allow\":\"GET, HEAD\",\"age\":\"8356\",\"cf-cache-status\":\"HIT\",\"cf-ray\":\"a1bf19d0a9c88a14-BOM\"}"
+            },
+            {
+              "id": "header-missing-strict-transport-security",
+              "category": "Network",
+              "title": "Missing Strict-Transport-Security (HSTS) header",
+              "severity": "high",
+              "evidence": "Header 'strict-transport-security' is missing in HTTP response headers.",
+              "rawTechnicalDetail": "{\"date\":\"Thu, 16 Jul 2026 06:55:21 GMT\",\"content-type\":\"text/html\",\"transfer-encoding\":\"chunked\",\"connection\":\"close\",\"server\":\"cloudflare\",\"last-modified\":\"Wed, 15 Jul 2026 18:48:48 GMT\",\"allow\":\"GET, HEAD\",\"age\":\"8356\",\"cf-cache-status\":\"HIT\",\"cf-ray\":\"a1bf19d0a9c88a14-BOM\"}"
+            },
+            {
+              "id": "header-missing-referrer-policy",
+              "category": "Network",
+              "title": "Missing Referrer-Policy header",
+              "severity": "low",
+              "evidence": "Header 'referrer-policy' is missing in HTTP response headers.",
+              "rawTechnicalDetail": "{\"date\":\"Thu, 16 Jul 2026 06:55:21 GMT\",\"content-type\":\"text/html\",\"transfer-encoding\":\"chunked\",\"connection\":\"close\",\"server\":\"cloudflare\",\"last-modified\":\"Wed, 15 Jul 2026 18:48:48 GMT\",\"allow\":\"GET, HEAD\",\"age\":\"8356\",\"cf-cache-status\":\"HIT\",\"cf-ray\":\"a1bf19d0a9c88a14-BOM\"}"
+            }
+          ],
+          "platformDetected": "Cloudflare Pages/Workers",
+          "scanDurationMs": 4633
+        },
+        "timestamp": "2026-07-16T06:55:25.675Z"
+      },
+      {
+        "result": {
+          "url": "https://example.com/",
           "scannedAt": "2026-07-15T20:03:15.378Z",
           "findings": [
             {
@@ -258,6 +309,73 @@
       }
     ],
     "https://google.com/": [
+      {
+        "result": {
+          "url": "https://google.com/",
+          "scannedAt": "2026-07-16T06:55:25.059Z",
+          "findings": [
+            {
+              "id": "header-missing-content-security-policy",
+              "category": "Network",
+              "title": "Missing Content-Security-Policy header",
+              "severity": "high",
+              "evidence": "Header 'content-security-policy' is missing in HTTP response headers.",
+              "rawTechnicalDetail": "{\"content-type\":\"text/html; charset=ISO-8859-1\",\"date\":\"Thu, 16 Jul 2026 06:55:21 GMT\",\"expires\":\"-1\",\"cache-control\":\"private, max-age=0\",\"content-security-policy-report-only\":\"object-src 'none';base-uri 'self';script-src 'nonce-h6ZrKPgAcZfFLvU1cOQngA' 'strict-dynamic' 'report-sample' 'unsafe-eval' 'unsafe-inline' https: http:;report-uri https://csp.withgoogle.com/csp/gws/other-hp\",\"accept-ch\":\"Sec-CH-Prefers-Color-Scheme\",\"p3p\":\"CP=\\\"This is not a P3P policy! See g.co/p3phelp for more info.\\\"\",\"server\":\"gws\",\"x-xss-protection\":\"0\",\"x-frame-options\":\"SAMEORIGIN\",\"set-cookie\":[\"__Secure-STRP=ANmZwa2MyOXibF-LHCDj8wkuQWvNJ2jSNulhtFMd2rxYtAsCR4xpb-KkwRsUkOGhfd3VU7RGHBJLUS4oLhLeReXhGsyWFUZl5jpV; expires=Thu, 16-Jul-2026 07:00:21 GMT; path=/; domain=.google.com; Secure; SameSite=strict\",\"AEC=AdJVEautQaRrDnsyMApc4GYxQ7gmy25Xuqh5KT_q-5StuUyg_--be8SWSQ; expires=Tue, 12-Jan-2027 06:55:21 GMT; path=/; domain=.google.com; Secure; HttpOnly; SameSite=lax\",\"NID=533=AlPYx6s1wqBKZysIg5CnkL4QjvdYSZykF2Kf0_Hixee7f1nIQZBfrSvwoYJlNHG7TbIxfgNARwuL2asrgirSMWSGgOPA1cXJgtNAgypjSBnJk-5E1JORLKVSqU59-Yg9fLkkCQYjf2lKRz35c9LcffyBXn26ApTnQEj68BxOuU8MnL7apOiiWCHEgL_PYvoZSnRtuTTfu6NgHhN8FJCj8wUr; expires=Fri, 15-Jan-2027 06:55:21 GMT; path=/; domain=.google.com; HttpOnly\"],\"alt-svc\":\"h3=\\\":443\\\"; ma=2592000,h3-29=\\\":443\\\"; ma=2592000\",\"connection\":\"close\",\"transfer-encoding\":\"chunked\"}"
+            },
+            {
+              "id": "header-missing-x-content-type-options",
+              "category": "Network",
+              "title": "Missing X-Content-Type-Options header",
+              "severity": "low",
+              "evidence": "Header 'x-content-type-options' is missing in HTTP response headers.",
+              "rawTechnicalDetail": "{\"content-type\":\"text/html; charset=ISO-8859-1\",\"date\":\"Thu, 16 Jul 2026 06:55:21 GMT\",\"expires\":\"-1\",\"cache-control\":\"private, max-age=0\",\"content-security-policy-report-only\":\"object-src 'none';base-uri 'self';script-src 'nonce-h6ZrKPgAcZfFLvU1cOQngA' 'strict-dynamic' 'report-sample' 'unsafe-eval' 'unsafe-inline' https: http:;report-uri https://csp.withgoogle.com/csp/gws/other-hp\",\"accept-ch\":\"Sec-CH-Prefers-Color-Scheme\",\"p3p\":\"CP=\\\"This is not a P3P policy! See g.co/p3phelp for more info.\\\"\",\"server\":\"gws\",\"x-xss-protection\":\"0\",\"x-frame-options\":\"SAMEORIGIN\",\"set-cookie\":[\"__Secure-STRP=ANmZwa2MyOXibF-LHCDj8wkuQWvNJ2jSNulhtFMd2rxYtAsCR4xpb-KkwRsUkOGhfd3VU7RGHBJLUS4oLhLeReXhGsyWFUZl5jpV; expires=Thu, 16-Jul-2026 07:00:21 GMT; path=/; domain=.google.com; Secure; SameSite=strict\",\"AEC=AdJVEautQaRrDnsyMApc4GYxQ7gmy25Xuqh5KT_q-5StuUyg_--be8SWSQ; expires=Tue, 12-Jan-2027 06:55:21 GMT; path=/; domain=.google.com; Secure; HttpOnly; SameSite=lax\",\"NID=533=AlPYx6s1wqBKZysIg5CnkL4QjvdYSZykF2Kf0_Hixee7f1nIQZBfrSvwoYJlNHG7TbIxfgNARwuL2asrgirSMWSGgOPA1cXJgtNAgypjSBnJk-5E1JORLKVSqU59-Yg9fLkkCQYjf2lKRz35c9LcffyBXn26ApTnQEj68BxOuU8MnL7apOiiWCHEgL_PYvoZSnRtuTTfu6NgHhN8FJCj8wUr; expires=Fri, 15-Jan-2027 06:55:21 GMT; path=/; domain=.google.com; HttpOnly\"],\"alt-svc\":\"h3=\\\":443\\\"; ma=2592000,h3-29=\\\":443\\\"; ma=2592000\",\"connection\":\"close\",\"transfer-encoding\":\"chunked\"}"
+            },
+            {
+              "id": "header-missing-strict-transport-security",
+              "category": "Network",
+              "title": "Missing Strict-Transport-Security (HSTS) header",
+              "severity": "high",
+              "evidence": "Header 'strict-transport-security' is missing in HTTP response headers.",
+              "rawTechnicalDetail": "{\"content-type\":\"text/html; charset=ISO-8859-1\",\"date\":\"Thu, 16 Jul 2026 06:55:21 GMT\",\"expires\":\"-1\",\"cache-control\":\"private, max-age=0\",\"content-security-policy-report-only\":\"object-src 'none';base-uri 'self';script-src 'nonce-h6ZrKPgAcZfFLvU1cOQngA' 'strict-dynamic' 'report-sample' 'unsafe-eval' 'unsafe-inline' https: http:;report-uri https://csp.withgoogle.com/csp/gws/other-hp\",\"accept-ch\":\"Sec-CH-Prefers-Color-Scheme\",\"p3p\":\"CP=\\\"This is not a P3P policy! See g.co/p3phelp for more info.\\\"\",\"server\":\"gws\",\"x-xss-protection\":\"0\",\"x-frame-options\":\"SAMEORIGIN\",\"set-cookie\":[\"__Secure-STRP=ANmZwa2MyOXibF-LHCDj8wkuQWvNJ2jSNulhtFMd2rxYtAsCR4xpb-KkwRsUkOGhfd3VU7RGHBJLUS4oLhLeReXhGsyWFUZl5jpV; expires=Thu, 16-Jul-2026 07:00:21 GMT; path=/; domain=.google.com; Secure; SameSite=strict\",\"AEC=AdJVEautQaRrDnsyMApc4GYxQ7gmy25Xuqh5KT_q-5StuUyg_--be8SWSQ; expires=Tue, 12-Jan-2027 06:55:21 GMT; path=/; domain=.google.com; Secure; HttpOnly; SameSite=lax\",\"NID=533=AlPYx6s1wqBKZysIg5CnkL4QjvdYSZykF2Kf0_Hixee7f1nIQZBfrSvwoYJlNHG7TbIxfgNARwuL2asrgirSMWSGgOPA1cXJgtNAgypjSBnJk-5E1JORLKVSqU59-Yg9fLkkCQYjf2lKRz35c9LcffyBXn26ApTnQEj68BxOuU8MnL7apOiiWCHEgL_PYvoZSnRtuTTfu6NgHhN8FJCj8wUr; expires=Fri, 15-Jan-2027 06:55:21 GMT; path=/; domain=.google.com; HttpOnly\"],\"alt-svc\":\"h3=\\\":443\\\"; ma=2592000,h3-29=\\\":443\\\"; ma=2592000\",\"connection\":\"close\",\"transfer-encoding\":\"chunked\"}"
+            },
+            {
+              "id": "header-missing-referrer-policy",
+              "category": "Network",
+              "title": "Missing Referrer-Policy header",
+              "severity": "low",
+              "evidence": "Header 'referrer-policy' is missing in HTTP response headers.",
+              "rawTechnicalDetail": "{\"content-type\":\"text/html; charset=ISO-8859-1\",\"date\":\"Thu, 16 Jul 2026 06:55:21 GMT\",\"expires\":\"-1\",\"cache-control\":\"private, max-age=0\",\"content-security-policy-report-only\":\"object-src 'none';base-uri 'self';script-src 'nonce-h6ZrKPgAcZfFLvU1cOQngA' 'strict-dynamic' 'report-sample' 'unsafe-eval' 'unsafe-inline' https: http:;report-uri https://csp.withgoogle.com/csp/gws/other-hp\",\"accept-ch\":\"Sec-CH-Prefers-Color-Scheme\",\"p3p\":\"CP=\\\"This is not a P3P policy! See g.co/p3phelp for more info.\\\"\",\"server\":\"gws\",\"x-xss-protection\":\"0\",\"x-frame-options\":\"SAMEORIGIN\",\"set-cookie\":[\"__Secure-STRP=ANmZwa2MyOXibF-LHCDj8wkuQWvNJ2jSNulhtFMd2rxYtAsCR4xpb-KkwRsUkOGhfd3VU7RGHBJLUS4oLhLeReXhGsyWFUZl5jpV; expires=Thu, 16-Jul-2026 07:00:21 GMT; path=/; domain=.google.com; Secure; SameSite=strict\",\"AEC=AdJVEautQaRrDnsyMApc4GYxQ7gmy25Xuqh5KT_q-5StuUyg_--be8SWSQ; expires=Tue, 12-Jan-2027 06:55:21 GMT; path=/; domain=.google.com; Secure; HttpOnly; SameSite=lax\",\"NID=533=AlPYx6s1wqBKZysIg5CnkL4QjvdYSZykF2Kf0_Hixee7f1nIQZBfrSvwoYJlNHG7TbIxfgNARwuL2asrgirSMWSGgOPA1cXJgtNAgypjSBnJk-5E1JORLKVSqU59-Yg9fLkkCQYjf2lKRz35c9LcffyBXn26ApTnQEj68BxOuU8MnL7apOiiWCHEgL_PYvoZSnRtuTTfu6NgHhN8FJCj8wUr; expires=Fri, 15-Jan-2027 06:55:21 GMT; path=/; domain=.google.com; HttpOnly\"],\"alt-svc\":\"h3=\\\":443\\\"; ma=2592000,h3-29=\\\":443\\\"; ma=2592000\",\"connection\":\"close\",\"transfer-encoding\":\"chunked\"}"
+            },
+            {
+              "id": "cookie-no-httponly-__Secure-STRP",
+              "category": "Application",
+              "title": "Cookie '__Secure-STRP' missing HttpOnly attribute",
+              "severity": "high",
+              "evidence": "__Secure-STRP=ANmZwa2MyOXibF-LHCDj8wkuQWvNJ2jSNulhtFMd2rxYtAsCR4xpb-KkwRsUkOGhfd3VU7RGHBJLUS4oLhLeReXhGsyWFUZl5jpV; expires=Thu, 16-Jul-2026 07:00:21 GMT; path=/; domain=.google.com; Secure; SameSite=strict",
+              "rawTechnicalDetail": "__Secure-STRP=ANmZwa2MyOXibF-LHCDj8wkuQWvNJ2jSNulhtFMd2rxYtAsCR4xpb-KkwRsUkOGhfd3VU7RGHBJLUS4oLhLeReXhGsyWFUZl5jpV; expires=Thu, 16-Jul-2026 07:00:21 GMT; path=/; domain=.google.com; Secure; SameSite=strict"
+            },
+            {
+              "id": "cookie-no-secure-NID",
+              "category": "Application",
+              "title": "Cookie 'NID' missing Secure attribute",
+              "severity": "medium",
+              "evidence": "NID=533=AlPYx6s1wqBKZysIg5CnkL4QjvdYSZykF2Kf0_Hixee7f1nIQZBfrSvwoYJlNHG7TbIxfgNARwuL2asrgirSMWSGgOPA1cXJgtNAgypjSBnJk-5E1JORLKVSqU59-Yg9fLkkCQYjf2lKRz35c9LcffyBXn26ApTnQEj68BxOuU8MnL7apOiiWCHEgL_PYvoZSnRtuTTfu6NgHhN8FJCj8wUr; expires=Fri, 15-Jan-2027 06:55:21 GMT; path=/; domain=.google.com; HttpOnly",
+              "rawTechnicalDetail": "NID=533=AlPYx6s1wqBKZysIg5CnkL4QjvdYSZykF2Kf0_Hixee7f1nIQZBfrSvwoYJlNHG7TbIxfgNARwuL2asrgirSMWSGgOPA1cXJgtNAgypjSBnJk-5E1JORLKVSqU59-Yg9fLkkCQYjf2lKRz35c9LcffyBXn26ApTnQEj68BxOuU8MnL7apOiiWCHEgL_PYvoZSnRtuTTfu6NgHhN8FJCj8wUr; expires=Fri, 15-Jan-2027 06:55:21 GMT; path=/; domain=.google.com; HttpOnly"
+            },
+            {
+              "id": "cookie-no-samesite-NID",
+              "category": "Application",
+              "title": "Cookie 'NID' missing SameSite attribute",
+              "severity": "low",
+              "evidence": "NID=533=AlPYx6s1wqBKZysIg5CnkL4QjvdYSZykF2Kf0_Hixee7f1nIQZBfrSvwoYJlNHG7TbIxfgNARwuL2asrgirSMWSGgOPA1cXJgtNAgypjSBnJk-5E1JORLKVSqU59-Yg9fLkkCQYjf2lKRz35c9LcffyBXn26ApTnQEj68BxOuU8MnL7apOiiWCHEgL_PYvoZSnRtuTTfu6NgHhN8FJCj8wUr; expires=Fri, 15-Jan-2027 06:55:21 GMT; path=/; domain=.google.com; HttpOnly",
+              "rawTechnicalDetail": "NID=533=AlPYx6s1wqBKZysIg5CnkL4QjvdYSZykF2Kf0_Hixee7f1nIQZBfrSvwoYJlNHG7TbIxfgNARwuL2asrgirSMWSGgOPA1cXJgtNAgypjSBnJk-5E1JORLKVSqU59-Yg9fLkkCQYjf2lKRz35c9LcffyBXn26ApTnQEj68BxOuU8MnL7apOiiWCHEgL_PYvoZSnRtuTTfu6NgHhN8FJCj8wUr; expires=Fri, 15-Jan-2027 06:55:21 GMT; path=/; domain=.google.com; HttpOnly"
+            }
+          ],
+          "platformDetected": "Generic/Other",
+          "scanDurationMs": 3985
+        },
+        "timestamp": "2026-07-16T06:55:25.062Z"
+      },
       {
         "result": {
           "url": "https://google.com/",
@@ -598,6 +716,207 @@
       {
         "result": {
           "url": "http://localhost:3000/api/test-fixture/vulnerable",
+          "scannedAt": "2026-07-16T06:55:29.481Z",
+          "findings": [
+            {
+              "id": "http-no-redirect",
+              "category": "Transport",
+              "title": "HTTP to HTTPS redirect not enforced",
+              "severity": "high",
+              "evidence": "Requested http version and was not redirected to https",
+              "rawTechnicalDetail": "Status: 200"
+            },
+            {
+              "id": "key-openai-proj",
+              "category": "Secrets",
+              "title": "Exposed OpenAI Project Key",
+              "severity": "critical",
+              "evidence": "Found key pattern matching: ...1234567890",
+              "rawTechnicalDetail": "Matches regex pattern."
+            },
+            {
+              "id": "key-stripe-secret",
+              "category": "Secrets",
+              "title": "Exposed Stripe Secret Key",
+              "severity": "critical",
+              "evidence": "Found key pattern matching: ...p2Yt7s1j4k",
+              "rawTechnicalDetail": "Matches regex pattern."
+            },
+            {
+              "id": "supabase-rls-bypass-users",
+              "category": "Database",
+              "title": "Supabase Row-Level Security (RLS) Bypassed on 'users' table",
+              "severity": "critical",
+              "evidence": "Able to read data from http://localhost:3000/api/test-fixture/rest/v1/users using public anon key.",
+              "rawTechnicalDetail": "Bypass detected. Record sample preview: [{\"id\":1,\"email\":\"victim1@example.com\",\"is_admin\":false},{\"id\":2,\"email\":\"admin@example.com\",\"is_admin\":true}]"
+            },
+            {
+              "id": "supabase-rls-bypass-secret_student_data",
+              "category": "Database",
+              "title": "Supabase Row-Level Security (RLS) Bypassed on 'secret_student_data' table",
+              "severity": "critical",
+              "evidence": "Able to read data from http://localhost:3000/api/test-fixture/rest/v1/secret_student_data using public anon key.",
+              "rawTechnicalDetail": "Bypass detected. Record sample preview: [{\"id\":1,\"student_id\":\"2026-CS-041\",\"name\":\"Tarun Kumar\",\"secret_gpa\":\"3.9\"}]"
+            },
+            {
+              "id": "exposed-llm-system-prompt",
+              "category": "AI_LLM",
+              "title": "LLM System Prompt Exposed in Client Bundle",
+              "severity": "high",
+              "evidence": "Exposed prompt: \"You are a helpful AI assistant. Your instructions: You must always guide students on security. Do no...\"",
+              "rawTechnicalDetail": "Exposed system prompt literal found within 1000 characters of an LLM API hostname (api.openai.com)."
+            },
+            {
+              "id": "graphql-introspection-enabled",
+              "category": "AI_LLM",
+              "title": "GraphQL Introspection Enabled",
+              "severity": "high",
+              "evidence": "Introspection query succeeded at: http://localhost:3000/api/graphql",
+              "rawTechnicalDetail": "GraphQL endpoint allows schema introspection. Exposed 5 schema types."
+            }
+          ],
+          "platformDetected": "Generic/Other",
+          "scanDurationMs": 486
+        },
+        "timestamp": "2026-07-16T06:55:29.483Z"
+      },
+      {
+        "result": {
+          "url": "http://localhost:3000/api/test-fixture/vulnerable",
+          "scannedAt": "2026-07-16T06:55:27.962Z",
+          "findings": [
+            {
+              "id": "http-no-redirect",
+              "category": "Transport",
+              "title": "HTTP to HTTPS redirect not enforced",
+              "severity": "high",
+              "evidence": "Requested http version and was not redirected to https",
+              "rawTechnicalDetail": "Status: 200"
+            },
+            {
+              "id": "key-openai-proj",
+              "category": "Secrets",
+              "title": "Exposed OpenAI Project Key",
+              "severity": "critical",
+              "evidence": "Found key pattern matching: ...1234567890",
+              "rawTechnicalDetail": "Matches regex pattern."
+            },
+            {
+              "id": "key-stripe-secret",
+              "category": "Secrets",
+              "title": "Exposed Stripe Secret Key",
+              "severity": "critical",
+              "evidence": "Found key pattern matching: ...p2Yt7s1j4k",
+              "rawTechnicalDetail": "Matches regex pattern."
+            },
+            {
+              "id": "supabase-rls-bypass-users",
+              "category": "Database",
+              "title": "Supabase Row-Level Security (RLS) Bypassed on 'users' table",
+              "severity": "critical",
+              "evidence": "Able to read data from http://localhost:3000/api/test-fixture/rest/v1/users using public anon key.",
+              "rawTechnicalDetail": "Bypass detected. Record sample preview: [{\"id\":1,\"email\":\"victim1@example.com\",\"is_admin\":false},{\"id\":2,\"email\":\"admin@example.com\",\"is_admin\":true}]"
+            },
+            {
+              "id": "supabase-rls-bypass-secret_student_data",
+              "category": "Database",
+              "title": "Supabase Row-Level Security (RLS) Bypassed on 'secret_student_data' table",
+              "severity": "critical",
+              "evidence": "Able to read data from http://localhost:3000/api/test-fixture/rest/v1/secret_student_data using public anon key.",
+              "rawTechnicalDetail": "Bypass detected. Record sample preview: [{\"id\":1,\"student_id\":\"2026-CS-041\",\"name\":\"Tarun Kumar\",\"secret_gpa\":\"3.9\"}]"
+            },
+            {
+              "id": "exposed-llm-system-prompt",
+              "category": "AI_LLM",
+              "title": "LLM System Prompt Exposed in Client Bundle",
+              "severity": "high",
+              "evidence": "Exposed prompt: \"You are a helpful AI assistant. Your instructions: You must always guide students on security. Do no...\"",
+              "rawTechnicalDetail": "Exposed system prompt literal found within 1000 characters of an LLM API hostname (api.openai.com)."
+            },
+            {
+              "id": "graphql-introspection-enabled",
+              "category": "AI_LLM",
+              "title": "GraphQL Introspection Enabled",
+              "severity": "high",
+              "evidence": "Introspection query succeeded at: http://localhost:3000/api/graphql",
+              "rawTechnicalDetail": "GraphQL endpoint allows schema introspection. Exposed 5 schema types."
+            }
+          ],
+          "platformDetected": "Generic/Other",
+          "scanDurationMs": 845
+        },
+        "timestamp": "2026-07-16T06:55:27.966Z"
+      },
+      {
+        "result": {
+          "url": "http://localhost:3000/api/test-fixture/vulnerable",
+          "scannedAt": "2026-07-16T06:55:21.595Z",
+          "findings": [
+            {
+              "id": "http-no-redirect",
+              "category": "Transport",
+              "title": "HTTP to HTTPS redirect not enforced",
+              "severity": "high",
+              "evidence": "Requested http version and was not redirected to https",
+              "rawTechnicalDetail": "Status: 200"
+            },
+            {
+              "id": "key-openai-proj",
+              "category": "Secrets",
+              "title": "Exposed OpenAI Project Key",
+              "severity": "critical",
+              "evidence": "Found key pattern matching: ...1234567890",
+              "rawTechnicalDetail": "Matches regex pattern."
+            },
+            {
+              "id": "key-stripe-secret",
+              "category": "Secrets",
+              "title": "Exposed Stripe Secret Key",
+              "severity": "critical",
+              "evidence": "Found key pattern matching: ...p2Yt7s1j4k",
+              "rawTechnicalDetail": "Matches regex pattern."
+            },
+            {
+              "id": "supabase-rls-bypass-users",
+              "category": "Database",
+              "title": "Supabase Row-Level Security (RLS) Bypassed on 'users' table",
+              "severity": "critical",
+              "evidence": "Able to read data from http://localhost:3000/api/test-fixture/rest/v1/users using public anon key.",
+              "rawTechnicalDetail": "Bypass detected. Record sample preview: [{\"id\":1,\"email\":\"victim1@example.com\",\"is_admin\":false},{\"id\":2,\"email\":\"admin@example.com\",\"is_admin\":true}]"
+            },
+            {
+              "id": "supabase-rls-bypass-secret_student_data",
+              "category": "Database",
+              "title": "Supabase Row-Level Security (RLS) Bypassed on 'secret_student_data' table",
+              "severity": "critical",
+              "evidence": "Able to read data from http://localhost:3000/api/test-fixture/rest/v1/secret_student_data using public anon key.",
+              "rawTechnicalDetail": "Bypass detected. Record sample preview: [{\"id\":1,\"student_id\":\"2026-CS-041\",\"name\":\"Tarun Kumar\",\"secret_gpa\":\"3.9\"}]"
+            },
+            {
+              "id": "exposed-llm-system-prompt",
+              "category": "AI_LLM",
+              "title": "LLM System Prompt Exposed in Client Bundle",
+              "severity": "high",
+              "evidence": "Exposed prompt: \"You are a helpful AI assistant. Your instructions: You must always guide students on security. Do no...\"",
+              "rawTechnicalDetail": "Exposed system prompt literal found within 1000 characters of an LLM API hostname (api.openai.com)."
+            },
+            {
+              "id": "graphql-introspection-enabled",
+              "category": "AI_LLM",
+              "title": "GraphQL Introspection Enabled",
+              "severity": "high",
+              "evidence": "Introspection query succeeded at: http://localhost:3000/api/graphql",
+              "rawTechnicalDetail": "GraphQL endpoint allows schema introspection. Exposed 5 schema types."
+            }
+          ],
+          "platformDetected": "Generic/Other",
+          "scanDurationMs": 544
+        },
+        "timestamp": "2026-07-16T06:55:21.597Z"
+      },
+      {
+        "result": {
+          "url": "http://localhost:3000/api/test-fixture/vulnerable",
           "scannedAt": "2026-07-15T20:03:19.669Z",
           "findings": [
             {
@@ -935,41 +1254,6 @@
           "scanDurationMs": 45
         },
         "timestamp": "2026-07-15T20:01:28.847Z"
-      },
-      {
-        "result": {
-          "url": "http://localhost:3000/api/test-fixture/vulnerable",
-          "scannedAt": "2026-07-15T20:01:12.617Z",
-          "findings": [
-            {
-              "id": "http-no-redirect",
-              "category": "Transport",
-              "title": "HTTP to HTTPS redirect not enforced",
-              "severity": "high",
-              "evidence": "Requested http version and was not redirected to https",
-              "rawTechnicalDetail": "Status: 200"
-            },
-            {
-              "id": "key-openai-proj",
-              "category": "Secrets",
-              "title": "Exposed OpenAI Project Key",
-              "severity": "critical",
-              "evidence": "Found key pattern matching: ...1234567890",
-              "rawTechnicalDetail": "Matches regex pattern."
-            },
-            {
-              "id": "key-stripe-secret",
-              "category": "Secrets",
-              "title": "Exposed Stripe Secret Key",
-              "severity": "critical",
-              "evidence": "Found key pattern matching: ...p2Yt7s1j4k",
-              "rawTechnicalDetail": "Matches regex pattern."
-            }
-          ],
-          "platformDetected": "Generic/Other",
-          "scanDurationMs": 468
-        },
-        "timestamp": "2026-07-15T20:01:12.620Z"
       }
     ]
   },
@@ -2153,6 +2437,196 @@
         }
       ],
       "createdAt": "2026-07-15T20:03:14.536Z"
+    },
+    "batch_pzhum9e5h3e1xhrgehubnf": {
+      "batchId": "batch_pzhum9e5h3e1xhrgehubnf",
+      "label": "Verification Demo Batch",
+      "total": 3,
+      "completed": 3,
+      "failed": 0,
+      "status": "completed",
+      "results": [
+        {
+          "url": "https://example.com/",
+          "status": "done",
+          "grade": "D",
+          "findingsCount": 5,
+          "findings": [
+            {
+              "id": "header-missing-content-security-policy",
+              "category": "Network",
+              "title": "Missing Content-Security-Policy header",
+              "severity": "high",
+              "evidence": "Header 'content-security-policy' is missing in HTTP response headers.",
+              "rawTechnicalDetail": "{\"date\":\"Thu, 16 Jul 2026 06:55:21 GMT\",\"content-type\":\"text/html\",\"transfer-encoding\":\"chunked\",\"connection\":\"close\",\"server\":\"cloudflare\",\"last-modified\":\"Wed, 15 Jul 2026 18:48:48 GMT\",\"allow\":\"GET, HEAD\",\"age\":\"8356\",\"cf-cache-status\":\"HIT\",\"cf-ray\":\"a1bf19d0a9c88a14-BOM\"}"
+            },
+            {
+              "id": "header-missing-x-frame-options",
+              "category": "Network",
+              "title": "Missing X-Frame-Options (Clickjacking vulnerability)",
+              "severity": "medium",
+              "evidence": "Header 'x-frame-options' is missing in HTTP response headers.",
+              "rawTechnicalDetail": "{\"date\":\"Thu, 16 Jul 2026 06:55:21 GMT\",\"content-type\":\"text/html\",\"transfer-encoding\":\"chunked\",\"connection\":\"close\",\"server\":\"cloudflare\",\"last-modified\":\"Wed, 15 Jul 2026 18:48:48 GMT\",\"allow\":\"GET, HEAD\",\"age\":\"8356\",\"cf-cache-status\":\"HIT\",\"cf-ray\":\"a1bf19d0a9c88a14-BOM\"}"
+            },
+            {
+              "id": "header-missing-x-content-type-options",
+              "category": "Network",
+              "title": "Missing X-Content-Type-Options header",
+              "severity": "low",
+              "evidence": "Header 'x-content-type-options' is missing in HTTP response headers.",
+              "rawTechnicalDetail": "{\"date\":\"Thu, 16 Jul 2026 06:55:21 GMT\",\"content-type\":\"text/html\",\"transfer-encoding\":\"chunked\",\"connection\":\"close\",\"server\":\"cloudflare\",\"last-modified\":\"Wed, 15 Jul 2026 18:48:48 GMT\",\"allow\":\"GET, HEAD\",\"age\":\"8356\",\"cf-cache-status\":\"HIT\",\"cf-ray\":\"a1bf19d0a9c88a14-BOM\"}"
+            },
+            {
+              "id": "header-missing-strict-transport-security",
+              "category": "Network",
+              "title": "Missing Strict-Transport-Security (HSTS) header",
+              "severity": "high",
+              "evidence": "Header 'strict-transport-security' is missing in HTTP response headers.",
+              "rawTechnicalDetail": "{\"date\":\"Thu, 16 Jul 2026 06:55:21 GMT\",\"content-type\":\"text/html\",\"transfer-encoding\":\"chunked\",\"connection\":\"close\",\"server\":\"cloudflare\",\"last-modified\":\"Wed, 15 Jul 2026 18:48:48 GMT\",\"allow\":\"GET, HEAD\",\"age\":\"8356\",\"cf-cache-status\":\"HIT\",\"cf-ray\":\"a1bf19d0a9c88a14-BOM\"}"
+            },
+            {
+              "id": "header-missing-referrer-policy",
+              "category": "Network",
+              "title": "Missing Referrer-Policy header",
+              "severity": "low",
+              "evidence": "Header 'referrer-policy' is missing in HTTP response headers.",
+              "rawTechnicalDetail": "{\"date\":\"Thu, 16 Jul 2026 06:55:21 GMT\",\"content-type\":\"text/html\",\"transfer-encoding\":\"chunked\",\"connection\":\"close\",\"server\":\"cloudflare\",\"last-modified\":\"Wed, 15 Jul 2026 18:48:48 GMT\",\"allow\":\"GET, HEAD\",\"age\":\"8356\",\"cf-cache-status\":\"HIT\",\"cf-ray\":\"a1bf19d0a9c88a14-BOM\"}"
+            }
+          ],
+          "platformDetected": "Cloudflare Pages/Workers"
+        },
+        {
+          "url": "http://localhost:3000/api/test-fixture/vulnerable",
+          "status": "done",
+          "grade": "F",
+          "findingsCount": 7,
+          "findings": [
+            {
+              "id": "http-no-redirect",
+              "category": "Transport",
+              "title": "HTTP to HTTPS redirect not enforced",
+              "severity": "high",
+              "evidence": "Requested http version and was not redirected to https",
+              "rawTechnicalDetail": "Status: 200"
+            },
+            {
+              "id": "key-openai-proj",
+              "category": "Secrets",
+              "title": "Exposed OpenAI Project Key",
+              "severity": "critical",
+              "evidence": "Found key pattern matching: ...1234567890",
+              "rawTechnicalDetail": "Matches regex pattern."
+            },
+            {
+              "id": "key-stripe-secret",
+              "category": "Secrets",
+              "title": "Exposed Stripe Secret Key",
+              "severity": "critical",
+              "evidence": "Found key pattern matching: ...p2Yt7s1j4k",
+              "rawTechnicalDetail": "Matches regex pattern."
+            },
+            {
+              "id": "supabase-rls-bypass-users",
+              "category": "Database",
+              "title": "Supabase Row-Level Security (RLS) Bypassed on 'users' table",
+              "severity": "critical",
+              "evidence": "Able to read data from http://localhost:3000/api/test-fixture/rest/v1/users using public anon key.",
+              "rawTechnicalDetail": "Bypass detected. Record sample preview: [{\"id\":1,\"email\":\"victim1@example.com\",\"is_admin\":false},{\"id\":2,\"email\":\"admin@example.com\",\"is_admin\":true}]"
+            },
+            {
+              "id": "supabase-rls-bypass-secret_student_data",
+              "category": "Database",
+              "title": "Supabase Row-Level Security (RLS) Bypassed on 'secret_student_data' table",
+              "severity": "critical",
+              "evidence": "Able to read data from http://localhost:3000/api/test-fixture/rest/v1/secret_student_data using public anon key.",
+              "rawTechnicalDetail": "Bypass detected. Record sample preview: [{\"id\":1,\"student_id\":\"2026-CS-041\",\"name\":\"Tarun Kumar\",\"secret_gpa\":\"3.9\"}]"
+            },
+            {
+              "id": "exposed-llm-system-prompt",
+              "category": "AI_LLM",
+              "title": "LLM System Prompt Exposed in Client Bundle",
+              "severity": "high",
+              "evidence": "Exposed prompt: \"You are a helpful AI assistant. Your instructions: You must always guide students on security. Do no...\"",
+              "rawTechnicalDetail": "Exposed system prompt literal found within 1000 characters of an LLM API hostname (api.openai.com)."
+            },
+            {
+              "id": "graphql-introspection-enabled",
+              "category": "AI_LLM",
+              "title": "GraphQL Introspection Enabled",
+              "severity": "high",
+              "evidence": "Introspection query succeeded at: http://localhost:3000/api/graphql",
+              "rawTechnicalDetail": "GraphQL endpoint allows schema introspection. Exposed 5 schema types."
+            }
+          ],
+          "platformDetected": "Generic/Other"
+        },
+        {
+          "url": "https://google.com/",
+          "status": "done",
+          "grade": "D",
+          "findingsCount": 7,
+          "findings": [
+            {
+              "id": "header-missing-content-security-policy",
+              "category": "Network",
+              "title": "Missing Content-Security-Policy header",
+              "severity": "high",
+              "evidence": "Header 'content-security-policy' is missing in HTTP response headers.",
+              "rawTechnicalDetail": "{\"content-type\":\"text/html; charset=ISO-8859-1\",\"date\":\"Thu, 16 Jul 2026 06:55:21 GMT\",\"expires\":\"-1\",\"cache-control\":\"private, max-age=0\",\"content-security-policy-report-only\":\"object-src 'none';base-uri 'self';script-src 'nonce-h6ZrKPgAcZfFLvU1cOQngA' 'strict-dynamic' 'report-sample' 'unsafe-eval' 'unsafe-inline' https: http:;report-uri https://csp.withgoogle.com/csp/gws/other-hp\",\"accept-ch\":\"Sec-CH-Prefers-Color-Scheme\",\"p3p\":\"CP=\\\"This is not a P3P policy! See g.co/p3phelp for more info.\\\"\",\"server\":\"gws\",\"x-xss-protection\":\"0\",\"x-frame-options\":\"SAMEORIGIN\",\"set-cookie\":[\"__Secure-STRP=ANmZwa2MyOXibF-LHCDj8wkuQWvNJ2jSNulhtFMd2rxYtAsCR4xpb-KkwRsUkOGhfd3VU7RGHBJLUS4oLhLeReXhGsyWFUZl5jpV; expires=Thu, 16-Jul-2026 07:00:21 GMT; path=/; domain=.google.com; Secure; SameSite=strict\",\"AEC=AdJVEautQaRrDnsyMApc4GYxQ7gmy25Xuqh5KT_q-5StuUyg_--be8SWSQ; expires=Tue, 12-Jan-2027 06:55:21 GMT; path=/; domain=.google.com; Secure; HttpOnly; SameSite=lax\",\"NID=533=AlPYx6s1wqBKZysIg5CnkL4QjvdYSZykF2Kf0_Hixee7f1nIQZBfrSvwoYJlNHG7TbIxfgNARwuL2asrgirSMWSGgOPA1cXJgtNAgypjSBnJk-5E1JORLKVSqU59-Yg9fLkkCQYjf2lKRz35c9LcffyBXn26ApTnQEj68BxOuU8MnL7apOiiWCHEgL_PYvoZSnRtuTTfu6NgHhN8FJCj8wUr; expires=Fri, 15-Jan-2027 06:55:21 GMT; path=/; domain=.google.com; HttpOnly\"],\"alt-svc\":\"h3=\\\":443\\\"; ma=2592000,h3-29=\\\":443\\\"; ma=2592000\",\"connection\":\"close\",\"transfer-encoding\":\"chunked\"}"
+            },
+            {
+              "id": "header-missing-x-content-type-options",
+              "category": "Network",
+              "title": "Missing X-Content-Type-Options header",
+              "severity": "low",
+              "evidence": "Header 'x-content-type-options' is missing in HTTP response headers.",
+              "rawTechnicalDetail": "{\"content-type\":\"text/html; charset=ISO-8859-1\",\"date\":\"Thu, 16 Jul 2026 06:55:21 GMT\",\"expires\":\"-1\",\"cache-control\":\"private, max-age=0\",\"content-security-policy-report-only\":\"object-src 'none';base-uri 'self';script-src 'nonce-h6ZrKPgAcZfFLvU1cOQngA' 'strict-dynamic' 'report-sample' 'unsafe-eval' 'unsafe-inline' https: http:;report-uri https://csp.withgoogle.com/csp/gws/other-hp\",\"accept-ch\":\"Sec-CH-Prefers-Color-Scheme\",\"p3p\":\"CP=\\\"This is not a P3P policy! See g.co/p3phelp for more info.\\\"\",\"server\":\"gws\",\"x-xss-protection\":\"0\",\"x-frame-options\":\"SAMEORIGIN\",\"set-cookie\":[\"__Secure-STRP=ANmZwa2MyOXibF-LHCDj8wkuQWvNJ2jSNulhtFMd2rxYtAsCR4xpb-KkwRsUkOGhfd3VU7RGHBJLUS4oLhLeReXhGsyWFUZl5jpV; expires=Thu, 16-Jul-2026 07:00:21 GMT; path=/; domain=.google.com; Secure; SameSite=strict\",\"AEC=AdJVEautQaRrDnsyMApc4GYxQ7gmy25Xuqh5KT_q-5StuUyg_--be8SWSQ; expires=Tue, 12-Jan-2027 06:55:21 GMT; path=/; domain=.google.com; Secure; HttpOnly; SameSite=lax\",\"NID=533=AlPYx6s1wqBKZysIg5CnkL4QjvdYSZykF2Kf0_Hixee7f1nIQZBfrSvwoYJlNHG7TbIxfgNARwuL2asrgirSMWSGgOPA1cXJgtNAgypjSBnJk-5E1JORLKVSqU59-Yg9fLkkCQYjf2lKRz35c9LcffyBXn26ApTnQEj68BxOuU8MnL7apOiiWCHEgL_PYvoZSnRtuTTfu6NgHhN8FJCj8wUr; expires=Fri, 15-Jan-2027 06:55:21 GMT; path=/; domain=.google.com; HttpOnly\"],\"alt-svc\":\"h3=\\\":443\\\"; ma=2592000,h3-29=\\\":443\\\"; ma=2592000\",\"connection\":\"close\",\"transfer-encoding\":\"chunked\"}"
+            },
+            {
+              "id": "header-missing-strict-transport-security",
+              "category": "Network",
+              "title": "Missing Strict-Transport-Security (HSTS) header",
+              "severity": "high",
+              "evidence": "Header 'strict-transport-security' is missing in HTTP response headers.",
+              "rawTechnicalDetail": "{\"content-type\":\"text/html; charset=ISO-8859-1\",\"date\":\"Thu, 16 Jul 2026 06:55:21 GMT\",\"expires\":\"-1\",\"cache-control\":\"private, max-age=0\",\"content-security-policy-report-only\":\"object-src 'none';base-uri 'self';script-src 'nonce-h6ZrKPgAcZfFLvU1cOQngA' 'strict-dynamic' 'report-sample' 'unsafe-eval' 'unsafe-inline' https: http:;report-uri https://csp.withgoogle.com/csp/gws/other-hp\",\"accept-ch\":\"Sec-CH-Prefers-Color-Scheme\",\"p3p\":\"CP=\\\"This is not a P3P policy! See g.co/p3phelp for more info.\\\"\",\"server\":\"gws\",\"x-xss-protection\":\"0\",\"x-frame-options\":\"SAMEORIGIN\",\"set-cookie\":[\"__Secure-STRP=ANmZwa2MyOXibF-LHCDj8wkuQWvNJ2jSNulhtFMd2rxYtAsCR4xpb-KkwRsUkOGhfd3VU7RGHBJLUS4oLhLeReXhGsyWFUZl5jpV; expires=Thu, 16-Jul-2026 07:00:21 GMT; path=/; domain=.google.com; Secure; SameSite=strict\",\"AEC=AdJVEautQaRrDnsyMApc4GYxQ7gmy25Xuqh5KT_q-5StuUyg_--be8SWSQ; expires=Tue, 12-Jan-2027 06:55:21 GMT; path=/; domain=.google.com; Secure; HttpOnly; SameSite=lax\",\"NID=533=AlPYx6s1wqBKZysIg5CnkL4QjvdYSZykF2Kf0_Hixee7f1nIQZBfrSvwoYJlNHG7TbIxfgNARwuL2asrgirSMWSGgOPA1cXJgtNAgypjSBnJk-5E1JORLKVSqU59-Yg9fLkkCQYjf2lKRz35c9LcffyBXn26ApTnQEj68BxOuU8MnL7apOiiWCHEgL_PYvoZSnRtuTTfu6NgHhN8FJCj8wUr; expires=Fri, 15-Jan-2027 06:55:21 GMT; path=/; domain=.google.com; HttpOnly\"],\"alt-svc\":\"h3=\\\":443\\\"; ma=2592000,h3-29=\\\":443\\\"; ma=2592000\",\"connection\":\"close\",\"transfer-encoding\":\"chunked\"}"
+            },
+            {
+              "id": "header-missing-referrer-policy",
+              "category": "Network",
+              "title": "Missing Referrer-Policy header",
+              "severity": "low",
+              "evidence": "Header 'referrer-policy' is missing in HTTP response headers.",
+              "rawTechnicalDetail": "{\"content-type\":\"text/html; charset=ISO-8859-1\",\"date\":\"Thu, 16 Jul 2026 06:55:21 GMT\",\"expires\":\"-1\",\"cache-control\":\"private, max-age=0\",\"content-security-policy-report-only\":\"object-src 'none';base-uri 'self';script-src 'nonce-h6ZrKPgAcZfFLvU1cOQngA' 'strict-dynamic' 'report-sample' 'unsafe-eval' 'unsafe-inline' https: http:;report-uri https://csp.withgoogle.com/csp/gws/other-hp\",\"accept-ch\":\"Sec-CH-Prefers-Color-Scheme\",\"p3p\":\"CP=\\\"This is not a P3P policy! See g.co/p3phelp for more info.\\\"\",\"server\":\"gws\",\"x-xss-protection\":\"0\",\"x-frame-options\":\"SAMEORIGIN\",\"set-cookie\":[\"__Secure-STRP=ANmZwa2MyOXibF-LHCDj8wkuQWvNJ2jSNulhtFMd2rxYtAsCR4xpb-KkwRsUkOGhfd3VU7RGHBJLUS4oLhLeReXhGsyWFUZl5jpV; expires=Thu, 16-Jul-2026 07:00:21 GMT; path=/; domain=.google.com; Secure; SameSite=strict\",\"AEC=AdJVEautQaRrDnsyMApc4GYxQ7gmy25Xuqh5KT_q-5StuUyg_--be8SWSQ; expires=Tue, 12-Jan-2027 06:55:21 GMT; path=/; domain=.google.com; Secure; HttpOnly; SameSite=lax\",\"NID=533=AlPYx6s1wqBKZysIg5CnkL4QjvdYSZykF2Kf0_Hixee7f1nIQZBfrSvwoYJlNHG7TbIxfgNARwuL2asrgirSMWSGgOPA1cXJgtNAgypjSBnJk-5E1JORLKVSqU59-Yg9fLkkCQYjf2lKRz35c9LcffyBXn26ApTnQEj68BxOuU8MnL7apOiiWCHEgL_PYvoZSnRtuTTfu6NgHhN8FJCj8wUr; expires=Fri, 15-Jan-2027 06:55:21 GMT; path=/; domain=.google.com; HttpOnly\"],\"alt-svc\":\"h3=\\\":443\\\"; ma=2592000,h3-29=\\\":443\\\"; ma=2592000\",\"connection\":\"close\",\"transfer-encoding\":\"chunked\"}"
+            },
+            {
+              "id": "cookie-no-httponly-__Secure-STRP",
+              "category": "Application",
+              "title": "Cookie '__Secure-STRP' missing HttpOnly attribute",
+              "severity": "high",
+              "evidence": "__Secure-STRP=ANmZwa2MyOXibF-LHCDj8wkuQWvNJ2jSNulhtFMd2rxYtAsCR4xpb-KkwRsUkOGhfd3VU7RGHBJLUS4oLhLeReXhGsyWFUZl5jpV; expires=Thu, 16-Jul-2026 07:00:21 GMT; path=/; domain=.google.com; Secure; SameSite=strict",
+              "rawTechnicalDetail": "__Secure-STRP=ANmZwa2MyOXibF-LHCDj8wkuQWvNJ2jSNulhtFMd2rxYtAsCR4xpb-KkwRsUkOGhfd3VU7RGHBJLUS4oLhLeReXhGsyWFUZl5jpV; expires=Thu, 16-Jul-2026 07:00:21 GMT; path=/; domain=.google.com; Secure; SameSite=strict"
+            },
+            {
+              "id": "cookie-no-secure-NID",
+              "category": "Application",
+              "title": "Cookie 'NID' missing Secure attribute",
+              "severity": "medium",
+              "evidence": "NID=533=AlPYx6s1wqBKZysIg5CnkL4QjvdYSZykF2Kf0_Hixee7f1nIQZBfrSvwoYJlNHG7TbIxfgNARwuL2asrgirSMWSGgOPA1cXJgtNAgypjSBnJk-5E1JORLKVSqU59-Yg9fLkkCQYjf2lKRz35c9LcffyBXn26ApTnQEj68BxOuU8MnL7apOiiWCHEgL_PYvoZSnRtuTTfu6NgHhN8FJCj8wUr; expires=Fri, 15-Jan-2027 06:55:21 GMT; path=/; domain=.google.com; HttpOnly",
+              "rawTechnicalDetail": "NID=533=AlPYx6s1wqBKZysIg5CnkL4QjvdYSZykF2Kf0_Hixee7f1nIQZBfrSvwoYJlNHG7TbIxfgNARwuL2asrgirSMWSGgOPA1cXJgtNAgypjSBnJk-5E1JORLKVSqU59-Yg9fLkkCQYjf2lKRz35c9LcffyBXn26ApTnQEj68BxOuU8MnL7apOiiWCHEgL_PYvoZSnRtuTTfu6NgHhN8FJCj8wUr; expires=Fri, 15-Jan-2027 06:55:21 GMT; path=/; domain=.google.com; HttpOnly"
+            },
+            {
+              "id": "cookie-no-samesite-NID",
+              "category": "Application",
+              "title": "Cookie 'NID' missing SameSite attribute",
+              "severity": "low",
+              "evidence": "NID=533=AlPYx6s1wqBKZysIg5CnkL4QjvdYSZykF2Kf0_Hixee7f1nIQZBfrSvwoYJlNHG7TbIxfgNARwuL2asrgirSMWSGgOPA1cXJgtNAgypjSBnJk-5E1JORLKVSqU59-Yg9fLkkCQYjf2lKRz35c9LcffyBXn26ApTnQEj68BxOuU8MnL7apOiiWCHEgL_PYvoZSnRtuTTfu6NgHhN8FJCj8wUr; expires=Fri, 15-Jan-2027 06:55:21 GMT; path=/; domain=.google.com; HttpOnly",
+              "rawTechnicalDetail": "NID=533=AlPYx6s1wqBKZysIg5CnkL4QjvdYSZykF2Kf0_Hixee7f1nIQZBfrSvwoYJlNHG7TbIxfgNARwuL2asrgirSMWSGgOPA1cXJgtNAgypjSBnJk-5E1JORLKVSqU59-Yg9fLkkCQYjf2lKRz35c9LcffyBXn26ApTnQEj68BxOuU8MnL7apOiiWCHEgL_PYvoZSnRtuTTfu6NgHhN8FJCj8wUr; expires=Fri, 15-Jan-2027 06:55:21 GMT; path=/; domain=.google.com; HttpOnly"
+            }
+          ],
+          "platformDetected": "Generic/Other"
+        }
+      ],
+      "createdAt": "2026-07-16T06:55:21.027Z"
     }
   }
 }
