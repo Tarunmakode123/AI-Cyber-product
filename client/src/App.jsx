@@ -55,6 +55,7 @@ export default function App() {
   const [errorMessage, setErrorMessage] = useState("");
   const [scanResults, setScanResults] = useState(null);
   const [activeHistoryIndex, setActiveHistoryIndex] = useState(null);
+  const [whyGradeExpanded, setWhyGradeExpanded] = useState(false);
 
   // Reset history index when scanning starts
   useEffect(() => {
@@ -394,6 +395,23 @@ export default function App() {
   // Grade computation (Single Scan)
   const gradeInfo = useMemo(() => {
     if (!displayedResults) return { grade: "F", color: "text-cyber-red", border: "border-cyber-red", bg: "bg-cyber-red/10", label: "Critical Risk" };
+    
+    if (displayedResults.grade !== undefined) {
+      const g = displayedResults.grade;
+      const severityLabels = {
+        A: { label: "Excellent Posture", color: "text-[#10b981]", border: "border-[#10b981]/40", bg: "bg-[#10b981]/10" },
+        B: { label: "Minor Issues", color: "text-[#66fcf1]", border: "border-[#66fcf1]/40", bg: "bg-[#66fcf1]/5" },
+        C: { label: "Medium Risk Issues", color: "text-[#f59e0b]", border: "border-[#f59e0b]/40", bg: "bg-[#f59e0b]/5" },
+        D: { label: "High Risk Issues", color: "text-[#ef4444]", border: "border-[#ef4444]/40", bg: "bg-[#ef4444]/10" },
+        F: { label: "Critical Vulnerabilities", color: "text-[#ef4444]", border: "border-[#ef4444]/40", bg: "bg-[#ef4444]/10" }
+      };
+      const style = severityLabels[g] || severityLabels.F;
+      return {
+        grade: g,
+        ...style
+      };
+    }
+
     const findings = displayedResults.findings;
     const criticalCount = findings.filter(f => f.severity === "critical").length;
     const highCount = findings.filter(f => f.severity === "high").length;
@@ -418,8 +436,17 @@ export default function App() {
   // Scores by category out of 100 (Single Scan)
   const categoryScores = useMemo(() => {
     if (!displayedResults) return [];
-    const findings = displayedResults.findings;
 
+    if (displayedResults.weightedBreakdown) {
+      return displayedResults.weightedBreakdown.map(item => ({
+        name: item.category,
+        score: item.score,
+        weight: item.weight,
+        contribution: item.contributionToOverall
+      }));
+    }
+
+    const findings = displayedResults.findings;
     const categories = [
       { name: "Secrets", key: "Secrets" },
       { name: "Database", key: "Database" },
@@ -869,10 +896,67 @@ export default function App() {
                       <li><strong>Authentication Caching:</strong> Verifies that `/login` or `/signup` pages send `Cache-Control: no-store` to prevent credentials from being stored in shared browser caches.</li>
                       <li><strong>Legacy Libraries & IDOR:</strong> Detects outdated libraries (e.g. jQuery &lt; 3.5.0) and checks routes for predictable numeric ids (potential IDOR leaks).</li>
                     </ul>
-                  </div>
-                </div>
-              </div>
-            )}
+                   </div>
+
+                   {/* Category: AI/LLM Exposure */}
+                   <div className="bg-[#0b0c10]/50 border border-[#1f2833]/50 p-5 rounded-lg">
+                     <div className="flex items-center gap-2 mb-3">
+                       <Brain className="h-5 w-5 text-cyber-light" />
+                       <h3 className="font-mono text-sm font-semibold text-white">6. AI & LLM Security</h3>
+                     </div>
+                     <ul className="space-y-2 text-xs text-cyber-gray/80 ml-7 list-disc">
+                       <li><strong>Hardcoded System Prompts:</strong> Analyzes script bundles for long strings (&gt; 150 characters) containing prompt scaffolding patterns that are adjacent (within 1000 characters) to OpenAI, Anthropic, or Gemini host endpoints.</li>
+                       <li><strong>GraphQL Introspection Probe:</strong> Discovers GraphQL endpoints on the same origin and tests whether schema introspection queries return full database layouts.</li>
+                     </ul>
+                   </div>
+
+                   {/* Category: Grading Transparency */}
+                   <div className="bg-[#1f2833]/15 border border-[#1f2833] p-5 rounded-lg">
+                     <div className="flex items-center gap-2 mb-3">
+                       <ArrowUpDown className="h-5 w-5 text-cyber-light" />
+                       <h3 className="font-mono text-sm font-semibold text-white">Grading Algorithm & Severity Rules</h3>
+                     </div>
+                     <p className="text-xs text-cyber-gray leading-relaxed mb-4">
+                       Your overall letter grade (A-F) is derived from a weighted score across all six categories, and then subjected to safety caps based on the highest vulnerability found.
+                     </p>
+                     
+                     <div className="space-y-3 font-mono text-[11px] text-cyber-gray/80 ml-3">
+                       <div>
+                         <span className="text-white font-bold">// 1. Category Weights:</span>
+                         <ul className="list-disc ml-6 mt-1 space-y-1 text-cyber-gray">
+                           <li>Secrets (20%) - Critical admin roles and keys leaks.</li>
+                           <li>Database (20%) - Open Firestore / Supabase RLS.</li>
+                           <li>Network & Transport (15%) - SSL certificate, CSP, headers.</li>
+                           <li>AI/LLM Exposure (15%) - Leaked prompts, GraphQL schemas.</li>
+                           <li>App Layer (15%) - Cache control, session cookie flags, IDOR.</li>
+                           <li>Dependencies (15%) - Vulnerable legacy library update status.</li>
+                         </ul>
+                       </div>
+
+                       <div>
+                         <span className="text-white font-bold">// 2. Safety Grade Caps:</span>
+                         <ul className="list-disc ml-6 mt-1 space-y-1 text-cyber-orange">
+                           <li>If <strong className="text-cyber-red">1 Critical finding</strong> is detected: The overall grade is capped at <strong className="text-cyber-red">D</strong> (Max score 64) regardless of other perfect categories.</li>
+                           <li>If <strong className="text-cyber-orange">1 High finding</strong> is detected: The overall grade is capped at <strong className="text-cyber-orange">C</strong> (Max score 79).</li>
+                         </ul>
+                       </div>
+
+                       <div>
+                         <span className="text-white font-bold">// 3. Threshold Mapping:</span>
+                         <ul className="list-disc ml-6 mt-1 space-y-1 text-cyber-gray">
+                           <li>90+ Overall Weighted Score ➔ Grade A</li>
+                           <li>80 - 89 Score ➔ Grade B</li>
+                           <li>65 - 79 Score ➔ Grade C</li>
+                           <li>50 - 64 Score ➔ Grade D</li>
+                           <li>Below 50 Score ➔ Grade F</li>
+                         </ul>
+                       </div>
+                     </div>
+                   </div>
+
+                 </div>
+               </div>
+             )}
 
             {/* Test Targets Hint */}
             <div className="mt-6 flex flex-wrap gap-2 items-center justify-center text-xs">
@@ -1106,11 +1190,80 @@ export default function App() {
 
                 <h3 className={`text-base font-bold uppercase tracking-tight ${gradeInfo.color}`}>{gradeInfo.label}</h3>
                 <p className="text-xs text-cyber-gray/60 mt-1 leading-normal">
-                  Passive audit detected {scanResults.findings.length} findings on target host.
+                  Passive audit detected {displayedResults.findings.length} findings on target host.
                 </p>
+
+                {/* Why This Grade? Expandable Section */}
+                <div className="w-full mt-4 pt-3 border-t border-[#1f2833]/40 text-left">
+                  <button
+                    onClick={() => setWhyGradeExpanded(!whyGradeExpanded)}
+                    className="w-full flex items-center justify-between text-xs font-mono text-cyber-light hover:text-white transition-colors cursor-pointer select-none outline-none"
+                  >
+                    <span>Why This Grade?</span>
+                    <span>{whyGradeExpanded ? "▲" : "▼"}</span>
+                  </button>
+
+                  {whyGradeExpanded && (
+                    <div className="mt-3 space-y-3 text-xs text-cyber-gray/90 leading-relaxed font-sans">
+                      {/* 1. Cap applied display */}
+                      {displayedResults.capApplied && (
+                        <div className="p-2.5 rounded border border-cyber-red/30 bg-cyber-red/5 text-cyber-red font-mono text-[10px] uppercase leading-normal">
+                          ⚠️ {displayedResults.capReason}
+                        </div>
+                      )}
+
+                      {/* 2. Plain English Breakdown summary */}
+                      <p className="text-[11px]">
+                        {(() => {
+                          const breakdown = displayedResults.weightedBreakdown || [];
+                          if (breakdown.length === 0) return "Your grade is determined based on the default server security scanner policy.";
+                          
+                          const weakCategories = breakdown.filter(cat => cat.score < 80);
+                          const perfectCategories = breakdown.filter(cat => cat.score === 100);
+
+                          let explanationStr = `Your grade is ${displayedResults.grade} (Overall Score: ${displayedResults.overallScore || 0}/100) based on weighted category scores. `;
+                          
+                          if (weakCategories.length > 0) {
+                            explanationStr += `It is pulled down primarily by your ${weakCategories.map(c => `${c.category} (${c.score}/100)`).join(", ")} score${weakCategories.length > 1 ? "s" : ""}. `;
+                          }
+                          if (perfectCategories.length > 0 && weakCategories.length > 0) {
+                            explanationStr += `Even though categories like ${perfectCategories.map(c => c.category).join(", ")} are perfect, weaker sections reduce the overall rating.`;
+                          } else if (perfectCategories.length === breakdown.length) {
+                            explanationStr += "All of your security categories are in a perfect, secure state!";
+                          }
+
+                          return explanationStr;
+                        })()}
+                      </p>
+
+                      {/* 3. Category Score Weight Proportion Bars */}
+                      <div className="space-y-2 pt-2 border-t border-[#1f2833]/20 font-mono text-[10px]">
+                        <span className="text-[9px] uppercase tracking-wider text-cyber-gray/50">// Category Weights:</span>
+                        {categoryScores.map(cat => {
+                          const pct = cat.weight ? Math.round(cat.weight * 100) : 15;
+                          return (
+                            <div key={cat.name} className="space-y-1">
+                              <div className="flex justify-between text-[9px] text-cyber-gray/70">
+                                <span>{cat.name} (Weight: {pct}%)</span>
+                                <span>{cat.score}/100</span>
+                              </div>
+                              <div className="h-1 bg-[#1f2833] rounded-full overflow-hidden">
+                                <div 
+                                  className="h-full bg-cyber-light/40" 
+                                  style={{ width: `${cat.score}%` }} 
+                                />
+                              </div>
+                            </div>
+                          );
+                        })}
+                      </div>
+                    </div>
+                  )}
+                </div>
+
                 <div className="mt-4 pt-3 border-t border-[#1f2833]/40 w-full flex justify-between text-[10px] font-mono text-cyber-gray/50">
-                  <span>PLATFORM: {scanResults.platformDetected}</span>
-                  <span>TIME: {scanResults.scanDurationMs}ms</span>
+                  <span>PLATFORM: {displayedResults.platformDetected}</span>
+                  <span>TIME: {displayedResults.scanDurationMs}ms</span>
                 </div>
               </div>
 

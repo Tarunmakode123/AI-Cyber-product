@@ -4,6 +4,135 @@
       {
         "result": {
           "url": "https://example.com/",
+          "scannedAt": "2026-07-16T07:25:23.094Z",
+          "findings": [
+            {
+              "id": "header-missing-content-security-policy",
+              "category": "Network",
+              "title": "Missing Content-Security-Policy header",
+              "severity": "high",
+              "evidence": "Header 'content-security-policy' is missing in HTTP response headers.",
+              "rawTechnicalDetail": "{\"date\":\"Thu, 16 Jul 2026 07:25:20 GMT\",\"content-type\":\"text/html\",\"transfer-encoding\":\"chunked\",\"connection\":\"close\",\"server\":\"cloudflare\",\"last-modified\":\"Wed, 15 Jul 2026 18:48:48 GMT\",\"allow\":\"GET, HEAD\",\"age\":\"10155\",\"cf-cache-status\":\"HIT\",\"cf-ray\":\"a1bf45bb18d76145-BOM\"}",
+              "aiExplanation": {
+                "plainSummary": "Your website lacks a Content Security Policy (CSP) header.",
+                "attackScenario": "An attacker finds an input field on your website that doesn't sanitize data. They inject a malicious script. Because there is no Content Security Policy to restrict script sources, the browser runs the script, which silently steals the session cookies of every visiting user.",
+                "consequence": "High risk of Cross-Site Scripting (XSS) attacks leading to user session hijacking and page defacement.",
+                "fixPrompt": "Please show me how to add a secure Content-Security-Policy header to my web application that permits scripts only from trusted sources."
+              }
+            },
+            {
+              "id": "header-missing-x-frame-options",
+              "category": "Network",
+              "title": "Missing X-Frame-Options (Clickjacking vulnerability)",
+              "severity": "medium",
+              "evidence": "Header 'x-frame-options' is missing in HTTP response headers.",
+              "rawTechnicalDetail": "{\"date\":\"Thu, 16 Jul 2026 07:25:20 GMT\",\"content-type\":\"text/html\",\"transfer-encoding\":\"chunked\",\"connection\":\"close\",\"server\":\"cloudflare\",\"last-modified\":\"Wed, 15 Jul 2026 18:48:48 GMT\",\"allow\":\"GET, HEAD\",\"age\":\"10155\",\"cf-cache-status\":\"HIT\",\"cf-ray\":\"a1bf45bb18d76145-BOM\"}",
+              "aiExplanation": {
+                "plainSummary": "Your website can be embedded in other websites via frames.",
+                "attackScenario": "An attacker creates a malicious webpage that embeds your portal in an invisible iframe. They place a fake 'Free Gift' button directly over your portal's 'Delete Account' button. A logged-in user visits the malicious page, clicks the gift button, and unintentionally deletes their account.",
+                "consequence": "Risk of Clickjacking attacks where users are tricked into performing unintended actions.",
+                "fixPrompt": "Please show me how to configure the 'X-Frame-Options: DENY' or 'SAMEORIGIN' header in my web server."
+              }
+            },
+            {
+              "id": "header-missing-x-content-type-options",
+              "category": "Network",
+              "title": "Missing X-Content-Type-Options header",
+              "severity": "low",
+              "evidence": "Header 'x-content-type-options' is missing in HTTP response headers.",
+              "rawTechnicalDetail": "{\"date\":\"Thu, 16 Jul 2026 07:25:20 GMT\",\"content-type\":\"text/html\",\"transfer-encoding\":\"chunked\",\"connection\":\"close\",\"server\":\"cloudflare\",\"last-modified\":\"Wed, 15 Jul 2026 18:48:48 GMT\",\"allow\":\"GET, HEAD\",\"age\":\"10155\",\"cf-cache-status\":\"HIT\",\"cf-ray\":\"a1bf45bb18d76145-BOM\"}",
+              "aiExplanation": {
+                "plainSummary": "Your server does not prevent browsers from guessing file types.",
+                "attackScenario": "An attacker uploads a text file containing malicious JavaScript, disguised as an image. Because your server does not send the X-Content-Type-Options: nosniff header, a victim's browser attempts to guess the file type and executes the malicious JavaScript in the victim's session.",
+                "consequence": "Risk of MIME-sniffing attacks leading to cross-site scripting vulnerabilities.",
+                "fixPrompt": "Show me how to set the 'X-Content-Type-Options: nosniff' header on my backend responses."
+              }
+            },
+            {
+              "id": "header-missing-strict-transport-security",
+              "category": "Network",
+              "title": "Missing Strict-Transport-Security (HSTS) header",
+              "severity": "high",
+              "evidence": "Header 'strict-transport-security' is missing in HTTP response headers.",
+              "rawTechnicalDetail": "{\"date\":\"Thu, 16 Jul 2026 07:25:20 GMT\",\"content-type\":\"text/html\",\"transfer-encoding\":\"chunked\",\"connection\":\"close\",\"server\":\"cloudflare\",\"last-modified\":\"Wed, 15 Jul 2026 18:48:48 GMT\",\"allow\":\"GET, HEAD\",\"age\":\"10155\",\"cf-cache-status\":\"HIT\",\"cf-ray\":\"a1bf45bb18d76145-BOM\"}",
+              "aiExplanation": {
+                "plainSummary": "Your website does not instruct browsers to enforce HTTPS.",
+                "attackScenario": "A user types your website's URL into their browser address bar without specifying 'https://'. An attacker on the same local network intercepts the initial HTTP request and forwards it to a fake clone of your site. Because HSTS is missing, the browser does not automatically upgrade the connection to HTTPS.",
+                "consequence": "Vulnerability to SSL Strip connection downgrade attacks.",
+                "fixPrompt": "Show me how to configure the 'Strict-Transport-Security' (HSTS) header on my server with max-age."
+              }
+            },
+            {
+              "id": "header-missing-referrer-policy",
+              "category": "Network",
+              "title": "Missing Referrer-Policy header",
+              "severity": "low",
+              "evidence": "Header 'referrer-policy' is missing in HTTP response headers.",
+              "rawTechnicalDetail": "{\"date\":\"Thu, 16 Jul 2026 07:25:20 GMT\",\"content-type\":\"text/html\",\"transfer-encoding\":\"chunked\",\"connection\":\"close\",\"server\":\"cloudflare\",\"last-modified\":\"Wed, 15 Jul 2026 18:48:48 GMT\",\"allow\":\"GET, HEAD\",\"age\":\"10155\",\"cf-cache-status\":\"HIT\",\"cf-ray\":\"a1bf45bb18d76145-BOM\"}",
+              "aiExplanation": {
+                "plainSummary": "Your website does not control referrer information sent to external links.",
+                "attackScenario": "A user clicks an external link on your private dashboard. Because no Referrer Policy is set, the browser includes the full URL of your private dashboard—which contains a sensitive session token in the query parameters—in the 'Referer' header sent to the external site owner.",
+                "consequence": "Minor exposure of sensitive URL paths or tokens to external websites when navigating away.",
+                "fixPrompt": "Show me how to add a 'Referrer-Policy: strict-origin-when-cross-origin' header to my server."
+              }
+            }
+          ],
+          "platformDetected": "Cloudflare Pages/Workers",
+          "scanDurationMs": 3197,
+          "overallScore": 79,
+          "grade": "C",
+          "weightedBreakdown": [
+            {
+              "category": "Secrets",
+              "key": "Secrets",
+              "score": 100,
+              "weight": 0.2,
+              "contributionToOverall": 20
+            },
+            {
+              "category": "Database",
+              "key": "Database",
+              "score": 100,
+              "weight": 0.2,
+              "contributionToOverall": 20
+            },
+            {
+              "category": "Network",
+              "key": "Network",
+              "score": 25,
+              "weight": 0.15,
+              "contributionToOverall": 3.8
+            },
+            {
+              "category": "AI/LLM Exposure",
+              "key": "AI_LLM",
+              "score": 100,
+              "weight": 0.15,
+              "contributionToOverall": 15
+            },
+            {
+              "category": "App Layer",
+              "key": "Application",
+              "score": 100,
+              "weight": 0.15,
+              "contributionToOverall": 15
+            },
+            {
+              "category": "Dependencies",
+              "key": "Dependencies",
+              "score": 100,
+              "weight": 0.15,
+              "contributionToOverall": 15
+            }
+          ],
+          "capApplied": "high-finding-cap",
+          "capReason": "Your grade is capped at C because we found a High severity issue — fixing all other categories to 100% won't raise your grade above C until the High issue is resolved."
+        },
+        "timestamp": "2026-07-16T07:25:23.109Z"
+      },
+      {
+        "result": {
+          "url": "https://example.com/",
           "scannedAt": "2026-07-16T07:09:13.277Z",
           "findings": [
             {
@@ -390,6 +519,163 @@
       }
     ],
     "https://google.com/": [
+      {
+        "result": {
+          "url": "https://google.com/",
+          "scannedAt": "2026-07-16T07:25:23.193Z",
+          "findings": [
+            {
+              "id": "header-missing-content-security-policy",
+              "category": "Network",
+              "title": "Missing Content-Security-Policy header",
+              "severity": "high",
+              "evidence": "Header 'content-security-policy' is missing in HTTP response headers.",
+              "rawTechnicalDetail": "{\"content-type\":\"text/html; charset=ISO-8859-1\",\"date\":\"Thu, 16 Jul 2026 07:25:21 GMT\",\"expires\":\"-1\",\"cache-control\":\"private, max-age=0\",\"content-security-policy-report-only\":\"object-src 'none';base-uri 'self';script-src 'nonce-oo9EQmrFl1U9RDTA3CzPbA' 'strict-dynamic' 'report-sample' 'unsafe-eval' 'unsafe-inline' https: http:;report-uri https://csp.withgoogle.com/csp/gws/other-hp\",\"accept-ch\":\"Sec-CH-Prefers-Color-Scheme\",\"p3p\":\"CP=\\\"This is not a P3P policy! See g.co/p3phelp for more info.\\\"\",\"server\":\"gws\",\"x-xss-protection\":\"0\",\"x-frame-options\":\"SAMEORIGIN\",\"set-cookie\":[\"__Secure-STRP=ANmZwa024CfoRcPeNtVZMix4ZeUzDw2rojbEzdJn6_MXFaWAOvhRNUWWdctpOyvy9IO_A7sjEWuKbnUcJ7idLiGbciCDbRksjq6-; expires=Thu, 16-Jul-2026 07:30:21 GMT; path=/; domain=.google.com; Secure; SameSite=strict\",\"AEC=AdJVEasIms9524cKttH5V0EP3rHExdWe-IK6eED50WkcN6VL-GjeP6EZ-Q; expires=Tue, 12-Jan-2027 07:25:21 GMT; path=/; domain=.google.com; Secure; HttpOnly; SameSite=lax\",\"NID=533=CyKwAm1uYQPn4uQ-Xnddl-9i9suaOKrRbFxgBE-cVgZvEesczDcRgrXAzQxllm-e-ONqFI2ED1p_2v44KKHuMhbentYxhpAZF6ytUaDcpg3EZOYeV17sM6L0niLWXnA86X4n6fc-pNaWaEDYVr48o6oDP3jHu6a_M0-n1cWbp9sa8YkTPzRrCnlGBZUs_JNkU19Eg3K9Jygms3jlcgE_aOLJ; expires=Fri, 15-Jan-2027 07:25:21 GMT; path=/; domain=.google.com; HttpOnly\"],\"alt-svc\":\"h3=\\\":443\\\"; ma=2592000,h3-29=\\\":443\\\"; ma=2592000\",\"connection\":\"close\",\"transfer-encoding\":\"chunked\"}",
+              "aiExplanation": {
+                "plainSummary": "Your website lacks a Content Security Policy (CSP) header.",
+                "attackScenario": "An attacker finds an input field on your website that doesn't sanitize data. They inject a malicious script. Because there is no Content Security Policy to restrict script sources, the browser runs the script, which silently steals the session cookies of every visiting user.",
+                "consequence": "High risk of Cross-Site Scripting (XSS) attacks leading to user session hijacking and page defacement.",
+                "fixPrompt": "Please show me how to add a secure Content-Security-Policy header to my web application that permits scripts only from trusted sources."
+              }
+            },
+            {
+              "id": "header-missing-x-content-type-options",
+              "category": "Network",
+              "title": "Missing X-Content-Type-Options header",
+              "severity": "low",
+              "evidence": "Header 'x-content-type-options' is missing in HTTP response headers.",
+              "rawTechnicalDetail": "{\"content-type\":\"text/html; charset=ISO-8859-1\",\"date\":\"Thu, 16 Jul 2026 07:25:21 GMT\",\"expires\":\"-1\",\"cache-control\":\"private, max-age=0\",\"content-security-policy-report-only\":\"object-src 'none';base-uri 'self';script-src 'nonce-oo9EQmrFl1U9RDTA3CzPbA' 'strict-dynamic' 'report-sample' 'unsafe-eval' 'unsafe-inline' https: http:;report-uri https://csp.withgoogle.com/csp/gws/other-hp\",\"accept-ch\":\"Sec-CH-Prefers-Color-Scheme\",\"p3p\":\"CP=\\\"This is not a P3P policy! See g.co/p3phelp for more info.\\\"\",\"server\":\"gws\",\"x-xss-protection\":\"0\",\"x-frame-options\":\"SAMEORIGIN\",\"set-cookie\":[\"__Secure-STRP=ANmZwa024CfoRcPeNtVZMix4ZeUzDw2rojbEzdJn6_MXFaWAOvhRNUWWdctpOyvy9IO_A7sjEWuKbnUcJ7idLiGbciCDbRksjq6-; expires=Thu, 16-Jul-2026 07:30:21 GMT; path=/; domain=.google.com; Secure; SameSite=strict\",\"AEC=AdJVEasIms9524cKttH5V0EP3rHExdWe-IK6eED50WkcN6VL-GjeP6EZ-Q; expires=Tue, 12-Jan-2027 07:25:21 GMT; path=/; domain=.google.com; Secure; HttpOnly; SameSite=lax\",\"NID=533=CyKwAm1uYQPn4uQ-Xnddl-9i9suaOKrRbFxgBE-cVgZvEesczDcRgrXAzQxllm-e-ONqFI2ED1p_2v44KKHuMhbentYxhpAZF6ytUaDcpg3EZOYeV17sM6L0niLWXnA86X4n6fc-pNaWaEDYVr48o6oDP3jHu6a_M0-n1cWbp9sa8YkTPzRrCnlGBZUs_JNkU19Eg3K9Jygms3jlcgE_aOLJ; expires=Fri, 15-Jan-2027 07:25:21 GMT; path=/; domain=.google.com; HttpOnly\"],\"alt-svc\":\"h3=\\\":443\\\"; ma=2592000,h3-29=\\\":443\\\"; ma=2592000\",\"connection\":\"close\",\"transfer-encoding\":\"chunked\"}",
+              "aiExplanation": {
+                "plainSummary": "Your server does not prevent browsers from guessing file types.",
+                "attackScenario": "An attacker uploads a text file containing malicious JavaScript, disguised as an image. Because your server does not send the X-Content-Type-Options: nosniff header, a victim's browser attempts to guess the file type and executes the malicious JavaScript in the victim's session.",
+                "consequence": "Risk of MIME-sniffing attacks leading to cross-site scripting vulnerabilities.",
+                "fixPrompt": "Show me how to set the 'X-Content-Type-Options: nosniff' header on my backend responses."
+              }
+            },
+            {
+              "id": "header-missing-strict-transport-security",
+              "category": "Network",
+              "title": "Missing Strict-Transport-Security (HSTS) header",
+              "severity": "high",
+              "evidence": "Header 'strict-transport-security' is missing in HTTP response headers.",
+              "rawTechnicalDetail": "{\"content-type\":\"text/html; charset=ISO-8859-1\",\"date\":\"Thu, 16 Jul 2026 07:25:21 GMT\",\"expires\":\"-1\",\"cache-control\":\"private, max-age=0\",\"content-security-policy-report-only\":\"object-src 'none';base-uri 'self';script-src 'nonce-oo9EQmrFl1U9RDTA3CzPbA' 'strict-dynamic' 'report-sample' 'unsafe-eval' 'unsafe-inline' https: http:;report-uri https://csp.withgoogle.com/csp/gws/other-hp\",\"accept-ch\":\"Sec-CH-Prefers-Color-Scheme\",\"p3p\":\"CP=\\\"This is not a P3P policy! See g.co/p3phelp for more info.\\\"\",\"server\":\"gws\",\"x-xss-protection\":\"0\",\"x-frame-options\":\"SAMEORIGIN\",\"set-cookie\":[\"__Secure-STRP=ANmZwa024CfoRcPeNtVZMix4ZeUzDw2rojbEzdJn6_MXFaWAOvhRNUWWdctpOyvy9IO_A7sjEWuKbnUcJ7idLiGbciCDbRksjq6-; expires=Thu, 16-Jul-2026 07:30:21 GMT; path=/; domain=.google.com; Secure; SameSite=strict\",\"AEC=AdJVEasIms9524cKttH5V0EP3rHExdWe-IK6eED50WkcN6VL-GjeP6EZ-Q; expires=Tue, 12-Jan-2027 07:25:21 GMT; path=/; domain=.google.com; Secure; HttpOnly; SameSite=lax\",\"NID=533=CyKwAm1uYQPn4uQ-Xnddl-9i9suaOKrRbFxgBE-cVgZvEesczDcRgrXAzQxllm-e-ONqFI2ED1p_2v44KKHuMhbentYxhpAZF6ytUaDcpg3EZOYeV17sM6L0niLWXnA86X4n6fc-pNaWaEDYVr48o6oDP3jHu6a_M0-n1cWbp9sa8YkTPzRrCnlGBZUs_JNkU19Eg3K9Jygms3jlcgE_aOLJ; expires=Fri, 15-Jan-2027 07:25:21 GMT; path=/; domain=.google.com; HttpOnly\"],\"alt-svc\":\"h3=\\\":443\\\"; ma=2592000,h3-29=\\\":443\\\"; ma=2592000\",\"connection\":\"close\",\"transfer-encoding\":\"chunked\"}",
+              "aiExplanation": {
+                "plainSummary": "Your website does not instruct browsers to enforce HTTPS.",
+                "attackScenario": "A user types your website's URL into their browser address bar without specifying 'https://'. An attacker on the same local network intercepts the initial HTTP request and forwards it to a fake clone of your site. Because HSTS is missing, the browser does not automatically upgrade the connection to HTTPS.",
+                "consequence": "Vulnerability to SSL Strip connection downgrade attacks.",
+                "fixPrompt": "Show me how to configure the 'Strict-Transport-Security' (HSTS) header on my server with max-age."
+              }
+            },
+            {
+              "id": "header-missing-referrer-policy",
+              "category": "Network",
+              "title": "Missing Referrer-Policy header",
+              "severity": "low",
+              "evidence": "Header 'referrer-policy' is missing in HTTP response headers.",
+              "rawTechnicalDetail": "{\"content-type\":\"text/html; charset=ISO-8859-1\",\"date\":\"Thu, 16 Jul 2026 07:25:21 GMT\",\"expires\":\"-1\",\"cache-control\":\"private, max-age=0\",\"content-security-policy-report-only\":\"object-src 'none';base-uri 'self';script-src 'nonce-oo9EQmrFl1U9RDTA3CzPbA' 'strict-dynamic' 'report-sample' 'unsafe-eval' 'unsafe-inline' https: http:;report-uri https://csp.withgoogle.com/csp/gws/other-hp\",\"accept-ch\":\"Sec-CH-Prefers-Color-Scheme\",\"p3p\":\"CP=\\\"This is not a P3P policy! See g.co/p3phelp for more info.\\\"\",\"server\":\"gws\",\"x-xss-protection\":\"0\",\"x-frame-options\":\"SAMEORIGIN\",\"set-cookie\":[\"__Secure-STRP=ANmZwa024CfoRcPeNtVZMix4ZeUzDw2rojbEzdJn6_MXFaWAOvhRNUWWdctpOyvy9IO_A7sjEWuKbnUcJ7idLiGbciCDbRksjq6-; expires=Thu, 16-Jul-2026 07:30:21 GMT; path=/; domain=.google.com; Secure; SameSite=strict\",\"AEC=AdJVEasIms9524cKttH5V0EP3rHExdWe-IK6eED50WkcN6VL-GjeP6EZ-Q; expires=Tue, 12-Jan-2027 07:25:21 GMT; path=/; domain=.google.com; Secure; HttpOnly; SameSite=lax\",\"NID=533=CyKwAm1uYQPn4uQ-Xnddl-9i9suaOKrRbFxgBE-cVgZvEesczDcRgrXAzQxllm-e-ONqFI2ED1p_2v44KKHuMhbentYxhpAZF6ytUaDcpg3EZOYeV17sM6L0niLWXnA86X4n6fc-pNaWaEDYVr48o6oDP3jHu6a_M0-n1cWbp9sa8YkTPzRrCnlGBZUs_JNkU19Eg3K9Jygms3jlcgE_aOLJ; expires=Fri, 15-Jan-2027 07:25:21 GMT; path=/; domain=.google.com; HttpOnly\"],\"alt-svc\":\"h3=\\\":443\\\"; ma=2592000,h3-29=\\\":443\\\"; ma=2592000\",\"connection\":\"close\",\"transfer-encoding\":\"chunked\"}",
+              "aiExplanation": {
+                "plainSummary": "Your website does not control referrer information sent to external links.",
+                "attackScenario": "A user clicks an external link on your private dashboard. Because no Referrer Policy is set, the browser includes the full URL of your private dashboard—which contains a sensitive session token in the query parameters—in the 'Referer' header sent to the external site owner.",
+                "consequence": "Minor exposure of sensitive URL paths or tokens to external websites when navigating away.",
+                "fixPrompt": "Show me how to add a 'Referrer-Policy: strict-origin-when-cross-origin' header to my server."
+              }
+            },
+            {
+              "id": "cookie-no-httponly-__Secure-STRP",
+              "category": "Application",
+              "title": "Cookie '__Secure-STRP' missing HttpOnly attribute",
+              "severity": "high",
+              "evidence": "__Secure-STRP=ANmZwa024CfoRcPeNtVZMix4ZeUzDw2rojbEzdJn6_MXFaWAOvhRNUWWdctpOyvy9IO_A7sjEWuKbnUcJ7idLiGbciCDbRksjq6-; expires=Thu, 16-Jul-2026 07:30:21 GMT; path=/; domain=.google.com; Secure; SameSite=strict",
+              "rawTechnicalDetail": "__Secure-STRP=ANmZwa024CfoRcPeNtVZMix4ZeUzDw2rojbEzdJn6_MXFaWAOvhRNUWWdctpOyvy9IO_A7sjEWuKbnUcJ7idLiGbciCDbRksjq6-; expires=Thu, 16-Jul-2026 07:30:21 GMT; path=/; domain=.google.com; Secure; SameSite=strict",
+              "aiExplanation": {
+                "plainSummary": "A cookie set by your server is missing the secure 'httponly-__Secure-STRP' flag.",
+                "attackScenario": "An attacker intercepts a user's unencrypted HTTP session on a public Wi-Fi network. Because your cookie lacks the 'Secure' or 'HttpOnly' flag, the browser transmits it over insecure networks or allows malicious scripts to read it, letting the attacker hijack the session.",
+                "consequence": "Moderate risk of user session hijacking if network traffic is intercepted or scripts run.",
+                "fixPrompt": "Show me how to set the Secure, HttpOnly, and SameSite flags on cookies in my backend code."
+              }
+            },
+            {
+              "id": "cookie-no-secure-NID",
+              "category": "Application",
+              "title": "Cookie 'NID' missing Secure attribute",
+              "severity": "medium",
+              "evidence": "NID=533=CyKwAm1uYQPn4uQ-Xnddl-9i9suaOKrRbFxgBE-cVgZvEesczDcRgrXAzQxllm-e-ONqFI2ED1p_2v44KKHuMhbentYxhpAZF6ytUaDcpg3EZOYeV17sM6L0niLWXnA86X4n6fc-pNaWaEDYVr48o6oDP3jHu6a_M0-n1cWbp9sa8YkTPzRrCnlGBZUs_JNkU19Eg3K9Jygms3jlcgE_aOLJ; expires=Fri, 15-Jan-2027 07:25:21 GMT; path=/; domain=.google.com; HttpOnly",
+              "rawTechnicalDetail": "NID=533=CyKwAm1uYQPn4uQ-Xnddl-9i9suaOKrRbFxgBE-cVgZvEesczDcRgrXAzQxllm-e-ONqFI2ED1p_2v44KKHuMhbentYxhpAZF6ytUaDcpg3EZOYeV17sM6L0niLWXnA86X4n6fc-pNaWaEDYVr48o6oDP3jHu6a_M0-n1cWbp9sa8YkTPzRrCnlGBZUs_JNkU19Eg3K9Jygms3jlcgE_aOLJ; expires=Fri, 15-Jan-2027 07:25:21 GMT; path=/; domain=.google.com; HttpOnly",
+              "aiExplanation": {
+                "plainSummary": "A cookie set by your server is missing the secure 'secure-NID' flag.",
+                "attackScenario": "An attacker intercepts a user's unencrypted HTTP session on a public Wi-Fi network. Because your cookie lacks the 'Secure' or 'HttpOnly' flag, the browser transmits it over insecure networks or allows malicious scripts to read it, letting the attacker hijack the session.",
+                "consequence": "Moderate risk of user session hijacking if network traffic is intercepted or scripts run.",
+                "fixPrompt": "Show me how to set the Secure, HttpOnly, and SameSite flags on cookies in my backend code."
+              }
+            },
+            {
+              "id": "cookie-no-samesite-NID",
+              "category": "Application",
+              "title": "Cookie 'NID' missing SameSite attribute",
+              "severity": "low",
+              "evidence": "NID=533=CyKwAm1uYQPn4uQ-Xnddl-9i9suaOKrRbFxgBE-cVgZvEesczDcRgrXAzQxllm-e-ONqFI2ED1p_2v44KKHuMhbentYxhpAZF6ytUaDcpg3EZOYeV17sM6L0niLWXnA86X4n6fc-pNaWaEDYVr48o6oDP3jHu6a_M0-n1cWbp9sa8YkTPzRrCnlGBZUs_JNkU19Eg3K9Jygms3jlcgE_aOLJ; expires=Fri, 15-Jan-2027 07:25:21 GMT; path=/; domain=.google.com; HttpOnly",
+              "rawTechnicalDetail": "NID=533=CyKwAm1uYQPn4uQ-Xnddl-9i9suaOKrRbFxgBE-cVgZvEesczDcRgrXAzQxllm-e-ONqFI2ED1p_2v44KKHuMhbentYxhpAZF6ytUaDcpg3EZOYeV17sM6L0niLWXnA86X4n6fc-pNaWaEDYVr48o6oDP3jHu6a_M0-n1cWbp9sa8YkTPzRrCnlGBZUs_JNkU19Eg3K9Jygms3jlcgE_aOLJ; expires=Fri, 15-Jan-2027 07:25:21 GMT; path=/; domain=.google.com; HttpOnly",
+              "aiExplanation": {
+                "plainSummary": "A cookie set by your server is missing the secure 'samesite-NID' flag.",
+                "attackScenario": "An attacker intercepts a user's unencrypted HTTP session on a public Wi-Fi network. Because your cookie lacks the 'Secure' or 'HttpOnly' flag, the browser transmits it over insecure networks or allows malicious scripts to read it, letting the attacker hijack the session.",
+                "consequence": "Moderate risk of user session hijacking if network traffic is intercepted or scripts run.",
+                "fixPrompt": "Show me how to set the Secure, HttpOnly, and SameSite flags on cookies in my backend code."
+              }
+            }
+          ],
+          "platformDetected": "Generic/Other",
+          "scanDurationMs": 3256,
+          "overallScore": 79,
+          "grade": "C",
+          "weightedBreakdown": [
+            {
+              "category": "Secrets",
+              "key": "Secrets",
+              "score": 100,
+              "weight": 0.2,
+              "contributionToOverall": 20
+            },
+            {
+              "category": "Database",
+              "key": "Database",
+              "score": 100,
+              "weight": 0.2,
+              "contributionToOverall": 20
+            },
+            {
+              "category": "Network",
+              "key": "Network",
+              "score": 40,
+              "weight": 0.15,
+              "contributionToOverall": 6
+            },
+            {
+              "category": "AI/LLM Exposure",
+              "key": "AI_LLM",
+              "score": 100,
+              "weight": 0.15,
+              "contributionToOverall": 15
+            },
+            {
+              "category": "App Layer",
+              "key": "Application",
+              "score": 55,
+              "weight": 0.15,
+              "contributionToOverall": 8.3
+            },
+            {
+              "category": "Dependencies",
+              "key": "Dependencies",
+              "score": 100,
+              "weight": 0.15,
+              "contributionToOverall": 15
+            }
+          ],
+          "capApplied": "high-finding-cap",
+          "capReason": "Your grade is capped at C because we found a High severity issue — fixing all other categories to 100% won't raise your grade above C until the High issue is resolved."
+        },
+        "timestamp": "2026-07-16T07:25:23.216Z"
+      },
       {
         "result": {
           "url": "https://google.com/",
@@ -903,6 +1189,477 @@
       }
     ],
     "http://localhost:3000/api/test-fixture/vulnerable": [
+      {
+        "result": {
+          "url": "http://localhost:3000/api/test-fixture/vulnerable",
+          "scannedAt": "2026-07-16T07:25:25.957Z",
+          "findings": [
+            {
+              "id": "http-no-redirect",
+              "category": "Transport",
+              "title": "HTTP to HTTPS redirect not enforced",
+              "severity": "high",
+              "evidence": "Requested http version and was not redirected to https",
+              "rawTechnicalDetail": "Status: 200",
+              "aiExplanation": {
+                "plainSummary": "Your site allows insecure HTTP connections without redirecting to HTTPS.",
+                "attackScenario": "A student logs in to your portal while connected to an unencrypted public library Wi-Fi network. Because your site doesn't force HTTPS, the login request is sent in cleartext. A malicious user sniffing packets on the same Wi-Fi intercepts their password.",
+                "consequence": "Exposure of user login credentials and session tokens to passive network interception.",
+                "fixPrompt": "Show me how to configure an automatic HTTP-to-HTTPS redirect on my web server or hosting platform."
+              }
+            },
+            {
+              "id": "key-openai-proj",
+              "category": "Secrets",
+              "title": "Exposed OpenAI Project Key",
+              "severity": "critical",
+              "evidence": "Found key pattern matching: ...1234567890",
+              "rawTechnicalDetail": "Matches regex pattern.",
+              "aiExplanation": {
+                "plainSummary": "Your private OPENAI-PROJ API key is exposed in the frontend bundle.",
+                "attackScenario": "An attacker opens the webpage, views the loaded JavaScript assets, and searches for key strings. They locate your hardcoded private OPENAI-PROJ key. The attacker uses this key to make requests directly to the service provider in your name, exhausting your credits.",
+                "consequence": "High risk of financial costs due to billing abuse, and potential access to private third-party services.",
+                "fixPrompt": "I leaked my private OPENAI-PROJ API key in my client code. Help me remove it and move the api calls to a secure backend server."
+              }
+            },
+            {
+              "id": "key-stripe-secret",
+              "category": "Secrets",
+              "title": "Exposed Stripe Secret Key",
+              "severity": "critical",
+              "evidence": "Found key pattern matching: ...p2Yt7s1j4k",
+              "rawTechnicalDetail": "Matches regex pattern.",
+              "aiExplanation": {
+                "plainSummary": "Your private STRIPE-SECRET API key is exposed in the frontend bundle.",
+                "attackScenario": "An attacker opens the webpage, views the loaded JavaScript assets, and searches for key strings. They locate your hardcoded private STRIPE-SECRET key. The attacker uses this key to make requests directly to the service provider in your name, exhausting your credits.",
+                "consequence": "High risk of financial costs due to billing abuse, and potential access to private third-party services.",
+                "fixPrompt": "I leaked my private STRIPE-SECRET API key in my client code. Help me remove it and move the api calls to a secure backend server."
+              }
+            },
+            {
+              "id": "supabase-rls-bypass-users",
+              "category": "Database",
+              "title": "Supabase Row-Level Security (RLS) Bypassed on 'users' table",
+              "severity": "critical",
+              "evidence": "Able to read data from http://localhost:3000/api/test-fixture/rest/v1/users using public anon key.",
+              "rawTechnicalDetail": "Bypass detected. Record sample preview: [{\"id\":1,\"email\":\"victim1@example.com\",\"is_admin\":false},{\"id\":2,\"email\":\"admin@example.com\",\"is_admin\":true}]",
+              "aiExplanation": {
+                "plainSummary": "Your database table 'users' is readable by the public.",
+                "attackScenario": "An attacker sends a direct request to your database REST API using your public anon key, asking for the 'users' table. Because Row-Level Security (RLS) is disabled or lacks policies, the API returns all data inside the 'users' table without any authorization checks.",
+                "consequence": "Complete leak of all sensitive records stored in the 'users' database table.",
+                "fixPrompt": "Show me how to enable Row-Level Security on my Supabase table 'users' and write a select policy for authenticated users."
+              }
+            },
+            {
+              "id": "supabase-rls-bypass-secret_student_data",
+              "category": "Database",
+              "title": "Supabase Row-Level Security (RLS) Bypassed on 'secret_student_data' table",
+              "severity": "critical",
+              "evidence": "Able to read data from http://localhost:3000/api/test-fixture/rest/v1/secret_student_data using public anon key.",
+              "rawTechnicalDetail": "Bypass detected. Record sample preview: [{\"id\":1,\"student_id\":\"2026-CS-041\",\"name\":\"Tarun Kumar\",\"secret_gpa\":\"3.9\"}]",
+              "aiExplanation": {
+                "plainSummary": "Your database table 'secret_student_data' is readable by the public.",
+                "attackScenario": "An attacker sends a direct request to your database REST API using your public anon key, asking for the 'secret_student_data' table. Because Row-Level Security (RLS) is disabled or lacks policies, the API returns all data inside the 'secret_student_data' table without any authorization checks.",
+                "consequence": "Complete leak of all sensitive records stored in the 'secret_student_data' database table.",
+                "fixPrompt": "Show me how to enable Row-Level Security on my Supabase table 'secret_student_data' and write a select policy for authenticated users."
+              }
+            },
+            {
+              "id": "exposed-llm-system-prompt",
+              "category": "AI_LLM",
+              "title": "LLM System Prompt Exposed in Client Bundle",
+              "severity": "high",
+              "evidence": "Exposed prompt: \"You are a helpful AI assistant. Your instructions: You must always guide students on security. Do no...\"",
+              "rawTechnicalDetail": "Exposed system prompt literal found within 1000 characters of an LLM API hostname (api.openai.com).",
+              "aiExplanation": {
+                "plainSummary": "Your AI's system instructions are visible in the client bundle.",
+                "attackScenario": "An attacker opens your compiled JavaScript code and searches for prompt instructions. They copy your proprietary prompt engineering templates. Furthermore, knowing your exact system instructions, they craft a prompt injection attack that easily bypasses your AI's guardrails.",
+                "consequence": "Theft of proprietary prompt engineering work, and increased vulnerability to AI jailbreaking and prompt injection.",
+                "fixPrompt": "My system prompt is hardcoded in the client bundle. Show me how to set up a secure proxy server that appends the system prompt on the backend."
+              }
+            },
+            {
+              "id": "graphql-introspection-enabled",
+              "category": "AI_LLM",
+              "title": "GraphQL Introspection Enabled",
+              "severity": "high",
+              "evidence": "Introspection query succeeded at: http://localhost:3000/api/graphql",
+              "rawTechnicalDetail": "GraphQL endpoint allows schema introspection. Exposed 5 schema types.",
+              "aiExplanation": {
+                "plainSummary": "Your database schema can be queried by anyone.",
+                "attackScenario": "An attacker discovers your GraphQL endpoint. They send a POST query requesting '__schema'. The server returns the entire GraphQL schema. The attacker studies this structure to identify private tables, hidden fields, and relationship joins, creating targeted queries to exploit them.",
+                "consequence": "Full disclosure of your database schema, simplifying the task of identifying and exploiting database weaknesses.",
+                "fixPrompt": "Help me disable GraphQL introspection in production for my GraphQL server configuration."
+              }
+            }
+          ],
+          "platformDetected": "Generic/Other",
+          "scanDurationMs": 590,
+          "overallScore": 61,
+          "grade": "D",
+          "weightedBreakdown": [
+            {
+              "category": "Secrets",
+              "key": "Secrets",
+              "score": 20,
+              "weight": 0.2,
+              "contributionToOverall": 4
+            },
+            {
+              "category": "Database",
+              "key": "Database",
+              "score": 20,
+              "weight": 0.2,
+              "contributionToOverall": 4
+            },
+            {
+              "category": "Network",
+              "key": "Network",
+              "score": 100,
+              "weight": 0.15,
+              "contributionToOverall": 15
+            },
+            {
+              "category": "AI/LLM Exposure",
+              "key": "AI_LLM",
+              "score": 50,
+              "weight": 0.15,
+              "contributionToOverall": 7.5
+            },
+            {
+              "category": "App Layer",
+              "key": "Application",
+              "score": 100,
+              "weight": 0.15,
+              "contributionToOverall": 15
+            },
+            {
+              "category": "Dependencies",
+              "key": "Dependencies",
+              "score": 100,
+              "weight": 0.15,
+              "contributionToOverall": 15
+            }
+          ],
+          "capApplied": null,
+          "capReason": null
+        },
+        "timestamp": "2026-07-16T07:25:25.972Z"
+      },
+      {
+        "result": {
+          "url": "http://localhost:3000/api/test-fixture/vulnerable",
+          "scannedAt": "2026-07-16T07:25:24.320Z",
+          "findings": [
+            {
+              "id": "http-no-redirect",
+              "category": "Transport",
+              "title": "HTTP to HTTPS redirect not enforced",
+              "severity": "high",
+              "evidence": "Requested http version and was not redirected to https",
+              "rawTechnicalDetail": "Status: 200",
+              "aiExplanation": {
+                "plainSummary": "Your site allows insecure HTTP connections without redirecting to HTTPS.",
+                "attackScenario": "A student logs in to your portal while connected to an unencrypted public library Wi-Fi network. Because your site doesn't force HTTPS, the login request is sent in cleartext. A malicious user sniffing packets on the same Wi-Fi intercepts their password.",
+                "consequence": "Exposure of user login credentials and session tokens to passive network interception.",
+                "fixPrompt": "Show me how to configure an automatic HTTP-to-HTTPS redirect on my web server or hosting platform."
+              }
+            },
+            {
+              "id": "key-openai-proj",
+              "category": "Secrets",
+              "title": "Exposed OpenAI Project Key",
+              "severity": "critical",
+              "evidence": "Found key pattern matching: ...1234567890",
+              "rawTechnicalDetail": "Matches regex pattern.",
+              "aiExplanation": {
+                "plainSummary": "Your private OPENAI-PROJ API key is exposed in the frontend bundle.",
+                "attackScenario": "An attacker opens the webpage, views the loaded JavaScript assets, and searches for key strings. They locate your hardcoded private OPENAI-PROJ key. The attacker uses this key to make requests directly to the service provider in your name, exhausting your credits.",
+                "consequence": "High risk of financial costs due to billing abuse, and potential access to private third-party services.",
+                "fixPrompt": "I leaked my private OPENAI-PROJ API key in my client code. Help me remove it and move the api calls to a secure backend server."
+              }
+            },
+            {
+              "id": "key-stripe-secret",
+              "category": "Secrets",
+              "title": "Exposed Stripe Secret Key",
+              "severity": "critical",
+              "evidence": "Found key pattern matching: ...p2Yt7s1j4k",
+              "rawTechnicalDetail": "Matches regex pattern.",
+              "aiExplanation": {
+                "plainSummary": "Your private STRIPE-SECRET API key is exposed in the frontend bundle.",
+                "attackScenario": "An attacker opens the webpage, views the loaded JavaScript assets, and searches for key strings. They locate your hardcoded private STRIPE-SECRET key. The attacker uses this key to make requests directly to the service provider in your name, exhausting your credits.",
+                "consequence": "High risk of financial costs due to billing abuse, and potential access to private third-party services.",
+                "fixPrompt": "I leaked my private STRIPE-SECRET API key in my client code. Help me remove it and move the api calls to a secure backend server."
+              }
+            },
+            {
+              "id": "supabase-rls-bypass-users",
+              "category": "Database",
+              "title": "Supabase Row-Level Security (RLS) Bypassed on 'users' table",
+              "severity": "critical",
+              "evidence": "Able to read data from http://localhost:3000/api/test-fixture/rest/v1/users using public anon key.",
+              "rawTechnicalDetail": "Bypass detected. Record sample preview: [{\"id\":1,\"email\":\"victim1@example.com\",\"is_admin\":false},{\"id\":2,\"email\":\"admin@example.com\",\"is_admin\":true}]",
+              "aiExplanation": {
+                "plainSummary": "Your database table 'users' is readable by the public.",
+                "attackScenario": "An attacker sends a direct request to your database REST API using your public anon key, asking for the 'users' table. Because Row-Level Security (RLS) is disabled or lacks policies, the API returns all data inside the 'users' table without any authorization checks.",
+                "consequence": "Complete leak of all sensitive records stored in the 'users' database table.",
+                "fixPrompt": "Show me how to enable Row-Level Security on my Supabase table 'users' and write a select policy for authenticated users."
+              }
+            },
+            {
+              "id": "supabase-rls-bypass-secret_student_data",
+              "category": "Database",
+              "title": "Supabase Row-Level Security (RLS) Bypassed on 'secret_student_data' table",
+              "severity": "critical",
+              "evidence": "Able to read data from http://localhost:3000/api/test-fixture/rest/v1/secret_student_data using public anon key.",
+              "rawTechnicalDetail": "Bypass detected. Record sample preview: [{\"id\":1,\"student_id\":\"2026-CS-041\",\"name\":\"Tarun Kumar\",\"secret_gpa\":\"3.9\"}]",
+              "aiExplanation": {
+                "plainSummary": "Your database table 'secret_student_data' is readable by the public.",
+                "attackScenario": "An attacker sends a direct request to your database REST API using your public anon key, asking for the 'secret_student_data' table. Because Row-Level Security (RLS) is disabled or lacks policies, the API returns all data inside the 'secret_student_data' table without any authorization checks.",
+                "consequence": "Complete leak of all sensitive records stored in the 'secret_student_data' database table.",
+                "fixPrompt": "Show me how to enable Row-Level Security on my Supabase table 'secret_student_data' and write a select policy for authenticated users."
+              }
+            },
+            {
+              "id": "exposed-llm-system-prompt",
+              "category": "AI_LLM",
+              "title": "LLM System Prompt Exposed in Client Bundle",
+              "severity": "high",
+              "evidence": "Exposed prompt: \"You are a helpful AI assistant. Your instructions: You must always guide students on security. Do no...\"",
+              "rawTechnicalDetail": "Exposed system prompt literal found within 1000 characters of an LLM API hostname (api.openai.com).",
+              "aiExplanation": {
+                "plainSummary": "Your AI's system instructions are visible in the client bundle.",
+                "attackScenario": "An attacker opens your compiled JavaScript code and searches for prompt instructions. They copy your proprietary prompt engineering templates. Furthermore, knowing your exact system instructions, they craft a prompt injection attack that easily bypasses your AI's guardrails.",
+                "consequence": "Theft of proprietary prompt engineering work, and increased vulnerability to AI jailbreaking and prompt injection.",
+                "fixPrompt": "My system prompt is hardcoded in the client bundle. Show me how to set up a secure proxy server that appends the system prompt on the backend."
+              }
+            },
+            {
+              "id": "graphql-introspection-enabled",
+              "category": "AI_LLM",
+              "title": "GraphQL Introspection Enabled",
+              "severity": "high",
+              "evidence": "Introspection query succeeded at: http://localhost:3000/api/graphql",
+              "rawTechnicalDetail": "GraphQL endpoint allows schema introspection. Exposed 5 schema types.",
+              "aiExplanation": {
+                "plainSummary": "Your database schema can be queried by anyone.",
+                "attackScenario": "An attacker discovers your GraphQL endpoint. They send a POST query requesting '__schema'. The server returns the entire GraphQL schema. The attacker studies this structure to identify private tables, hidden fields, and relationship joins, creating targeted queries to exploit them.",
+                "consequence": "Full disclosure of your database schema, simplifying the task of identifying and exploiting database weaknesses.",
+                "fixPrompt": "Help me disable GraphQL introspection in production for my GraphQL server configuration."
+              }
+            }
+          ],
+          "platformDetected": "Generic/Other",
+          "scanDurationMs": 360,
+          "overallScore": 61,
+          "grade": "D",
+          "weightedBreakdown": [
+            {
+              "category": "Secrets",
+              "key": "Secrets",
+              "score": 20,
+              "weight": 0.2,
+              "contributionToOverall": 4
+            },
+            {
+              "category": "Database",
+              "key": "Database",
+              "score": 20,
+              "weight": 0.2,
+              "contributionToOverall": 4
+            },
+            {
+              "category": "Network",
+              "key": "Network",
+              "score": 100,
+              "weight": 0.15,
+              "contributionToOverall": 15
+            },
+            {
+              "category": "AI/LLM Exposure",
+              "key": "AI_LLM",
+              "score": 50,
+              "weight": 0.15,
+              "contributionToOverall": 7.5
+            },
+            {
+              "category": "App Layer",
+              "key": "Application",
+              "score": 100,
+              "weight": 0.15,
+              "contributionToOverall": 15
+            },
+            {
+              "category": "Dependencies",
+              "key": "Dependencies",
+              "score": 100,
+              "weight": 0.15,
+              "contributionToOverall": 15
+            }
+          ],
+          "capApplied": null,
+          "capReason": null
+        },
+        "timestamp": "2026-07-16T07:25:24.334Z"
+      },
+      {
+        "result": {
+          "url": "http://localhost:3000/api/test-fixture/vulnerable",
+          "scannedAt": "2026-07-16T07:25:20.298Z",
+          "findings": [
+            {
+              "id": "http-no-redirect",
+              "category": "Transport",
+              "title": "HTTP to HTTPS redirect not enforced",
+              "severity": "high",
+              "evidence": "Requested http version and was not redirected to https",
+              "rawTechnicalDetail": "Status: 200",
+              "aiExplanation": {
+                "plainSummary": "Your site allows insecure HTTP connections without redirecting to HTTPS.",
+                "attackScenario": "A student logs in to your portal while connected to an unencrypted public library Wi-Fi network. Because your site doesn't force HTTPS, the login request is sent in cleartext. A malicious user sniffing packets on the same Wi-Fi intercepts their password.",
+                "consequence": "Exposure of user login credentials and session tokens to passive network interception.",
+                "fixPrompt": "Show me how to configure an automatic HTTP-to-HTTPS redirect on my web server or hosting platform."
+              }
+            },
+            {
+              "id": "key-openai-proj",
+              "category": "Secrets",
+              "title": "Exposed OpenAI Project Key",
+              "severity": "critical",
+              "evidence": "Found key pattern matching: ...1234567890",
+              "rawTechnicalDetail": "Matches regex pattern.",
+              "aiExplanation": {
+                "plainSummary": "Your private OPENAI-PROJ API key is exposed in the frontend bundle.",
+                "attackScenario": "An attacker opens the webpage, views the loaded JavaScript assets, and searches for key strings. They locate your hardcoded private OPENAI-PROJ key. The attacker uses this key to make requests directly to the service provider in your name, exhausting your credits.",
+                "consequence": "High risk of financial costs due to billing abuse, and potential access to private third-party services.",
+                "fixPrompt": "I leaked my private OPENAI-PROJ API key in my client code. Help me remove it and move the api calls to a secure backend server."
+              }
+            },
+            {
+              "id": "key-stripe-secret",
+              "category": "Secrets",
+              "title": "Exposed Stripe Secret Key",
+              "severity": "critical",
+              "evidence": "Found key pattern matching: ...p2Yt7s1j4k",
+              "rawTechnicalDetail": "Matches regex pattern.",
+              "aiExplanation": {
+                "plainSummary": "Your private STRIPE-SECRET API key is exposed in the frontend bundle.",
+                "attackScenario": "An attacker opens the webpage, views the loaded JavaScript assets, and searches for key strings. They locate your hardcoded private STRIPE-SECRET key. The attacker uses this key to make requests directly to the service provider in your name, exhausting your credits.",
+                "consequence": "High risk of financial costs due to billing abuse, and potential access to private third-party services.",
+                "fixPrompt": "I leaked my private STRIPE-SECRET API key in my client code. Help me remove it and move the api calls to a secure backend server."
+              }
+            },
+            {
+              "id": "supabase-rls-bypass-users",
+              "category": "Database",
+              "title": "Supabase Row-Level Security (RLS) Bypassed on 'users' table",
+              "severity": "critical",
+              "evidence": "Able to read data from http://localhost:3000/api/test-fixture/rest/v1/users using public anon key.",
+              "rawTechnicalDetail": "Bypass detected. Record sample preview: [{\"id\":1,\"email\":\"victim1@example.com\",\"is_admin\":false},{\"id\":2,\"email\":\"admin@example.com\",\"is_admin\":true}]",
+              "aiExplanation": {
+                "plainSummary": "Your database table 'users' is readable by the public.",
+                "attackScenario": "An attacker sends a direct request to your database REST API using your public anon key, asking for the 'users' table. Because Row-Level Security (RLS) is disabled or lacks policies, the API returns all data inside the 'users' table without any authorization checks.",
+                "consequence": "Complete leak of all sensitive records stored in the 'users' database table.",
+                "fixPrompt": "Show me how to enable Row-Level Security on my Supabase table 'users' and write a select policy for authenticated users."
+              }
+            },
+            {
+              "id": "supabase-rls-bypass-secret_student_data",
+              "category": "Database",
+              "title": "Supabase Row-Level Security (RLS) Bypassed on 'secret_student_data' table",
+              "severity": "critical",
+              "evidence": "Able to read data from http://localhost:3000/api/test-fixture/rest/v1/secret_student_data using public anon key.",
+              "rawTechnicalDetail": "Bypass detected. Record sample preview: [{\"id\":1,\"student_id\":\"2026-CS-041\",\"name\":\"Tarun Kumar\",\"secret_gpa\":\"3.9\"}]",
+              "aiExplanation": {
+                "plainSummary": "Your database table 'secret_student_data' is readable by the public.",
+                "attackScenario": "An attacker sends a direct request to your database REST API using your public anon key, asking for the 'secret_student_data' table. Because Row-Level Security (RLS) is disabled or lacks policies, the API returns all data inside the 'secret_student_data' table without any authorization checks.",
+                "consequence": "Complete leak of all sensitive records stored in the 'secret_student_data' database table.",
+                "fixPrompt": "Show me how to enable Row-Level Security on my Supabase table 'secret_student_data' and write a select policy for authenticated users."
+              }
+            },
+            {
+              "id": "exposed-llm-system-prompt",
+              "category": "AI_LLM",
+              "title": "LLM System Prompt Exposed in Client Bundle",
+              "severity": "high",
+              "evidence": "Exposed prompt: \"You are a helpful AI assistant. Your instructions: You must always guide students on security. Do no...\"",
+              "rawTechnicalDetail": "Exposed system prompt literal found within 1000 characters of an LLM API hostname (api.openai.com).",
+              "aiExplanation": {
+                "plainSummary": "Your AI's system instructions are visible in the client bundle.",
+                "attackScenario": "An attacker opens your compiled JavaScript code and searches for prompt instructions. They copy your proprietary prompt engineering templates. Furthermore, knowing your exact system instructions, they craft a prompt injection attack that easily bypasses your AI's guardrails.",
+                "consequence": "Theft of proprietary prompt engineering work, and increased vulnerability to AI jailbreaking and prompt injection.",
+                "fixPrompt": "My system prompt is hardcoded in the client bundle. Show me how to set up a secure proxy server that appends the system prompt on the backend."
+              }
+            },
+            {
+              "id": "graphql-introspection-enabled",
+              "category": "AI_LLM",
+              "title": "GraphQL Introspection Enabled",
+              "severity": "high",
+              "evidence": "Introspection query succeeded at: http://localhost:3000/api/graphql",
+              "rawTechnicalDetail": "GraphQL endpoint allows schema introspection. Exposed 5 schema types.",
+              "aiExplanation": {
+                "plainSummary": "Your database schema can be queried by anyone.",
+                "attackScenario": "An attacker discovers your GraphQL endpoint. They send a POST query requesting '__schema'. The server returns the entire GraphQL schema. The attacker studies this structure to identify private tables, hidden fields, and relationship joins, creating targeted queries to exploit them.",
+                "consequence": "Full disclosure of your database schema, simplifying the task of identifying and exploiting database weaknesses.",
+                "fixPrompt": "Help me disable GraphQL introspection in production for my GraphQL server configuration."
+              }
+            }
+          ],
+          "platformDetected": "Generic/Other",
+          "scanDurationMs": 385,
+          "overallScore": 61,
+          "grade": "D",
+          "weightedBreakdown": [
+            {
+              "category": "Secrets",
+              "key": "Secrets",
+              "score": 20,
+              "weight": 0.2,
+              "contributionToOverall": 4
+            },
+            {
+              "category": "Database",
+              "key": "Database",
+              "score": 20,
+              "weight": 0.2,
+              "contributionToOverall": 4
+            },
+            {
+              "category": "Network",
+              "key": "Network",
+              "score": 100,
+              "weight": 0.15,
+              "contributionToOverall": 15
+            },
+            {
+              "category": "AI/LLM Exposure",
+              "key": "AI_LLM",
+              "score": 50,
+              "weight": 0.15,
+              "contributionToOverall": 7.5
+            },
+            {
+              "category": "App Layer",
+              "key": "Application",
+              "score": 100,
+              "weight": 0.15,
+              "contributionToOverall": 15
+            },
+            {
+              "category": "Dependencies",
+              "key": "Dependencies",
+              "score": 100,
+              "weight": 0.15,
+              "contributionToOverall": 15
+            }
+          ],
+          "capApplied": null,
+          "capReason": null
+        },
+        "timestamp": "2026-07-16T07:25:20.322Z"
+      },
       {
         "result": {
           "url": "http://localhost:3000/api/test-fixture/vulnerable",
@@ -1481,162 +2238,118 @@
           "scanDurationMs": 36
         },
         "timestamp": "2026-07-15T20:03:19.671Z"
-      },
-      {
-        "result": {
-          "url": "http://localhost:3000/api/test-fixture/vulnerable",
-          "scannedAt": "2026-07-15T20:03:18.617Z",
-          "findings": [
-            {
-              "id": "http-no-redirect",
-              "category": "Transport",
-              "title": "HTTP to HTTPS redirect not enforced",
-              "severity": "high",
-              "evidence": "Requested http version and was not redirected to https",
-              "rawTechnicalDetail": "Status: 200"
-            },
-            {
-              "id": "key-openai-proj",
-              "category": "Secrets",
-              "title": "Exposed OpenAI Project Key",
-              "severity": "critical",
-              "evidence": "Found key pattern matching: ...1234567890",
-              "rawTechnicalDetail": "Matches regex pattern."
-            },
-            {
-              "id": "key-stripe-secret",
-              "category": "Secrets",
-              "title": "Exposed Stripe Secret Key",
-              "severity": "critical",
-              "evidence": "Found key pattern matching: ...p2Yt7s1j4k",
-              "rawTechnicalDetail": "Matches regex pattern."
-            },
-            {
-              "id": "supabase-rls-bypass-users",
-              "category": "Database",
-              "title": "Supabase Row-Level Security (RLS) Bypassed on 'users' table",
-              "severity": "critical",
-              "evidence": "Able to read data from http://localhost:3000/api/test-fixture/rest/v1/users using public anon key.",
-              "rawTechnicalDetail": "Bypass detected. Record sample preview: [{\"id\":1,\"email\":\"victim1@example.com\",\"is_admin\":false},{\"id\":2,\"email\":\"admin@example.com\",\"is_admin\":true}]"
-            },
-            {
-              "id": "supabase-rls-bypass-secret_student_data",
-              "category": "Database",
-              "title": "Supabase Row-Level Security (RLS) Bypassed on 'secret_student_data' table",
-              "severity": "critical",
-              "evidence": "Able to read data from http://localhost:3000/api/test-fixture/rest/v1/secret_student_data using public anon key.",
-              "rawTechnicalDetail": "Bypass detected. Record sample preview: [{\"id\":1,\"student_id\":\"2026-CS-041\",\"name\":\"Tarun Kumar\",\"secret_gpa\":\"3.9\"}]"
-            }
-          ],
-          "platformDetected": "Generic/Other",
-          "scanDurationMs": 34
-        },
-        "timestamp": "2026-07-15T20:03:18.620Z"
-      },
-      {
-        "result": {
-          "url": "http://localhost:3000/api/test-fixture/vulnerable",
-          "scannedAt": "2026-07-15T20:03:14.622Z",
-          "findings": [
-            {
-              "id": "http-no-redirect",
-              "category": "Transport",
-              "title": "HTTP to HTTPS redirect not enforced",
-              "severity": "high",
-              "evidence": "Requested http version and was not redirected to https",
-              "rawTechnicalDetail": "Status: 200"
-            },
-            {
-              "id": "key-openai-proj",
-              "category": "Secrets",
-              "title": "Exposed OpenAI Project Key",
-              "severity": "critical",
-              "evidence": "Found key pattern matching: ...1234567890",
-              "rawTechnicalDetail": "Matches regex pattern."
-            },
-            {
-              "id": "key-stripe-secret",
-              "category": "Secrets",
-              "title": "Exposed Stripe Secret Key",
-              "severity": "critical",
-              "evidence": "Found key pattern matching: ...p2Yt7s1j4k",
-              "rawTechnicalDetail": "Matches regex pattern."
-            },
-            {
-              "id": "supabase-rls-bypass-users",
-              "category": "Database",
-              "title": "Supabase Row-Level Security (RLS) Bypassed on 'users' table",
-              "severity": "critical",
-              "evidence": "Able to read data from http://localhost:3000/api/test-fixture/rest/v1/users using public anon key.",
-              "rawTechnicalDetail": "Bypass detected. Record sample preview: [{\"id\":1,\"email\":\"victim1@example.com\",\"is_admin\":false},{\"id\":2,\"email\":\"admin@example.com\",\"is_admin\":true}]"
-            },
-            {
-              "id": "supabase-rls-bypass-secret_student_data",
-              "category": "Database",
-              "title": "Supabase Row-Level Security (RLS) Bypassed on 'secret_student_data' table",
-              "severity": "critical",
-              "evidence": "Able to read data from http://localhost:3000/api/test-fixture/rest/v1/secret_student_data using public anon key.",
-              "rawTechnicalDetail": "Bypass detected. Record sample preview: [{\"id\":1,\"student_id\":\"2026-CS-041\",\"name\":\"Tarun Kumar\",\"secret_gpa\":\"3.9\"}]"
-            }
-          ],
-          "platformDetected": "Generic/Other",
-          "scanDurationMs": 65
-        },
-        "timestamp": "2026-07-15T20:03:14.624Z"
-      },
-      {
-        "result": {
-          "url": "http://localhost:3000/api/test-fixture/vulnerable",
-          "scannedAt": "2026-07-15T20:02:31.849Z",
-          "findings": [
-            {
-              "id": "http-no-redirect",
-              "category": "Transport",
-              "title": "HTTP to HTTPS redirect not enforced",
-              "severity": "high",
-              "evidence": "Requested http version and was not redirected to https",
-              "rawTechnicalDetail": "Status: 200"
-            },
-            {
-              "id": "key-openai-proj",
-              "category": "Secrets",
-              "title": "Exposed OpenAI Project Key",
-              "severity": "critical",
-              "evidence": "Found key pattern matching: ...1234567890",
-              "rawTechnicalDetail": "Matches regex pattern."
-            },
-            {
-              "id": "key-stripe-secret",
-              "category": "Secrets",
-              "title": "Exposed Stripe Secret Key",
-              "severity": "critical",
-              "evidence": "Found key pattern matching: ...p2Yt7s1j4k",
-              "rawTechnicalDetail": "Matches regex pattern."
-            },
-            {
-              "id": "supabase-rls-bypass-users",
-              "category": "Database",
-              "title": "Supabase Row-Level Security (RLS) Bypassed on 'users' table",
-              "severity": "critical",
-              "evidence": "Able to read data from http://localhost:3000/api/test-fixture/rest/v1/users using public anon key.",
-              "rawTechnicalDetail": "Bypass detected. Record sample preview: [{\"id\":1,\"email\":\"victim1@example.com\",\"is_admin\":false},{\"id\":2,\"email\":\"admin@example.com\",\"is_admin\":true}]"
-            },
-            {
-              "id": "supabase-rls-bypass-secret_student_data",
-              "category": "Database",
-              "title": "Supabase Row-Level Security (RLS) Bypassed on 'secret_student_data' table",
-              "severity": "critical",
-              "evidence": "Able to read data from http://localhost:3000/api/test-fixture/rest/v1/secret_student_data using public anon key.",
-              "rawTechnicalDetail": "Bypass detected. Record sample preview: [{\"id\":1,\"student_id\":\"2026-CS-041\",\"name\":\"Tarun Kumar\",\"secret_gpa\":\"3.9\"}]"
-            }
-          ],
-          "platformDetected": "Generic/Other",
-          "scanDurationMs": 33
-        },
-        "timestamp": "2026-07-15T20:02:31.851Z"
       }
     ],
     "https://aptitude-hub.vercel.app/": [
+      {
+        "result": {
+          "url": "https://aptitude-hub.vercel.app/",
+          "scannedAt": "2026-07-16T07:11:35.598Z",
+          "findings": [
+            {
+              "id": "header-missing-content-security-policy",
+              "category": "Network",
+              "title": "Missing Content-Security-Policy header",
+              "severity": "high",
+              "evidence": "Header 'content-security-policy' is missing in HTTP response headers.",
+              "rawTechnicalDetail": "{\"access-control-allow-origin\":\"*\",\"age\":\"853\",\"cache-control\":\"public, max-age=0, must-revalidate\",\"content-disposition\":\"inline\",\"content-type\":\"text/html; charset=utf-8\",\"date\":\"Thu, 16 Jul 2026 07:11:33 GMT\",\"etag\":\"W/\\\"e115143210a5c4945b68807b9e96e3b6\\\"\",\"last-modified\":\"Thu, 16 Jul 2026 06:57:19 GMT\",\"server\":\"Vercel\",\"strict-transport-security\":\"max-age=63072000; includeSubDomains; preload\",\"x-vercel-cache\":\"HIT\",\"x-vercel-id\":\"bom1::mb6cr-1784185893553-638504861ade\",\"connection\":\"close\",\"transfer-encoding\":\"chunked\"}",
+              "aiExplanation": {
+                "plainSummary": "Your website lacks a Content Security Policy (CSP) header.",
+                "attackScenario": "An attacker finds an input field on your website that doesn't sanitize data. They inject a malicious script. Because there is no Content Security Policy to restrict script sources, the browser runs the script, which silently steals the session cookies of every visiting user.",
+                "consequence": "High risk of Cross-Site Scripting (XSS) attacks leading to user session hijacking and page defacement.",
+                "fixPrompt": "Please show me how to add a secure Content-Security-Policy header to my web application that permits scripts only from trusted sources."
+              }
+            },
+            {
+              "id": "header-missing-x-frame-options",
+              "category": "Network",
+              "title": "Missing X-Frame-Options (Clickjacking vulnerability)",
+              "severity": "medium",
+              "evidence": "Header 'x-frame-options' is missing in HTTP response headers.",
+              "rawTechnicalDetail": "{\"access-control-allow-origin\":\"*\",\"age\":\"853\",\"cache-control\":\"public, max-age=0, must-revalidate\",\"content-disposition\":\"inline\",\"content-type\":\"text/html; charset=utf-8\",\"date\":\"Thu, 16 Jul 2026 07:11:33 GMT\",\"etag\":\"W/\\\"e115143210a5c4945b68807b9e96e3b6\\\"\",\"last-modified\":\"Thu, 16 Jul 2026 06:57:19 GMT\",\"server\":\"Vercel\",\"strict-transport-security\":\"max-age=63072000; includeSubDomains; preload\",\"x-vercel-cache\":\"HIT\",\"x-vercel-id\":\"bom1::mb6cr-1784185893553-638504861ade\",\"connection\":\"close\",\"transfer-encoding\":\"chunked\"}",
+              "aiExplanation": {
+                "plainSummary": "Your website can be embedded in other websites via frames.",
+                "attackScenario": "An attacker creates a malicious webpage that embeds your portal in an invisible iframe. They place a fake 'Free Gift' button directly over your portal's 'Delete Account' button. A logged-in user visits the malicious page, clicks the gift button, and unintentionally deletes their account.",
+                "consequence": "Risk of Clickjacking attacks where users are tricked into performing unintended actions.",
+                "fixPrompt": "Please show me how to configure the 'X-Frame-Options: DENY' or 'SAMEORIGIN' header in my web server."
+              }
+            },
+            {
+              "id": "header-missing-x-content-type-options",
+              "category": "Network",
+              "title": "Missing X-Content-Type-Options header",
+              "severity": "low",
+              "evidence": "Header 'x-content-type-options' is missing in HTTP response headers.",
+              "rawTechnicalDetail": "{\"access-control-allow-origin\":\"*\",\"age\":\"853\",\"cache-control\":\"public, max-age=0, must-revalidate\",\"content-disposition\":\"inline\",\"content-type\":\"text/html; charset=utf-8\",\"date\":\"Thu, 16 Jul 2026 07:11:33 GMT\",\"etag\":\"W/\\\"e115143210a5c4945b68807b9e96e3b6\\\"\",\"last-modified\":\"Thu, 16 Jul 2026 06:57:19 GMT\",\"server\":\"Vercel\",\"strict-transport-security\":\"max-age=63072000; includeSubDomains; preload\",\"x-vercel-cache\":\"HIT\",\"x-vercel-id\":\"bom1::mb6cr-1784185893553-638504861ade\",\"connection\":\"close\",\"transfer-encoding\":\"chunked\"}",
+              "aiExplanation": {
+                "plainSummary": "Your server does not prevent browsers from guessing file types.",
+                "attackScenario": "An attacker uploads a text file containing malicious JavaScript, disguised as an image. Because your server does not send the X-Content-Type-Options: nosniff header, a victim's browser attempts to guess the file type and executes the malicious JavaScript in the victim's session.",
+                "consequence": "Risk of MIME-sniffing attacks leading to cross-site scripting vulnerabilities.",
+                "fixPrompt": "Show me how to set the 'X-Content-Type-Options: nosniff' header on my backend responses."
+              }
+            },
+            {
+              "id": "header-missing-referrer-policy",
+              "category": "Network",
+              "title": "Missing Referrer-Policy header",
+              "severity": "low",
+              "evidence": "Header 'referrer-policy' is missing in HTTP response headers.",
+              "rawTechnicalDetail": "{\"access-control-allow-origin\":\"*\",\"age\":\"853\",\"cache-control\":\"public, max-age=0, must-revalidate\",\"content-disposition\":\"inline\",\"content-type\":\"text/html; charset=utf-8\",\"date\":\"Thu, 16 Jul 2026 07:11:33 GMT\",\"etag\":\"W/\\\"e115143210a5c4945b68807b9e96e3b6\\\"\",\"last-modified\":\"Thu, 16 Jul 2026 06:57:19 GMT\",\"server\":\"Vercel\",\"strict-transport-security\":\"max-age=63072000; includeSubDomains; preload\",\"x-vercel-cache\":\"HIT\",\"x-vercel-id\":\"bom1::mb6cr-1784185893553-638504861ade\",\"connection\":\"close\",\"transfer-encoding\":\"chunked\"}",
+              "aiExplanation": {
+                "plainSummary": "Your website does not control referrer information sent to external links.",
+                "attackScenario": "A user clicks an external link on your private dashboard. Because no Referrer Policy is set, the browser includes the full URL of your private dashboard—which contains a sensitive session token in the query parameters—in the 'Referer' header sent to the external site owner.",
+                "consequence": "Minor exposure of sensitive URL paths or tokens to external websites when navigating away.",
+                "fixPrompt": "Show me how to add a 'Referrer-Policy: strict-origin-when-cross-origin' header to my server."
+              }
+            },
+            {
+              "id": "auth-cache-control-login",
+              "category": "Application",
+              "title": "Auth Page '/login' Missing Cache-Control: no-store",
+              "severity": "medium",
+              "evidence": "Response headers at https://aptitude-hub.vercel.app/login: Cache-Control is \"public, max-age=0, must-revalidate\"",
+              "rawTechnicalDetail": "Allows sensitive credentials/tokens to stay in browser history cache.",
+              "aiExplanation": {
+                "plainSummary": "Your secure authentication pages permit browser caching.",
+                "attackScenario": "A student logs into their account from a shared college computer. After logging out, they walk away. The next student sits down, clicks the browser's back button, and views the cached profile details of the previous student because caching was not disabled.",
+                "consequence": "Exposure of sensitive user dashboards to other users on shared physical computers.",
+                "fixPrompt": "Show me how to set the Cache-Control: no-store, no-cache response headers on my authentication pages."
+              }
+            },
+            {
+              "id": "auth-cache-control-signup",
+              "category": "Application",
+              "title": "Auth Page '/signup' Missing Cache-Control: no-store",
+              "severity": "medium",
+              "evidence": "Response headers at https://aptitude-hub.vercel.app/signup: Cache-Control is \"public, max-age=0, must-revalidate\"",
+              "rawTechnicalDetail": "Allows sensitive credentials/tokens to stay in browser history cache.",
+              "aiExplanation": {
+                "plainSummary": "Your secure authentication pages permit browser caching.",
+                "attackScenario": "A student logs into their account from a shared college computer. After logging out, they walk away. The next student sits down, clicks the browser's back button, and views the cached profile details of the previous student because caching was not disabled.",
+                "consequence": "Exposure of sensitive user dashboards to other users on shared physical computers.",
+                "fixPrompt": "Show me how to set the Cache-Control: no-store, no-cache response headers on my authentication pages."
+              }
+            },
+            {
+              "id": "auth-cache-control-reset-password",
+              "category": "Application",
+              "title": "Auth Page '/reset-password' Missing Cache-Control: no-store",
+              "severity": "medium",
+              "evidence": "Response headers at https://aptitude-hub.vercel.app/reset-password: Cache-Control is \"public, max-age=0, must-revalidate\"",
+              "rawTechnicalDetail": "Allows sensitive credentials/tokens to stay in browser history cache.",
+              "aiExplanation": {
+                "plainSummary": "Your secure authentication pages permit browser caching.",
+                "attackScenario": "A student logs into their account from a shared college computer. After logging out, they walk away. The next student sits down, clicks the browser's back button, and views the cached profile details of the previous student because caching was not disabled.",
+                "consequence": "Exposure of sensitive user dashboards to other users on shared physical computers.",
+                "fixPrompt": "Show me how to set the Cache-Control: no-store, no-cache response headers on my authentication pages."
+              }
+            }
+          ],
+          "platformDetected": "Vercel",
+          "scanDurationMs": 2632
+        },
+        "timestamp": "2026-07-16T07:11:35.631Z"
+      },
       {
         "result": {
           "url": "https://aptitude-hub.vercel.app/",
@@ -3380,6 +4093,313 @@
         }
       ],
       "createdAt": "2026-07-16T07:09:07.168Z"
+    },
+    "batch_82mg0ax73jr87xeavnr0y4": {
+      "batchId": "batch_82mg0ax73jr87xeavnr0y4",
+      "label": "Verification Demo Batch",
+      "total": 3,
+      "completed": 3,
+      "failed": 0,
+      "status": "completed",
+      "results": [
+        {
+          "url": "https://example.com/",
+          "status": "done",
+          "grade": "C",
+          "findingsCount": 5,
+          "findings": [
+            {
+              "id": "header-missing-content-security-policy",
+              "category": "Network",
+              "title": "Missing Content-Security-Policy header",
+              "severity": "high",
+              "evidence": "Header 'content-security-policy' is missing in HTTP response headers.",
+              "rawTechnicalDetail": "{\"date\":\"Thu, 16 Jul 2026 07:25:20 GMT\",\"content-type\":\"text/html\",\"transfer-encoding\":\"chunked\",\"connection\":\"close\",\"server\":\"cloudflare\",\"last-modified\":\"Wed, 15 Jul 2026 18:48:48 GMT\",\"allow\":\"GET, HEAD\",\"age\":\"10155\",\"cf-cache-status\":\"HIT\",\"cf-ray\":\"a1bf45bb18d76145-BOM\"}",
+              "aiExplanation": {
+                "plainSummary": "Your website lacks a Content Security Policy (CSP) header.",
+                "attackScenario": "An attacker finds an input field on your website that doesn't sanitize data. They inject a malicious script. Because there is no Content Security Policy to restrict script sources, the browser runs the script, which silently steals the session cookies of every visiting user.",
+                "consequence": "High risk of Cross-Site Scripting (XSS) attacks leading to user session hijacking and page defacement.",
+                "fixPrompt": "Please show me how to add a secure Content-Security-Policy header to my web application that permits scripts only from trusted sources."
+              }
+            },
+            {
+              "id": "header-missing-x-frame-options",
+              "category": "Network",
+              "title": "Missing X-Frame-Options (Clickjacking vulnerability)",
+              "severity": "medium",
+              "evidence": "Header 'x-frame-options' is missing in HTTP response headers.",
+              "rawTechnicalDetail": "{\"date\":\"Thu, 16 Jul 2026 07:25:20 GMT\",\"content-type\":\"text/html\",\"transfer-encoding\":\"chunked\",\"connection\":\"close\",\"server\":\"cloudflare\",\"last-modified\":\"Wed, 15 Jul 2026 18:48:48 GMT\",\"allow\":\"GET, HEAD\",\"age\":\"10155\",\"cf-cache-status\":\"HIT\",\"cf-ray\":\"a1bf45bb18d76145-BOM\"}",
+              "aiExplanation": {
+                "plainSummary": "Your website can be embedded in other websites via frames.",
+                "attackScenario": "An attacker creates a malicious webpage that embeds your portal in an invisible iframe. They place a fake 'Free Gift' button directly over your portal's 'Delete Account' button. A logged-in user visits the malicious page, clicks the gift button, and unintentionally deletes their account.",
+                "consequence": "Risk of Clickjacking attacks where users are tricked into performing unintended actions.",
+                "fixPrompt": "Please show me how to configure the 'X-Frame-Options: DENY' or 'SAMEORIGIN' header in my web server."
+              }
+            },
+            {
+              "id": "header-missing-x-content-type-options",
+              "category": "Network",
+              "title": "Missing X-Content-Type-Options header",
+              "severity": "low",
+              "evidence": "Header 'x-content-type-options' is missing in HTTP response headers.",
+              "rawTechnicalDetail": "{\"date\":\"Thu, 16 Jul 2026 07:25:20 GMT\",\"content-type\":\"text/html\",\"transfer-encoding\":\"chunked\",\"connection\":\"close\",\"server\":\"cloudflare\",\"last-modified\":\"Wed, 15 Jul 2026 18:48:48 GMT\",\"allow\":\"GET, HEAD\",\"age\":\"10155\",\"cf-cache-status\":\"HIT\",\"cf-ray\":\"a1bf45bb18d76145-BOM\"}",
+              "aiExplanation": {
+                "plainSummary": "Your server does not prevent browsers from guessing file types.",
+                "attackScenario": "An attacker uploads a text file containing malicious JavaScript, disguised as an image. Because your server does not send the X-Content-Type-Options: nosniff header, a victim's browser attempts to guess the file type and executes the malicious JavaScript in the victim's session.",
+                "consequence": "Risk of MIME-sniffing attacks leading to cross-site scripting vulnerabilities.",
+                "fixPrompt": "Show me how to set the 'X-Content-Type-Options: nosniff' header on my backend responses."
+              }
+            },
+            {
+              "id": "header-missing-strict-transport-security",
+              "category": "Network",
+              "title": "Missing Strict-Transport-Security (HSTS) header",
+              "severity": "high",
+              "evidence": "Header 'strict-transport-security' is missing in HTTP response headers.",
+              "rawTechnicalDetail": "{\"date\":\"Thu, 16 Jul 2026 07:25:20 GMT\",\"content-type\":\"text/html\",\"transfer-encoding\":\"chunked\",\"connection\":\"close\",\"server\":\"cloudflare\",\"last-modified\":\"Wed, 15 Jul 2026 18:48:48 GMT\",\"allow\":\"GET, HEAD\",\"age\":\"10155\",\"cf-cache-status\":\"HIT\",\"cf-ray\":\"a1bf45bb18d76145-BOM\"}",
+              "aiExplanation": {
+                "plainSummary": "Your website does not instruct browsers to enforce HTTPS.",
+                "attackScenario": "A user types your website's URL into their browser address bar without specifying 'https://'. An attacker on the same local network intercepts the initial HTTP request and forwards it to a fake clone of your site. Because HSTS is missing, the browser does not automatically upgrade the connection to HTTPS.",
+                "consequence": "Vulnerability to SSL Strip connection downgrade attacks.",
+                "fixPrompt": "Show me how to configure the 'Strict-Transport-Security' (HSTS) header on my server with max-age."
+              }
+            },
+            {
+              "id": "header-missing-referrer-policy",
+              "category": "Network",
+              "title": "Missing Referrer-Policy header",
+              "severity": "low",
+              "evidence": "Header 'referrer-policy' is missing in HTTP response headers.",
+              "rawTechnicalDetail": "{\"date\":\"Thu, 16 Jul 2026 07:25:20 GMT\",\"content-type\":\"text/html\",\"transfer-encoding\":\"chunked\",\"connection\":\"close\",\"server\":\"cloudflare\",\"last-modified\":\"Wed, 15 Jul 2026 18:48:48 GMT\",\"allow\":\"GET, HEAD\",\"age\":\"10155\",\"cf-cache-status\":\"HIT\",\"cf-ray\":\"a1bf45bb18d76145-BOM\"}",
+              "aiExplanation": {
+                "plainSummary": "Your website does not control referrer information sent to external links.",
+                "attackScenario": "A user clicks an external link on your private dashboard. Because no Referrer Policy is set, the browser includes the full URL of your private dashboard—which contains a sensitive session token in the query parameters—in the 'Referer' header sent to the external site owner.",
+                "consequence": "Minor exposure of sensitive URL paths or tokens to external websites when navigating away.",
+                "fixPrompt": "Show me how to add a 'Referrer-Policy: strict-origin-when-cross-origin' header to my server."
+              }
+            }
+          ],
+          "overallScore": 79,
+          "platformDetected": "Cloudflare Pages/Workers"
+        },
+        {
+          "url": "http://localhost:3000/api/test-fixture/vulnerable",
+          "status": "done",
+          "grade": "D",
+          "findingsCount": 7,
+          "findings": [
+            {
+              "id": "http-no-redirect",
+              "category": "Transport",
+              "title": "HTTP to HTTPS redirect not enforced",
+              "severity": "high",
+              "evidence": "Requested http version and was not redirected to https",
+              "rawTechnicalDetail": "Status: 200",
+              "aiExplanation": {
+                "plainSummary": "Your site allows insecure HTTP connections without redirecting to HTTPS.",
+                "attackScenario": "A student logs in to your portal while connected to an unencrypted public library Wi-Fi network. Because your site doesn't force HTTPS, the login request is sent in cleartext. A malicious user sniffing packets on the same Wi-Fi intercepts their password.",
+                "consequence": "Exposure of user login credentials and session tokens to passive network interception.",
+                "fixPrompt": "Show me how to configure an automatic HTTP-to-HTTPS redirect on my web server or hosting platform."
+              }
+            },
+            {
+              "id": "key-openai-proj",
+              "category": "Secrets",
+              "title": "Exposed OpenAI Project Key",
+              "severity": "critical",
+              "evidence": "Found key pattern matching: ...1234567890",
+              "rawTechnicalDetail": "Matches regex pattern.",
+              "aiExplanation": {
+                "plainSummary": "Your private OPENAI-PROJ API key is exposed in the frontend bundle.",
+                "attackScenario": "An attacker opens the webpage, views the loaded JavaScript assets, and searches for key strings. They locate your hardcoded private OPENAI-PROJ key. The attacker uses this key to make requests directly to the service provider in your name, exhausting your credits.",
+                "consequence": "High risk of financial costs due to billing abuse, and potential access to private third-party services.",
+                "fixPrompt": "I leaked my private OPENAI-PROJ API key in my client code. Help me remove it and move the api calls to a secure backend server."
+              }
+            },
+            {
+              "id": "key-stripe-secret",
+              "category": "Secrets",
+              "title": "Exposed Stripe Secret Key",
+              "severity": "critical",
+              "evidence": "Found key pattern matching: ...p2Yt7s1j4k",
+              "rawTechnicalDetail": "Matches regex pattern.",
+              "aiExplanation": {
+                "plainSummary": "Your private STRIPE-SECRET API key is exposed in the frontend bundle.",
+                "attackScenario": "An attacker opens the webpage, views the loaded JavaScript assets, and searches for key strings. They locate your hardcoded private STRIPE-SECRET key. The attacker uses this key to make requests directly to the service provider in your name, exhausting your credits.",
+                "consequence": "High risk of financial costs due to billing abuse, and potential access to private third-party services.",
+                "fixPrompt": "I leaked my private STRIPE-SECRET API key in my client code. Help me remove it and move the api calls to a secure backend server."
+              }
+            },
+            {
+              "id": "supabase-rls-bypass-users",
+              "category": "Database",
+              "title": "Supabase Row-Level Security (RLS) Bypassed on 'users' table",
+              "severity": "critical",
+              "evidence": "Able to read data from http://localhost:3000/api/test-fixture/rest/v1/users using public anon key.",
+              "rawTechnicalDetail": "Bypass detected. Record sample preview: [{\"id\":1,\"email\":\"victim1@example.com\",\"is_admin\":false},{\"id\":2,\"email\":\"admin@example.com\",\"is_admin\":true}]",
+              "aiExplanation": {
+                "plainSummary": "Your database table 'users' is readable by the public.",
+                "attackScenario": "An attacker sends a direct request to your database REST API using your public anon key, asking for the 'users' table. Because Row-Level Security (RLS) is disabled or lacks policies, the API returns all data inside the 'users' table without any authorization checks.",
+                "consequence": "Complete leak of all sensitive records stored in the 'users' database table.",
+                "fixPrompt": "Show me how to enable Row-Level Security on my Supabase table 'users' and write a select policy for authenticated users."
+              }
+            },
+            {
+              "id": "supabase-rls-bypass-secret_student_data",
+              "category": "Database",
+              "title": "Supabase Row-Level Security (RLS) Bypassed on 'secret_student_data' table",
+              "severity": "critical",
+              "evidence": "Able to read data from http://localhost:3000/api/test-fixture/rest/v1/secret_student_data using public anon key.",
+              "rawTechnicalDetail": "Bypass detected. Record sample preview: [{\"id\":1,\"student_id\":\"2026-CS-041\",\"name\":\"Tarun Kumar\",\"secret_gpa\":\"3.9\"}]",
+              "aiExplanation": {
+                "plainSummary": "Your database table 'secret_student_data' is readable by the public.",
+                "attackScenario": "An attacker sends a direct request to your database REST API using your public anon key, asking for the 'secret_student_data' table. Because Row-Level Security (RLS) is disabled or lacks policies, the API returns all data inside the 'secret_student_data' table without any authorization checks.",
+                "consequence": "Complete leak of all sensitive records stored in the 'secret_student_data' database table.",
+                "fixPrompt": "Show me how to enable Row-Level Security on my Supabase table 'secret_student_data' and write a select policy for authenticated users."
+              }
+            },
+            {
+              "id": "exposed-llm-system-prompt",
+              "category": "AI_LLM",
+              "title": "LLM System Prompt Exposed in Client Bundle",
+              "severity": "high",
+              "evidence": "Exposed prompt: \"You are a helpful AI assistant. Your instructions: You must always guide students on security. Do no...\"",
+              "rawTechnicalDetail": "Exposed system prompt literal found within 1000 characters of an LLM API hostname (api.openai.com).",
+              "aiExplanation": {
+                "plainSummary": "Your AI's system instructions are visible in the client bundle.",
+                "attackScenario": "An attacker opens your compiled JavaScript code and searches for prompt instructions. They copy your proprietary prompt engineering templates. Furthermore, knowing your exact system instructions, they craft a prompt injection attack that easily bypasses your AI's guardrails.",
+                "consequence": "Theft of proprietary prompt engineering work, and increased vulnerability to AI jailbreaking and prompt injection.",
+                "fixPrompt": "My system prompt is hardcoded in the client bundle. Show me how to set up a secure proxy server that appends the system prompt on the backend."
+              }
+            },
+            {
+              "id": "graphql-introspection-enabled",
+              "category": "AI_LLM",
+              "title": "GraphQL Introspection Enabled",
+              "severity": "high",
+              "evidence": "Introspection query succeeded at: http://localhost:3000/api/graphql",
+              "rawTechnicalDetail": "GraphQL endpoint allows schema introspection. Exposed 5 schema types.",
+              "aiExplanation": {
+                "plainSummary": "Your database schema can be queried by anyone.",
+                "attackScenario": "An attacker discovers your GraphQL endpoint. They send a POST query requesting '__schema'. The server returns the entire GraphQL schema. The attacker studies this structure to identify private tables, hidden fields, and relationship joins, creating targeted queries to exploit them.",
+                "consequence": "Full disclosure of your database schema, simplifying the task of identifying and exploiting database weaknesses.",
+                "fixPrompt": "Help me disable GraphQL introspection in production for my GraphQL server configuration."
+              }
+            }
+          ],
+          "overallScore": 61,
+          "platformDetected": "Generic/Other"
+        },
+        {
+          "url": "https://google.com/",
+          "status": "done",
+          "grade": "C",
+          "findingsCount": 7,
+          "findings": [
+            {
+              "id": "header-missing-content-security-policy",
+              "category": "Network",
+              "title": "Missing Content-Security-Policy header",
+              "severity": "high",
+              "evidence": "Header 'content-security-policy' is missing in HTTP response headers.",
+              "rawTechnicalDetail": "{\"content-type\":\"text/html; charset=ISO-8859-1\",\"date\":\"Thu, 16 Jul 2026 07:25:21 GMT\",\"expires\":\"-1\",\"cache-control\":\"private, max-age=0\",\"content-security-policy-report-only\":\"object-src 'none';base-uri 'self';script-src 'nonce-oo9EQmrFl1U9RDTA3CzPbA' 'strict-dynamic' 'report-sample' 'unsafe-eval' 'unsafe-inline' https: http:;report-uri https://csp.withgoogle.com/csp/gws/other-hp\",\"accept-ch\":\"Sec-CH-Prefers-Color-Scheme\",\"p3p\":\"CP=\\\"This is not a P3P policy! See g.co/p3phelp for more info.\\\"\",\"server\":\"gws\",\"x-xss-protection\":\"0\",\"x-frame-options\":\"SAMEORIGIN\",\"set-cookie\":[\"__Secure-STRP=ANmZwa024CfoRcPeNtVZMix4ZeUzDw2rojbEzdJn6_MXFaWAOvhRNUWWdctpOyvy9IO_A7sjEWuKbnUcJ7idLiGbciCDbRksjq6-; expires=Thu, 16-Jul-2026 07:30:21 GMT; path=/; domain=.google.com; Secure; SameSite=strict\",\"AEC=AdJVEasIms9524cKttH5V0EP3rHExdWe-IK6eED50WkcN6VL-GjeP6EZ-Q; expires=Tue, 12-Jan-2027 07:25:21 GMT; path=/; domain=.google.com; Secure; HttpOnly; SameSite=lax\",\"NID=533=CyKwAm1uYQPn4uQ-Xnddl-9i9suaOKrRbFxgBE-cVgZvEesczDcRgrXAzQxllm-e-ONqFI2ED1p_2v44KKHuMhbentYxhpAZF6ytUaDcpg3EZOYeV17sM6L0niLWXnA86X4n6fc-pNaWaEDYVr48o6oDP3jHu6a_M0-n1cWbp9sa8YkTPzRrCnlGBZUs_JNkU19Eg3K9Jygms3jlcgE_aOLJ; expires=Fri, 15-Jan-2027 07:25:21 GMT; path=/; domain=.google.com; HttpOnly\"],\"alt-svc\":\"h3=\\\":443\\\"; ma=2592000,h3-29=\\\":443\\\"; ma=2592000\",\"connection\":\"close\",\"transfer-encoding\":\"chunked\"}",
+              "aiExplanation": {
+                "plainSummary": "Your website lacks a Content Security Policy (CSP) header.",
+                "attackScenario": "An attacker finds an input field on your website that doesn't sanitize data. They inject a malicious script. Because there is no Content Security Policy to restrict script sources, the browser runs the script, which silently steals the session cookies of every visiting user.",
+                "consequence": "High risk of Cross-Site Scripting (XSS) attacks leading to user session hijacking and page defacement.",
+                "fixPrompt": "Please show me how to add a secure Content-Security-Policy header to my web application that permits scripts only from trusted sources."
+              }
+            },
+            {
+              "id": "header-missing-x-content-type-options",
+              "category": "Network",
+              "title": "Missing X-Content-Type-Options header",
+              "severity": "low",
+              "evidence": "Header 'x-content-type-options' is missing in HTTP response headers.",
+              "rawTechnicalDetail": "{\"content-type\":\"text/html; charset=ISO-8859-1\",\"date\":\"Thu, 16 Jul 2026 07:25:21 GMT\",\"expires\":\"-1\",\"cache-control\":\"private, max-age=0\",\"content-security-policy-report-only\":\"object-src 'none';base-uri 'self';script-src 'nonce-oo9EQmrFl1U9RDTA3CzPbA' 'strict-dynamic' 'report-sample' 'unsafe-eval' 'unsafe-inline' https: http:;report-uri https://csp.withgoogle.com/csp/gws/other-hp\",\"accept-ch\":\"Sec-CH-Prefers-Color-Scheme\",\"p3p\":\"CP=\\\"This is not a P3P policy! See g.co/p3phelp for more info.\\\"\",\"server\":\"gws\",\"x-xss-protection\":\"0\",\"x-frame-options\":\"SAMEORIGIN\",\"set-cookie\":[\"__Secure-STRP=ANmZwa024CfoRcPeNtVZMix4ZeUzDw2rojbEzdJn6_MXFaWAOvhRNUWWdctpOyvy9IO_A7sjEWuKbnUcJ7idLiGbciCDbRksjq6-; expires=Thu, 16-Jul-2026 07:30:21 GMT; path=/; domain=.google.com; Secure; SameSite=strict\",\"AEC=AdJVEasIms9524cKttH5V0EP3rHExdWe-IK6eED50WkcN6VL-GjeP6EZ-Q; expires=Tue, 12-Jan-2027 07:25:21 GMT; path=/; domain=.google.com; Secure; HttpOnly; SameSite=lax\",\"NID=533=CyKwAm1uYQPn4uQ-Xnddl-9i9suaOKrRbFxgBE-cVgZvEesczDcRgrXAzQxllm-e-ONqFI2ED1p_2v44KKHuMhbentYxhpAZF6ytUaDcpg3EZOYeV17sM6L0niLWXnA86X4n6fc-pNaWaEDYVr48o6oDP3jHu6a_M0-n1cWbp9sa8YkTPzRrCnlGBZUs_JNkU19Eg3K9Jygms3jlcgE_aOLJ; expires=Fri, 15-Jan-2027 07:25:21 GMT; path=/; domain=.google.com; HttpOnly\"],\"alt-svc\":\"h3=\\\":443\\\"; ma=2592000,h3-29=\\\":443\\\"; ma=2592000\",\"connection\":\"close\",\"transfer-encoding\":\"chunked\"}",
+              "aiExplanation": {
+                "plainSummary": "Your server does not prevent browsers from guessing file types.",
+                "attackScenario": "An attacker uploads a text file containing malicious JavaScript, disguised as an image. Because your server does not send the X-Content-Type-Options: nosniff header, a victim's browser attempts to guess the file type and executes the malicious JavaScript in the victim's session.",
+                "consequence": "Risk of MIME-sniffing attacks leading to cross-site scripting vulnerabilities.",
+                "fixPrompt": "Show me how to set the 'X-Content-Type-Options: nosniff' header on my backend responses."
+              }
+            },
+            {
+              "id": "header-missing-strict-transport-security",
+              "category": "Network",
+              "title": "Missing Strict-Transport-Security (HSTS) header",
+              "severity": "high",
+              "evidence": "Header 'strict-transport-security' is missing in HTTP response headers.",
+              "rawTechnicalDetail": "{\"content-type\":\"text/html; charset=ISO-8859-1\",\"date\":\"Thu, 16 Jul 2026 07:25:21 GMT\",\"expires\":\"-1\",\"cache-control\":\"private, max-age=0\",\"content-security-policy-report-only\":\"object-src 'none';base-uri 'self';script-src 'nonce-oo9EQmrFl1U9RDTA3CzPbA' 'strict-dynamic' 'report-sample' 'unsafe-eval' 'unsafe-inline' https: http:;report-uri https://csp.withgoogle.com/csp/gws/other-hp\",\"accept-ch\":\"Sec-CH-Prefers-Color-Scheme\",\"p3p\":\"CP=\\\"This is not a P3P policy! See g.co/p3phelp for more info.\\\"\",\"server\":\"gws\",\"x-xss-protection\":\"0\",\"x-frame-options\":\"SAMEORIGIN\",\"set-cookie\":[\"__Secure-STRP=ANmZwa024CfoRcPeNtVZMix4ZeUzDw2rojbEzdJn6_MXFaWAOvhRNUWWdctpOyvy9IO_A7sjEWuKbnUcJ7idLiGbciCDbRksjq6-; expires=Thu, 16-Jul-2026 07:30:21 GMT; path=/; domain=.google.com; Secure; SameSite=strict\",\"AEC=AdJVEasIms9524cKttH5V0EP3rHExdWe-IK6eED50WkcN6VL-GjeP6EZ-Q; expires=Tue, 12-Jan-2027 07:25:21 GMT; path=/; domain=.google.com; Secure; HttpOnly; SameSite=lax\",\"NID=533=CyKwAm1uYQPn4uQ-Xnddl-9i9suaOKrRbFxgBE-cVgZvEesczDcRgrXAzQxllm-e-ONqFI2ED1p_2v44KKHuMhbentYxhpAZF6ytUaDcpg3EZOYeV17sM6L0niLWXnA86X4n6fc-pNaWaEDYVr48o6oDP3jHu6a_M0-n1cWbp9sa8YkTPzRrCnlGBZUs_JNkU19Eg3K9Jygms3jlcgE_aOLJ; expires=Fri, 15-Jan-2027 07:25:21 GMT; path=/; domain=.google.com; HttpOnly\"],\"alt-svc\":\"h3=\\\":443\\\"; ma=2592000,h3-29=\\\":443\\\"; ma=2592000\",\"connection\":\"close\",\"transfer-encoding\":\"chunked\"}",
+              "aiExplanation": {
+                "plainSummary": "Your website does not instruct browsers to enforce HTTPS.",
+                "attackScenario": "A user types your website's URL into their browser address bar without specifying 'https://'. An attacker on the same local network intercepts the initial HTTP request and forwards it to a fake clone of your site. Because HSTS is missing, the browser does not automatically upgrade the connection to HTTPS.",
+                "consequence": "Vulnerability to SSL Strip connection downgrade attacks.",
+                "fixPrompt": "Show me how to configure the 'Strict-Transport-Security' (HSTS) header on my server with max-age."
+              }
+            },
+            {
+              "id": "header-missing-referrer-policy",
+              "category": "Network",
+              "title": "Missing Referrer-Policy header",
+              "severity": "low",
+              "evidence": "Header 'referrer-policy' is missing in HTTP response headers.",
+              "rawTechnicalDetail": "{\"content-type\":\"text/html; charset=ISO-8859-1\",\"date\":\"Thu, 16 Jul 2026 07:25:21 GMT\",\"expires\":\"-1\",\"cache-control\":\"private, max-age=0\",\"content-security-policy-report-only\":\"object-src 'none';base-uri 'self';script-src 'nonce-oo9EQmrFl1U9RDTA3CzPbA' 'strict-dynamic' 'report-sample' 'unsafe-eval' 'unsafe-inline' https: http:;report-uri https://csp.withgoogle.com/csp/gws/other-hp\",\"accept-ch\":\"Sec-CH-Prefers-Color-Scheme\",\"p3p\":\"CP=\\\"This is not a P3P policy! See g.co/p3phelp for more info.\\\"\",\"server\":\"gws\",\"x-xss-protection\":\"0\",\"x-frame-options\":\"SAMEORIGIN\",\"set-cookie\":[\"__Secure-STRP=ANmZwa024CfoRcPeNtVZMix4ZeUzDw2rojbEzdJn6_MXFaWAOvhRNUWWdctpOyvy9IO_A7sjEWuKbnUcJ7idLiGbciCDbRksjq6-; expires=Thu, 16-Jul-2026 07:30:21 GMT; path=/; domain=.google.com; Secure; SameSite=strict\",\"AEC=AdJVEasIms9524cKttH5V0EP3rHExdWe-IK6eED50WkcN6VL-GjeP6EZ-Q; expires=Tue, 12-Jan-2027 07:25:21 GMT; path=/; domain=.google.com; Secure; HttpOnly; SameSite=lax\",\"NID=533=CyKwAm1uYQPn4uQ-Xnddl-9i9suaOKrRbFxgBE-cVgZvEesczDcRgrXAzQxllm-e-ONqFI2ED1p_2v44KKHuMhbentYxhpAZF6ytUaDcpg3EZOYeV17sM6L0niLWXnA86X4n6fc-pNaWaEDYVr48o6oDP3jHu6a_M0-n1cWbp9sa8YkTPzRrCnlGBZUs_JNkU19Eg3K9Jygms3jlcgE_aOLJ; expires=Fri, 15-Jan-2027 07:25:21 GMT; path=/; domain=.google.com; HttpOnly\"],\"alt-svc\":\"h3=\\\":443\\\"; ma=2592000,h3-29=\\\":443\\\"; ma=2592000\",\"connection\":\"close\",\"transfer-encoding\":\"chunked\"}",
+              "aiExplanation": {
+                "plainSummary": "Your website does not control referrer information sent to external links.",
+                "attackScenario": "A user clicks an external link on your private dashboard. Because no Referrer Policy is set, the browser includes the full URL of your private dashboard—which contains a sensitive session token in the query parameters—in the 'Referer' header sent to the external site owner.",
+                "consequence": "Minor exposure of sensitive URL paths or tokens to external websites when navigating away.",
+                "fixPrompt": "Show me how to add a 'Referrer-Policy: strict-origin-when-cross-origin' header to my server."
+              }
+            },
+            {
+              "id": "cookie-no-httponly-__Secure-STRP",
+              "category": "Application",
+              "title": "Cookie '__Secure-STRP' missing HttpOnly attribute",
+              "severity": "high",
+              "evidence": "__Secure-STRP=ANmZwa024CfoRcPeNtVZMix4ZeUzDw2rojbEzdJn6_MXFaWAOvhRNUWWdctpOyvy9IO_A7sjEWuKbnUcJ7idLiGbciCDbRksjq6-; expires=Thu, 16-Jul-2026 07:30:21 GMT; path=/; domain=.google.com; Secure; SameSite=strict",
+              "rawTechnicalDetail": "__Secure-STRP=ANmZwa024CfoRcPeNtVZMix4ZeUzDw2rojbEzdJn6_MXFaWAOvhRNUWWdctpOyvy9IO_A7sjEWuKbnUcJ7idLiGbciCDbRksjq6-; expires=Thu, 16-Jul-2026 07:30:21 GMT; path=/; domain=.google.com; Secure; SameSite=strict",
+              "aiExplanation": {
+                "plainSummary": "A cookie set by your server is missing the secure 'httponly-__Secure-STRP' flag.",
+                "attackScenario": "An attacker intercepts a user's unencrypted HTTP session on a public Wi-Fi network. Because your cookie lacks the 'Secure' or 'HttpOnly' flag, the browser transmits it over insecure networks or allows malicious scripts to read it, letting the attacker hijack the session.",
+                "consequence": "Moderate risk of user session hijacking if network traffic is intercepted or scripts run.",
+                "fixPrompt": "Show me how to set the Secure, HttpOnly, and SameSite flags on cookies in my backend code."
+              }
+            },
+            {
+              "id": "cookie-no-secure-NID",
+              "category": "Application",
+              "title": "Cookie 'NID' missing Secure attribute",
+              "severity": "medium",
+              "evidence": "NID=533=CyKwAm1uYQPn4uQ-Xnddl-9i9suaOKrRbFxgBE-cVgZvEesczDcRgrXAzQxllm-e-ONqFI2ED1p_2v44KKHuMhbentYxhpAZF6ytUaDcpg3EZOYeV17sM6L0niLWXnA86X4n6fc-pNaWaEDYVr48o6oDP3jHu6a_M0-n1cWbp9sa8YkTPzRrCnlGBZUs_JNkU19Eg3K9Jygms3jlcgE_aOLJ; expires=Fri, 15-Jan-2027 07:25:21 GMT; path=/; domain=.google.com; HttpOnly",
+              "rawTechnicalDetail": "NID=533=CyKwAm1uYQPn4uQ-Xnddl-9i9suaOKrRbFxgBE-cVgZvEesczDcRgrXAzQxllm-e-ONqFI2ED1p_2v44KKHuMhbentYxhpAZF6ytUaDcpg3EZOYeV17sM6L0niLWXnA86X4n6fc-pNaWaEDYVr48o6oDP3jHu6a_M0-n1cWbp9sa8YkTPzRrCnlGBZUs_JNkU19Eg3K9Jygms3jlcgE_aOLJ; expires=Fri, 15-Jan-2027 07:25:21 GMT; path=/; domain=.google.com; HttpOnly",
+              "aiExplanation": {
+                "plainSummary": "A cookie set by your server is missing the secure 'secure-NID' flag.",
+                "attackScenario": "An attacker intercepts a user's unencrypted HTTP session on a public Wi-Fi network. Because your cookie lacks the 'Secure' or 'HttpOnly' flag, the browser transmits it over insecure networks or allows malicious scripts to read it, letting the attacker hijack the session.",
+                "consequence": "Moderate risk of user session hijacking if network traffic is intercepted or scripts run.",
+                "fixPrompt": "Show me how to set the Secure, HttpOnly, and SameSite flags on cookies in my backend code."
+              }
+            },
+            {
+              "id": "cookie-no-samesite-NID",
+              "category": "Application",
+              "title": "Cookie 'NID' missing SameSite attribute",
+              "severity": "low",
+              "evidence": "NID=533=CyKwAm1uYQPn4uQ-Xnddl-9i9suaOKrRbFxgBE-cVgZvEesczDcRgrXAzQxllm-e-ONqFI2ED1p_2v44KKHuMhbentYxhpAZF6ytUaDcpg3EZOYeV17sM6L0niLWXnA86X4n6fc-pNaWaEDYVr48o6oDP3jHu6a_M0-n1cWbp9sa8YkTPzRrCnlGBZUs_JNkU19Eg3K9Jygms3jlcgE_aOLJ; expires=Fri, 15-Jan-2027 07:25:21 GMT; path=/; domain=.google.com; HttpOnly",
+              "rawTechnicalDetail": "NID=533=CyKwAm1uYQPn4uQ-Xnddl-9i9suaOKrRbFxgBE-cVgZvEesczDcRgrXAzQxllm-e-ONqFI2ED1p_2v44KKHuMhbentYxhpAZF6ytUaDcpg3EZOYeV17sM6L0niLWXnA86X4n6fc-pNaWaEDYVr48o6oDP3jHu6a_M0-n1cWbp9sa8YkTPzRrCnlGBZUs_JNkU19Eg3K9Jygms3jlcgE_aOLJ; expires=Fri, 15-Jan-2027 07:25:21 GMT; path=/; domain=.google.com; HttpOnly",
+              "aiExplanation": {
+                "plainSummary": "A cookie set by your server is missing the secure 'samesite-NID' flag.",
+                "attackScenario": "An attacker intercepts a user's unencrypted HTTP session on a public Wi-Fi network. Because your cookie lacks the 'Secure' or 'HttpOnly' flag, the browser transmits it over insecure networks or allows malicious scripts to read it, letting the attacker hijack the session.",
+                "consequence": "Moderate risk of user session hijacking if network traffic is intercepted or scripts run.",
+                "fixPrompt": "Show me how to set the Secure, HttpOnly, and SameSite flags on cookies in my backend code."
+              }
+            }
+          ],
+          "overallScore": 79,
+          "platformDetected": "Generic/Other"
+        }
+      ],
+      "createdAt": "2026-07-16T07:25:19.880Z"
     }
   }
 }

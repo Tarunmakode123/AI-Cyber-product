@@ -54,19 +54,7 @@ const globalLimiter = rateLimit({
 });
 app.use("/api/", globalLimiter);
 
-// Grade calculator utility
-function calculateGradeForScan(findings) {
-  const criticalCount = findings.filter((f) => f.severity === "critical").length;
-  const highCount = findings.filter((f) => f.severity === "high").length;
-  const mediumCount = findings.filter((f) => f.severity === "medium").length;
-  const lowCount = findings.filter((f) => f.severity === "low").length;
-
-  if (criticalCount > 0) return "F";
-  if (highCount > 0) return "D";
-  if (mediumCount > 0) return "C";
-  if (lowCount > 0) return "B";
-  return "A";
-}
+const { calculateScoreAndGrade, calculateGradeForScan } = require("./grading_engine");
 
 // Background queue worker for batch scans (concurrency = 3)
 async function runBatchQueue(batchId, urls) {
@@ -88,6 +76,15 @@ async function runBatchQueue(batchId, urls) {
       try {
         const scanResult = await runScan(url);
         await enhanceFindingsWithAiExplanations(scanResult.findings);
+        
+        // Calculate score and grade
+        const grading = calculateScoreAndGrade(scanResult.findings);
+        scanResult.overallScore = grading.overallScore;
+        scanResult.grade = grading.grade;
+        scanResult.weightedBreakdown = grading.weightedBreakdown;
+        scanResult.capApplied = grading.capApplied;
+        scanResult.capReason = grading.capReason;
+
         // Save scan to database
         await db.saveScan(url, scanResult);
 
@@ -97,7 +94,8 @@ async function runBatchQueue(batchId, urls) {
           const item = batch.results.find((r) => r.url === url);
           if (item) {
             item.status = "done";
-            item.grade = calculateGradeForScan(scanResult.findings);
+            item.grade = scanResult.grade;
+            item.overallScore = scanResult.overallScore;
             item.findingsCount = scanResult.findings.length;
             item.findings = scanResult.findings;
             item.platformDetected = scanResult.platformDetected;
@@ -180,6 +178,14 @@ app.post("/api/scan", async (req, res) => {
     const history = await db.getScanHistory(targetUrlString);
     const results = await runScan(targetUrlString);
     await enhanceFindingsWithAiExplanations(results.findings);
+
+    // Calculate score and grade
+    const grading = calculateScoreAndGrade(results.findings);
+    results.overallScore = grading.overallScore;
+    results.grade = grading.grade;
+    results.weightedBreakdown = grading.weightedBreakdown;
+    results.capApplied = grading.capApplied;
+    results.capReason = grading.capReason;
     
     let diff = null;
     if (history.length > 0) {
